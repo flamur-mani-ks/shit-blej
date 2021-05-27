@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Grid } from 'semantic-ui-react';
 import { IProduct } from '../../../app/models/product';
 import ProductList from './ProductList';
@@ -14,7 +14,9 @@ interface IProps {
   setSelectedProduct: (product: IProduct | null) => void;
   createProduct: (product: IProduct) => void;
   editProduct: (product: IProduct) => void;
-  deleteProduct: (id: string) => void;
+  deleteProduct: (e: SyntheticEvent<HTMLButtonElement> , id: string) => void;
+  submitting: boolean;
+  target: string;
 }
 
 const ProductDashboard: React.FC<IProps> = ({
@@ -26,7 +28,9 @@ const ProductDashboard: React.FC<IProps> = ({
   setSelectedProduct,
   createProduct,
   editProduct,
-  deleteProduct
+  deleteProduct,
+  submitting,
+  target
 }) => {
   return (
     <Grid>
@@ -35,6 +39,8 @@ const ProductDashboard: React.FC<IProps> = ({
           products={products}
           selectProduct={selectProduct}
           deleteProduct={deleteProduct}
+          submitting={submitting}
+          target={target}
         />
       </Grid.Column>
       <Grid.Column width={6}>
@@ -52,6 +58,7 @@ const ProductDashboard: React.FC<IProps> = ({
             product={selectedProduct!}
             createProduct={createProduct}
             editProduct={editProduct}
+            submitting={submitting}
           />
         )}
       </Grid.Column>

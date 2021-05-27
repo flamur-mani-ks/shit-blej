@@ -8,6 +8,7 @@ interface IProps {
 	product: IProduct;
 	createProduct: (product: IProduct) => void;
 	editProduct: (product: IProduct) => void;
+	submitting: boolean;
 }
 
 const ProductForm: React.FC<IProps> = ({
@@ -15,6 +16,7 @@ const ProductForm: React.FC<IProps> = ({
 	product: initialFormState,
 	editProduct,
 	createProduct,
+	submitting
 }) => {
 	const initializeForm = () => {
 		if (initialFormState) {
@@ -95,7 +97,7 @@ const ProductForm: React.FC<IProps> = ({
 					placeholder='Price'
 					value={product.price}
 				/>
-				<Button floated='right' positive type='submit' content='Submit' />
+				<Button loading={submitting} floated='right' positive type='submit' content='Submit' />
 				<Button
 					onClick={() => setEditMode(false)}
 					floated='right'
