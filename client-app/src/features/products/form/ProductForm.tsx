@@ -1,23 +1,20 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useContext } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import { IProduct } from '../../../app/models/product';
 import { v4 as uuid } from 'uuid';
+import ProductStore from '../../../app/stores/productStore';
+import moment from 'moment';
+import { observer } from 'mobx-react-lite';
 
 interface IProps {
-	setEditMode: (editMode: boolean) => void;
 	product: IProduct;
-	createProduct: (product: IProduct) => void;
-	editProduct: (product: IProduct) => void;
-	submitting: boolean;
 }
 
-const ProductForm: React.FC<IProps> = ({
-	setEditMode,
-	product: initialFormState,
-	editProduct,
-	createProduct,
-	submitting
-}) => {
+const ProductForm: React.FC<IProps> = ({ product: initialFormState }) => {
+	const productStore = useContext(ProductStore);
+	const { createProduct, editProduct, submitting, cancelFormOpen } =
+		productStore;
+
 	const initializeForm = () => {
 		if (initialFormState) {
 			return initialFormState;
@@ -41,6 +38,7 @@ const ProductForm: React.FC<IProps> = ({
 			let newProduct = {
 				...product,
 				id: uuid(),
+				date: moment().format('YYYY-MM-DD hh:mm:ss'),
 			};
 			createProduct(newProduct);
 		} else {
@@ -77,13 +75,13 @@ const ProductForm: React.FC<IProps> = ({
 					placeholder='Category'
 					value={product.category}
 				/>
-				<Form.Input
+				{/* <Form.Input
 					onChange={handleInputChange}
 					name='date'
 					type='datetime-local'
 					placeholder='Date'
 					value={product.date}
-				/>
+				/> */}
 				<Form.Input
 					onChange={handleInputChange}
 					name='city'
@@ -97,9 +95,15 @@ const ProductForm: React.FC<IProps> = ({
 					placeholder='Price'
 					value={product.price}
 				/>
-				<Button loading={submitting} floated='right' positive type='submit' content='Submit' />
 				<Button
-					onClick={() => setEditMode(false)}
+					loading={submitting}
+					floated='right'
+					positive
+					type='submit'
+					content='Submit'
+				/>
+				<Button
+					onClick={() => cancelFormOpen}
 					floated='right'
 					type='button'
 					content='Cancel'
@@ -109,4 +113,4 @@ const ProductForm: React.FC<IProps> = ({
 	);
 };
 
-export default ProductForm;
+export default observer(ProductForm);

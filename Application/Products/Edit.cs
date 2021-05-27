@@ -16,6 +16,7 @@ namespace Application.Products
       public string Category { get; set; }
       public double? Price { get; set; }
       public string City { get; set; }
+      public DateTime? Date { get; set; }
     }
 
     public class Handler : IRequestHandler<Command>

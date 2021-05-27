@@ -1,26 +1,17 @@
-import React, { SyntheticEvent } from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
 import { Item, Button, Label, Segment } from 'semantic-ui-react';
-import { IProduct } from '../../../app/models/product';
+import ProductStore from '../../../app/stores/productStore';
 
-interface IProps {
-	products: IProduct[];
-	selectProduct: (id: string) => void;
-	deleteProduct: (e: SyntheticEvent<HTMLButtonElement> , id: string) => void;
-	submitting: boolean;
-  target: string;
-}
+const ProductList: React.FC = () => {
+	const productStore = useContext(ProductStore);
+	const { productsByDate, selectProduct, deleteProduct, submitting, target } =
+		productStore;
 
-const ProductList: React.FC<IProps> = ({
-	products,
-	selectProduct,
-	deleteProduct,
-	submitting,
-  target
-}) => {
 	return (
 		<Segment clearing>
 			<Item.Group divided>
-				{products.map((product) => (
+				{productsByDate.map((product) => (
 					<Item key={product.id}>
 						<Item.Content>
 							<Item.Header as='a'>{product.title}</Item.Header>
@@ -39,7 +30,7 @@ const ProductList: React.FC<IProps> = ({
 									color='blue'
 								/>
 								<Button
-                  name={product.id}
+									name={product.id}
 									loading={target === product.id && submitting}
 									onClick={(e) => deleteProduct(e, product.id)}
 									floated='right'
@@ -56,4 +47,4 @@ const ProductList: React.FC<IProps> = ({
 	);
 };
 
-export default ProductList;
+export default observer(ProductList);

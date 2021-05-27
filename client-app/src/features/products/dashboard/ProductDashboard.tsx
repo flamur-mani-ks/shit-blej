@@ -1,69 +1,31 @@
-import React, { SyntheticEvent } from 'react';
+import React, { useContext } from 'react';
 import { Grid } from 'semantic-ui-react';
-import { IProduct } from '../../../app/models/product';
 import ProductList from './ProductList';
 import ProductDetails from '../details/ProductDetails';
 import ProductForm from '../form/ProductForm';
+import { observer } from 'mobx-react-lite';
+import ProductStore from '../../../app/stores/productStore';
 
-interface IProps {
-  products: IProduct[];
-  selectProduct: (id: string) => void;
-  selectedProduct: IProduct | null;
-  editMode: boolean;
-  setEditMode: (editMode: boolean) => void;
-  setSelectedProduct: (product: IProduct | null) => void;
-  createProduct: (product: IProduct) => void;
-  editProduct: (product: IProduct) => void;
-  deleteProduct: (e: SyntheticEvent<HTMLButtonElement> , id: string) => void;
-  submitting: boolean;
-  target: string;
-}
+const ProductDashboard: React.FC = () => {
+	const productStore = useContext(ProductStore);
+	const { editMode, selectedProduct } = productStore;
 
-const ProductDashboard: React.FC<IProps> = ({
-  products,
-  selectProduct,
-  selectedProduct,
-  editMode,
-  setEditMode,
-  setSelectedProduct,
-  createProduct,
-  editProduct,
-  deleteProduct,
-  submitting,
-  target
-}) => {
-  return (
-    <Grid>
-      <Grid.Column width={10}>
-        <ProductList
-          products={products}
-          selectProduct={selectProduct}
-          deleteProduct={deleteProduct}
-          submitting={submitting}
-          target={target}
-        />
-      </Grid.Column>
-      <Grid.Column width={6}>
-        {selectedProduct && !editMode && (
-          <ProductDetails
-            product={selectedProduct}
-            setEditMode={setEditMode}
-            setSelectedProduct={setSelectedProduct}
-          />
-        )}
-        {editMode && (
-          <ProductForm
-            key={(selectedProduct && selectedProduct.id) || 0}
-            setEditMode={setEditMode}
-            product={selectedProduct!}
-            createProduct={createProduct}
-            editProduct={editProduct}
-            submitting={submitting}
-          />
-        )}
-      </Grid.Column>
-    </Grid>
-  );
+	return (
+		<Grid>
+			<Grid.Column width={10}>
+				<ProductList />
+			</Grid.Column>
+			<Grid.Column width={6}>
+				{selectedProduct && !editMode && <ProductDetails />}
+				{editMode && (
+					<ProductForm
+						key={(selectedProduct && selectedProduct.id) || 0}
+						product={selectedProduct!}
+					/>
+				)}
+			</Grid.Column>
+		</Grid>
+	);
 };
 
-export default ProductDashboard;
+export default observer(ProductDashboard);
