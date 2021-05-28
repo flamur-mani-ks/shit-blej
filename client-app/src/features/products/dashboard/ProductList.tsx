@@ -1,12 +1,12 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { Item, Button, Label, Segment } from 'semantic-ui-react';
 import ProductStore from '../../../app/stores/productStore';
 
 const ProductList: React.FC = () => {
 	const productStore = useContext(ProductStore);
-	const { productsByDate, selectProduct, deleteProduct, submitting, target } =
-		productStore;
+	const { productsByDate, deleteProduct, submitting, target } = productStore;
 
 	return (
 		<Segment clearing>
@@ -24,7 +24,8 @@ const ProductList: React.FC = () => {
 							</Item.Description>
 							<Item.Extra>
 								<Button
-									onClick={() => selectProduct(product.id)}
+									as={Link}
+									to={`/products/${product.id}`}
 									floated='right'
 									content='View'
 									color='blue'

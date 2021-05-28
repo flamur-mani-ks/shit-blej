@@ -7,18 +7,18 @@ configure({ enforceActions: 'always' });
 
 class ProductStore {
 	@observable productRegistry = new Map();
-	@observable products: IProduct[] = [];
 	@observable loadingInitial = false;
-	@observable selectedProduct: IProduct | undefined;
-	@observable editMode = false;
+	@observable product: IProduct | null = null;
 	@observable submitting = false;
 	@observable target = '';
+
 
 	@computed get productsByDate() {
 		return Array.from(this.productRegistry.values()).sort(
 			(a, b) => Date.parse(b.date) - Date.parse(a.date)
 		);
 	}
+
 
 	@action loadProducts = async () => {
 		this.loadingInitial = true;
@@ -39,13 +39,42 @@ class ProductStore {
 		}
 	};
 
+	@action loadProduct = async (id: string) => {
+		let product = this.getProduct(id);
+		if (product) {
+			this.product = product;
+		} else {
+			this.loadingInitial = true;
+			try {
+				product = await agent.Products.details(id);
+				runInAction('getting single product', () => {
+					this.product = product;
+					this.loadingInitial = false;
+				});
+			} catch (error) {
+				console.log(error);
+				runInAction('get single product error', () => {
+					this.loadingInitial = false;
+				});
+			}
+		}
+	};
+
+	// helper function for getting single product
+	getProduct = (id: string) => {
+		return this.productRegistry.get(id);
+	};
+
+	@action clearProduct = () => {
+		this.product = null;
+	}
+
 	@action createProduct = async (product: IProduct) => {
 		this.submitting = true;
 		try {
 			await agent.Products.create(product);
 			runInAction('creating product', () => {
 				this.productRegistry.set(product.id, product);
-				this.editMode = false;
 				this.submitting = false;
 			});
 		} catch (error) {
@@ -62,8 +91,7 @@ class ProductStore {
 			await agent.Products.update(product);
 			runInAction('edit product', () => {
 				this.productRegistry.set(product.id, product);
-				this.selectedProduct = product;
-				this.editMode = false;
+				this.product = product;
 				this.submitting = false;
 			});
 		} catch (error) {
@@ -89,35 +117,13 @@ class ProductStore {
 			});
 		} catch (error) {
 			console.log(error);
-			runInAction('delete product error',() => {
+			runInAction('delete product error', () => {
 				this.submitting = false;
 				this.target = '';
 			});
 		}
 	};
 
-	@action openCreateForm = () => {
-		this.editMode = true;
-		this.selectedProduct = undefined;
-	};
-
-	@action openEditForm = (id: string) => {
-		this.selectedProduct = this.productRegistry.get(id);
-		this.editMode = true;
-	};
-
-	@action cancelSelectedProduct = () => {
-		this.selectedProduct = undefined;
-	};
-
-	@action cancelFormOpen = () => {
-		this.editMode = false;
-	};
-
-	@action selectProduct = (id: string) => {
-		this.selectedProduct = this.productRegistry.get(id);
-		this.editMode = false;
-	};
 }
 
 export default createContext(new ProductStore());

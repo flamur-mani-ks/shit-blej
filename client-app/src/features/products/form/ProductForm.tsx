@@ -1,37 +1,56 @@
-import React, { useState, FormEvent, useContext } from 'react';
+import React, { useState, FormEvent, useContext, useEffect } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import { IProduct } from '../../../app/models/product';
 import { v4 as uuid } from 'uuid';
 import ProductStore from '../../../app/stores/productStore';
 import moment from 'moment';
 import { observer } from 'mobx-react-lite';
+import { RouteComponentProps } from 'react-router';
 
-interface IProps {
-	product: IProduct;
+interface DetailParams {
+	id: string;
 }
 
-const ProductForm: React.FC<IProps> = ({ product: initialFormState }) => {
+const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
+	match,
+	history,
+}) => {
 	const productStore = useContext(ProductStore);
-	const { createProduct, editProduct, submitting, cancelFormOpen } =
-		productStore;
+	const {
+		createProduct,
+		editProduct,
+		submitting,
+		product: initialFormState,
+		loadProduct,
+		clearProduct,
+	} = productStore;
 
-	const initializeForm = () => {
-		if (initialFormState) {
-			return initialFormState;
-		} else {
-			return {
-				id: '',
-				title: '',
-				category: '',
-				description: '',
-				date: '',
-				city: '',
-				price: 0,
-			};
+	const [product, setProduct] = useState<IProduct>({
+		id: '',
+		title: '',
+		category: '',
+		description: '',
+		date: '',
+		city: '',
+		price: 0,
+	});
+
+	useEffect(() => {
+		if (match.params.id && product.id.length === 0) {
+			loadProduct(match.params.id).then(
+				() => initialFormState && setProduct(initialFormState)
+			);
 		}
-	};
-
-	const [product, setProduct] = useState<IProduct>(initializeForm);
+		return () => {
+			clearProduct();
+		};
+	}, [
+		loadProduct,
+		clearProduct,
+		match.params.id,
+		initialFormState,
+		product.id.length,
+	]);
 
 	const handleSubmit = () => {
 		if (product.id.length === 0) {
@@ -40,9 +59,11 @@ const ProductForm: React.FC<IProps> = ({ product: initialFormState }) => {
 				id: uuid(),
 				date: moment().format('YYYY-MM-DD hh:mm:ss'),
 			};
-			createProduct(newProduct);
+			createProduct(newProduct).then(() =>
+				history.push(`/products/${newProduct.id}`)
+			);
 		} else {
-			editProduct(product);
+			editProduct(product).then(() => history.push(`/products/${product.id}`));
 		}
 	};
 
@@ -103,7 +124,7 @@ const ProductForm: React.FC<IProps> = ({ product: initialFormState }) => {
 					content='Submit'
 				/>
 				<Button
-					onClick={() => cancelFormOpen}
+					onClick={() => history.push('/products')}
 					floated='right'
 					type='button'
 					content='Cancel'

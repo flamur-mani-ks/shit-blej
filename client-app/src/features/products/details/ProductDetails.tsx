@@ -1,15 +1,31 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { RouteComponentProps } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Card, Image, Button } from 'semantic-ui-react';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 import ProductStore from '../../../app/stores/productStore';
 
-const ProductDetails: React.FC = () => {
+interface DetailParams {
+	id: string;
+}
+
+const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({
+	match,
+	history
+}) => {
 	const productStore = useContext(ProductStore);
 	const {
-		selectedProduct: product,
-		openEditForm,
-		cancelSelectedProduct,
+		product,
+		loadProduct,
+		loadingInitial,
 	} = productStore;
+
+	useEffect(() => {
+		loadProduct(match.params.id);
+	}, [loadProduct, match.params.id]);
+
+	if(loadingInitial || !product) return <LoadingComponent content='Loading product...' />
 
 	return (
 		<Card fluid>
@@ -24,13 +40,13 @@ const ProductDetails: React.FC = () => {
 			<Card.Content extra>
 				<Button.Group widths={2}>
 					<Button
-						onClick={() => openEditForm(product!.id)}
+						as={Link} to={`/manage/${product.id}`}
 						basic
 						color='blue'
 						content='Edit'
 					/>
 					<Button
-						onClick={() => cancelSelectedProduct}
+						onClick={() => history.push('/products')}
 						basic
 						color='grey'
 						content='Cancel'
