@@ -19,6 +19,18 @@ class ProductStore {
 		);
 	}
 
+	// @computed get productsByDate() {
+	// 	return this.groupProductsByCategory(Array.from(this.productRegistry.values()));
+	// }
+
+	// helper function for grouping products by category
+	// groupProductsByCategory (products: IProduct[]){
+	// 	return Object.entries(products.reduce((products, product) => {
+	// 		const category = product.category;
+	// 		products[category] = products[category] ? [...products[category], product] : [product];
+	// 		return products;
+	// 	}, {} as {[key: string]: IProduct[]}));
+	// }
 
 	@action loadProducts = async () => {
 		this.loadingInitial = true;
