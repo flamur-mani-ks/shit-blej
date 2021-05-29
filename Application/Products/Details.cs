@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using Domain;
 using MediatR;
 using Persistence;
@@ -25,6 +27,9 @@ namespace Application.Products
       public async Task<Product> Handle(Query request, CancellationToken cancellationToken)
       {
         var product = await _context.Products.FindAsync(request.Id);
+
+        if (product == null)
+          throw new RestException(HttpStatusCode.NotFound, new { product = "Not found" });
 
         return product;
       }

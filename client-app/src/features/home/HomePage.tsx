@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Header, Image, Segment } from 'semantic-ui-react';
+import { Button, Container, Header, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 const HomePage = () => {
@@ -11,7 +11,7 @@ const HomePage = () => {
                     Shit-Blej
                 </Header>
                 <Header as='h2' inverted content='Mirë se vini' />
-                <Button as={Link} to='/activities' size='huge' inverted>
+                <Button as={Link} to='/products' size='huge' inverted>
                     Më dërgo te produket
                 </Button>
             </Container>

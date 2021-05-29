@@ -26,7 +26,10 @@ const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 		loadProduct(match.params.id);
 	}, [loadProduct, match.params.id]);
 
-	if(loadingInitial || !product) return <LoadingComponent content='Loading product...' />
+	if(loadingInitial) return <LoadingComponent content='Loading product...' />
+
+	if(!product)
+		return <h2>Product not found</h2>
 
 	return (
 		<Grid>
