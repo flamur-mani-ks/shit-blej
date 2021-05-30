@@ -1,5 +1,7 @@
 import { action, computed, observable, configure, runInAction } from 'mobx';
 import { createContext, SyntheticEvent } from 'react';
+import { toast } from 'react-toastify';
+import { history } from '../..';
 import agent from '../api/agent';
 import { IProduct } from '../models/product';
 
@@ -15,7 +17,7 @@ class ProductStore {
 
 	@computed get productsByDate() {
 		return Array.from(this.productRegistry.values()).sort(
-			(a, b) => Date.parse(b.date) - Date.parse(a.date)
+			(a, b) => b.date!.getTime() - a.date!.getTime()
 		);
 	}
 
@@ -38,7 +40,7 @@ class ProductStore {
 			const products = await agent.Products.list();
 			runInAction('loading products', () => {
 				products.forEach((product) => {
-					product.date = product.date.split('.')[0];
+					product.date = new Date(product.date);
 					this.productRegistry.set(product.id, product);
 				});
 				this.loadingInitial = false;
@@ -55,14 +57,18 @@ class ProductStore {
 		let product = this.getProduct(id);
 		if (product) {
 			this.product = product;
+			return product;
 		} else {
 			this.loadingInitial = true;
 			try {
 				product = await agent.Products.details(id);
 				runInAction('getting single product', () => {
+					product.date = new Date(product.date);
 					this.product = product;
+					this.productRegistry.set(product.id, product);
 					this.loadingInitial = false;
 				});
+				return product;
 			} catch (error) {
 				console.log(error);
 				runInAction('get single product error', () => {
@@ -89,8 +95,10 @@ class ProductStore {
 				this.productRegistry.set(product.id, product);
 				this.submitting = false;
 			});
+			history.push(`/products/${product.id}`)
 		} catch (error) {
-			console.log(error);
+			console.log(error.response);
+			toast.error('Problem në ruajtjen e të dhënave')
 			runInAction('creating product error', () => {
 				this.submitting = false;
 			});
@@ -106,8 +114,10 @@ class ProductStore {
 				this.product = product;
 				this.submitting = false;
 			});
+			history.push(`/products/${product.id}`)
 		} catch (error) {
-			console.log(error);
+			console.log(error.response);
+			toast.error('Problem në ruajtjen e ndryshimeve')
 			runInAction('edit product error', () => {
 				this.submitting = false;
 			});

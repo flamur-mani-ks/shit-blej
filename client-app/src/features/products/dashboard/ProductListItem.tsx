@@ -1,12 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-	Button,
-	Icon,
-	Item,
-	Label,
-} from 'semantic-ui-react';
+import { Button, Icon, Item, Label } from 'semantic-ui-react';
 import { IProduct } from '../../../app/models/product';
+import { format } from 'date-fns';
 
 const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
 	return (
@@ -54,13 +50,14 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
 						as={Link}
 						to={`/products/${product.id}`}
 						floated='right'
-						content='View'
+						content='Shiqo'
 						color='blue'
 					/>
 					<Label>{product.price} €</Label>
 
 					<div>
-						<Icon name='clock' /> {product.date}
+						<Icon name='clock' /> {format(product.date, 'eeee do MMMM')} at{' '}
+						{format(product.date, 'h:mm a')}
 						<Icon name='marker' /> {product.city}
 					</div>
 				</Item.Extra>

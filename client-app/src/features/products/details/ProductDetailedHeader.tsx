@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Segment, Item, Header, Button, Image } from 'semantic-ui-react';
 import { IProduct } from '../../../app/models/product';
 
@@ -20,8 +21,8 @@ const ProductDetailedHeader: React.FC<{product: IProduct}> = ({product}) => {
 								<p>
 									Posted by <strong>Bob</strong>
 								</p>
-								<Button color='orange'>
-									Manage Product
+								<Button as={Link} to={`/manage/${product.id}`} color='orange'>
+									Menagjo postimin
 								</Button>
 							</Item.Content>
 						</Item>
