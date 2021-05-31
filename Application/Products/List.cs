@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,24 +9,26 @@ using Persistence;
 
 namespace Application.Products
 {
-    public class List
+  public class List
+  {
+    public class Query : IRequest<List<ProductDto>> { }
+
+    public class Handler : IRequestHandler<Query, List<ProductDto>>
     {
-        public class Query : IRequest<List<Product>> { }
+      private readonly DataContext _context;
+      private readonly IMapper _mapper;
+      public Handler(DataContext context, IMapper mapper)
+      {
+        _mapper = mapper;
+        _context = context;
+      }
 
-        public class Handler : IRequestHandler<Query, List<Product>>
-        {
-            private readonly DataContext _context;
-            public Handler(DataContext context)
-            {
-                _context = context;
-            }
+      public async Task<List<ProductDto>> Handle(Query request, CancellationToken cancellationToken)
+      {
+        var products = await _context.Products.ToListAsync();
 
-            public async Task<List<Product>> Handle(Query request, CancellationToken cancellationToken)
-            {
-                var products = await _context.Products.ToListAsync();
-
-                return products;
-            }
-        } 
+        return _mapper.Map<List<Product>, List<ProductDto>>(products);
+      }
     }
+  }
 }

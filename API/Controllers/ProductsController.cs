@@ -12,16 +12,16 @@ namespace API.Controllers
   public class ProductsController : BaseController
   {
 
-[AllowAnonymous]
+    [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult<List<Product>>> List()
+    public async Task<ActionResult<List<ProductDto>>> List()
     {
       return await Mediator.Send(new List.Query());
     }
 
-[AllowAnonymous]
+    [AllowAnonymous]
     [HttpGet("{id}")]
-    public async Task<ActionResult<Product>> Details(Guid id)
+    public async Task<ActionResult<ProductDto>> Details(Guid id)
     {
       return await Mediator.Send(new Details.Query { Id = id });
     }
@@ -33,6 +33,7 @@ namespace API.Controllers
     }
 
     [HttpPut("{id}")]
+    [Authorize(Policy = "IsProductOwner")]
     public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
     {
       command.Id = id;
@@ -40,10 +41,14 @@ namespace API.Controllers
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policy = "IsProductOwner")]
     public async Task<ActionResult<Unit>> Delete(Guid id)
     {
-        return await Mediator.Send(new Delete.Command{Id = id});
+      return await Mediator.Send(new Delete.Command { Id = id });
     }
+
+    
+
 
   }
 }

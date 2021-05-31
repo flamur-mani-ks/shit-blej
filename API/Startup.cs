@@ -2,6 +2,7 @@
 using API.Middleware;
 using Application.Interfaces;
 using Application.Products;
+using AutoMapper;
 using Domain;
 using FluentValidation.AspNetCore;
 using Infrastructure.Security;
@@ -35,6 +36,7 @@ namespace API
     {
       services.AddDbContext<DataContext>(opt =>
       {
+        opt.UseLazyLoadingProxies();
         opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
       });
       services.AddCors(opt =>
@@ -45,10 +47,11 @@ namespace API
               });
       });
       services.AddMediatR(typeof(List.Handler).Assembly);
+      services.AddAutoMapper(typeof(List.Handler));
       services.AddMvc(opt =>
         {
-            var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-            opt.Filters.Add(new AuthorizeFilter(policy));
+          var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+          opt.Filters.Add(new AuthorizeFilter(policy));
         })
         .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Create>())
         .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -57,6 +60,15 @@ namespace API
       var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
       identityBuilder.AddEntityFrameworkStores<DataContext>();
       identityBuilder.AddSignInManager<SignInManager<AppUser>>();
+
+      services.AddAuthorization(opt =>
+        {
+          opt.AddPolicy("IsProductOwner", policy =>
+          {
+            policy.Requirements.Add(new IsOwnerRequirement());
+          });
+        });
+      services.AddTransient<IAuthorizationHandler, IsOwnerRequirementHandler>();
 
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

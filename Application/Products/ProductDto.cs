@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
-namespace Domain
+namespace Application.Products
 {
-  public class Product
+  public class ProductDto
   {
     public Guid Id { get; set; }
     public string Title { get; set; }
@@ -15,6 +16,7 @@ namespace Domain
     public string City { get; set; }
     public DateTime Date { get; set; }
 
-    public virtual ICollection<UserProduct> UserProducts { get; set; }
+    [JsonProperty("attendees")]
+    public ICollection<AttendeeDto> UserProducts { get; set; }
   }
 }

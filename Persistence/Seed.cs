@@ -9,44 +9,47 @@ namespace Persistence
 {
   public class Seed
   {
-    public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
+    public static async Task SeedData(DataContext context,
+        UserManager<AppUser> userManager)
     {
       if (!userManager.Users.Any())
       {
         var users = new List<AppUser>
-            {
-                new AppUser
                 {
-                    DisplayName = "Bob",
-                    UserName = "bob",
-                    Email = "bob@test.com",
-                    PhoneNumber = "+383-49-123-456",
-                    City = "Ferizaj"
-                },
-                new AppUser
-                {
-                    DisplayName = "Tom",
-                    UserName = "tom",
-                    Email = "tom@test.com",
-                      PhoneNumber = "+383-44-456-789",
-                    City = "Gjilan"
-                },
-                new AppUser
-                {
-                    DisplayName = "Jane",
-                    UserName = "jane",
-                    Email = "jane@test.com",
-                    PhoneNumber = "+383-43-111-222",
-                    City = "Prishtine"
-                }
-            };
+                    new AppUser
+                    {
+                        Id = "a",
+                        DisplayName = "Bob",
+                        UserName = "bob",
+                        Email = "bob@test.com",
+                        City = "Ferizaj",
+                        PhoneNumber = "+383-44-111-222"
+                    },
+                    new AppUser
+                    {
+                        Id = "b",
+                        DisplayName = "Jane",
+                        UserName = "jane",
+                        Email = "jane@test.com",
+                        City = "Prishtine",
+                        PhoneNumber = "+383-49-123-456"
+                    },
+                    new AppUser
+                    {
+                        Id = "c",
+                        DisplayName = "Tom",
+                        UserName = "tom",
+                        Email = "tom@test.com",
+                        City = "Gjilan",
+                        PhoneNumber = "+383-43-987-654"
+                    },
+                };
 
-            foreach (var user in users)
-            {
-              await userManager.CreateAsync(user, "Pa$$w0rd");
-            }
-      };
-
+        foreach (var user in users)
+        {
+          await userManager.CreateAsync(user, "Pa$$w0rd");
+        }
+      }
 
       if (!context.Products.Any())
       {
@@ -59,7 +62,16 @@ namespace Persistence
                         Category = "Teknologji",
                         Price = 99.99,
                         City = "Ferizaj",
-                        Date = DateTime.Now.AddDays(-1)
+                        Date = DateTime.Now.AddDays(-1),
+                        UserProducts = new List<UserProduct>
+                        {
+                            new UserProduct
+                            {
+                                AppUserId = "a",
+                                IsOwner = true,
+
+                            }
+                        }
                     },
                     new Product
                     {
@@ -68,16 +80,15 @@ namespace Persistence
                         Category = "Patundshmeri",
                         Price = 65000,
                         City = "Ferizaj",
-                        Date = DateTime.Now.AddDays(-2)
-                    },
-                    new Product
-                    {
-                        Title = "Leshoj Banesen me qera per student afer UP",
-                        Description = "Banesa eshte ne gjendje perfekte",
-                        Category = "Patundshmeri",
-                        Price = 150,
-                        City = "Prishtine",
-                        Date = DateTime.Now.AddDays(-1)
+                        Date = DateTime.Now.AddDays(-2),
+                        UserProducts = new List<UserProduct>
+                        {
+                            new UserProduct
+                            {
+                                AppUserId = "b",
+                                IsOwner = true,
+                            },
+                        }
                     },
                     new Product
                     {
@@ -86,12 +97,23 @@ namespace Persistence
                         Category = "Teknologji",
                         Price = 350,
                         City = "Gjilan",
-                        Date = DateTime.Now
+                        Date = DateTime.Now,
+                        UserProducts = new List<UserProduct>
+                        {
+                            new UserProduct
+                            {
+                                AppUserId = "b",
+                                IsOwner = true,
+                            },
+
+                        }
                     },
+
+
                 };
 
-        context.Products.AddRange(products);
-        context.SaveChanges();
+        await context.Products.AddRangeAsync(products);
+        await context.SaveChangesAsync();
       }
     }
   }
