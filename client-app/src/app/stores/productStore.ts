@@ -1,19 +1,23 @@
-import { action, computed, observable, configure, runInAction } from 'mobx';
-import { createContext, SyntheticEvent } from 'react';
+import { action, computed, observable, runInAction } from 'mobx';
+import {SyntheticEvent } from 'react';
 import { toast } from 'react-toastify';
 import { history } from '../..';
 import agent from '../api/agent';
 import { IProduct } from '../models/product';
+import { RootStore } from './rootStore';
 
-configure({ enforceActions: 'always' });
 
-class ProductStore {
+export default class ProductStore {
+	rootStore: RootStore;
+	constructor(rootStore: RootStore) {
+		this.rootStore = rootStore;
+	}
+
 	@observable productRegistry = new Map();
 	@observable loadingInitial = false;
 	@observable product: IProduct | null = null;
 	@observable submitting = false;
 	@observable target = '';
-
 
 	@computed get productsByDate() {
 		return Array.from(this.productRegistry.values()).sort(
@@ -85,7 +89,7 @@ class ProductStore {
 
 	@action clearProduct = () => {
 		this.product = null;
-	}
+	};
 
 	@action createProduct = async (product: IProduct) => {
 		this.submitting = true;
@@ -95,10 +99,10 @@ class ProductStore {
 				this.productRegistry.set(product.id, product);
 				this.submitting = false;
 			});
-			history.push(`/products/${product.id}`)
+			history.push(`/products/${product.id}`);
 		} catch (error) {
 			console.log(error.response);
-			toast.error('Problem në ruajtjen e të dhënave')
+			toast.error('Problem në ruajtjen e të dhënave');
 			runInAction('creating product error', () => {
 				this.submitting = false;
 			});
@@ -114,10 +118,10 @@ class ProductStore {
 				this.product = product;
 				this.submitting = false;
 			});
-			history.push(`/products/${product.id}`)
+			history.push(`/products/${product.id}`);
 		} catch (error) {
 			console.log(error.response);
-			toast.error('Problem në ruajtjen e ndryshimeve')
+			toast.error('Problem në ruajtjen e ndryshimeve');
 			runInAction('edit product error', () => {
 				this.submitting = false;
 			});
@@ -137,6 +141,7 @@ class ProductStore {
 				this.submitting = false;
 				this.target = '';
 			});
+			
 		} catch (error) {
 			console.log(error);
 			runInAction('delete product error', () => {
@@ -145,7 +150,4 @@ class ProductStore {
 			});
 		}
 	};
-
 }
-
-export default createContext(new ProductStore());

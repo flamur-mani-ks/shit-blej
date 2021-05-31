@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Grid } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-import ProductStore from '../../../app/stores/productStore';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 import ProductDetailedHeader from './ProductDetailedHeader';
 import ProductDetailedInfo from './ProductDetailedInfo';
 import ProductDetailedSidebar from './ProductDetailedSidebar';
@@ -15,12 +15,12 @@ interface DetailParams {
 const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 	match
 }) => {
-	const productStore = useContext(ProductStore);
+	const rootStore = useContext(RootStoreContext);
 	const {
 		product,
 		loadProduct,
 		loadingInitial,
-	} = productStore;
+	} = rootStore.productStore;
 
 	useEffect(() => {
 		loadProduct(match.params.id);

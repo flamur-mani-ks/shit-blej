@@ -12,14 +12,15 @@ namespace API.Controllers
   public class ProductsController : BaseController
   {
 
+[AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<List<Product>>> List()
     {
       return await Mediator.Send(new List.Query());
     }
 
+[AllowAnonymous]
     [HttpGet("{id}")]
-    [Authorize]
     public async Task<ActionResult<Product>> Details(Guid id)
     {
       return await Mediator.Send(new Details.Query { Id = id });

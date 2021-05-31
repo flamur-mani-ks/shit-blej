@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Segment, Form, Button, Grid } from 'semantic-ui-react';
 import { v4 as uuid } from 'uuid';
-import ProductStore from '../../../app/stores/productStore';
 import moment from 'moment';
 import { observer } from 'mobx-react-lite';
 import { RouteComponentProps } from 'react-router';
@@ -18,6 +17,7 @@ import {
 	composeValidators,
 	hasLengthGreaterThan,
 } from 'revalidate';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 
 const validate = combineValidators({
 	title: isRequired({ message: 'Titulli i produktit është i detyrueshëm' }),
@@ -42,8 +42,9 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 	match,
 	history,
 }) => {
-	const productStore = useContext(ProductStore);
-	const { createProduct, editProduct, submitting, loadProduct } = productStore;
+	const rootStore = useContext(RootStoreContext);
+	const { createProduct, editProduct, submitting, loadProduct, deleteProduct } =
+		rootStore.productStore;
 
 	const [product, setProduct] = useState(new ProductFormValues());
 	const [loading, setLoading] = useState(false);
@@ -159,6 +160,17 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 									content='Cancel'
 									disabled={loading}
 								/>
+								{product.id && (
+									<Button
+									onClick={(e) => {deleteProduct(e, product.id!); history.push('/products');} }
+										loading={submitting}
+										floated='right'
+										negative
+										type='submit'
+										content='Delete'
+										disabled={loading}
+									/>
+								)}
 							</Form>
 						)}
 					/>

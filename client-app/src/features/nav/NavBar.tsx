@@ -1,9 +1,16 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { Menu, Container, Button } from 'semantic-ui-react';
+import React, { Fragment, useContext } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { Menu, Container, Button, Image, Dropdown } from 'semantic-ui-react';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import LoginForm from '../user/LoginForm';
+import RegisterForm from '../user/RegisterForm';
 
 const NavBar: React.FC = () => {
+	const rootStore = useContext(RootStoreContext);
+	const { isLoggedIn, user, logout } = rootStore.userStore;
+	const { openModal } = rootStore.modalStore;
+
 	return (
 		<Menu fixed='top' inverted>
 			<Container>
@@ -12,14 +19,55 @@ const NavBar: React.FC = () => {
 					Shit-Blej
 				</Menu.Item>
 				<Menu.Item name='Produktet' as={NavLink} to='/products' />
-				<Menu.Item>
-					<Button
-						as={NavLink}
-						to='/createProduct'
-						positive
-						content='Shto Produkt'
-					/>
-				</Menu.Item>
+
+				{isLoggedIn && user ? (
+					<Fragment>
+						<Menu.Item>
+							<Button
+								as={NavLink}
+								to='/createProduct'
+								positive
+								content='Shto Produkt'
+							/>
+						</Menu.Item>
+						<Menu.Item position='right'>
+							<Image
+								avatar
+								spaced='right'
+								src={user.image || '/assets/user.png'}
+							/>
+							<Dropdown pointing='top left' text={user.displayName}>
+								<Dropdown.Menu>
+									<Dropdown.Item
+										as={Link}
+										to={`/profile/username`}
+										text='Profili im'
+										icon='user'
+									/>
+									<Dropdown.Item onClick={logout} text='Logout' icon='power' />
+								</Dropdown.Menu>
+							</Dropdown>
+						</Menu.Item>
+					</Fragment>
+				) : (
+					<Fragment>
+						<Menu.Item position='right'>
+							<Button
+								style={{ marginRight: '10px' }}
+								onClick={() => openModal(<RegisterForm />)}
+								to='/register'
+								color='teal'
+								content='Regjistrohu'
+							/>
+							<Button
+								onClick={() => openModal(<LoginForm />)}
+								to='/login'
+								color='teal'
+								content='Login'
+							/>
+						</Menu.Item>
+					</Fragment>
+				)}
 			</Container>
 		</Menu>
 	);

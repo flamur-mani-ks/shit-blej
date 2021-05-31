@@ -1,12 +1,12 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { Item } from 'semantic-ui-react';
-import ProductStore from '../../../app/stores/productStore';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 import ProductListItem from './ProductListItem';
 
 const ProductList: React.FC = () => {
-	const productStore = useContext(ProductStore);
-	const { productsByDate } = productStore;
+	const rootStore = useContext(RootStoreContext);
+	const { productsByDate } = rootStore.productStore;
 
 	return (
 			<Item.Group divided style={{marginTop: '15px', marginBottom: '15px'}}>
