@@ -22,6 +22,7 @@ namespace Application.User
       public string DisplayName { get; set; }
       public string Username { get; set; }
       public string Email { get; set; }
+
       public string Password { get; set; }
     }
 
@@ -72,9 +73,9 @@ namespace Application.User
             DisplayName = user.DisplayName,
             Token = _jwtGenerator.CreateToken(user),
             Username = user.UserName,
-            Image = null,
             PhoneNumber = null,
-            City = null
+            City = null,
+            Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
           };
         }
 

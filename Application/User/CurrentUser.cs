@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Interfaces;
@@ -35,7 +36,7 @@ namespace Application.User
           Token = _jwtGenerator.CreateToken(user),
           PhoneNumber = user.PhoneNumber,
           City = user.City,
-          Image = null
+          Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
         };
       }
     }
