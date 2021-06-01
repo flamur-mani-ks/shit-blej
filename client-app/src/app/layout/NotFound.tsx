@@ -7,7 +7,7 @@ const NotFound = () => {
         <Segment placeholder>
             <Header icon>
                 <Icon name='search' />
-                Oops - na vjen keq, informacioni që kërkuat nuk ekziston
+                Na vjen keq, informacioni që kërkuat nuk ekziston
             </Header>
             <Segment.Inline>
                 <Button as={Link} to='/products' primary>

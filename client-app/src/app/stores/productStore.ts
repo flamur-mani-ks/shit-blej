@@ -3,6 +3,7 @@ import {SyntheticEvent } from 'react';
 import { toast } from 'react-toastify';
 import { history } from '../..';
 import agent from '../api/agent';
+import { createAttendee } from '../common/util/util';
 import { IProduct } from '../models/product';
 import { RootStore } from './rootStore';
 
@@ -40,11 +41,19 @@ export default class ProductStore {
 
 	@action loadProducts = async () => {
 		this.loadingInitial = true;
+		const user = this.rootStore.userStore.user!;
 		try {
 			const products = await agent.Products.list();
 			runInAction('loading products', () => {
 				products.forEach((product) => {
 					product.date = new Date(product.date);
+					if(user){
+					product.isOwner = product.attendees.some(
+						a => a.username === user.username && a.isOwner
+					)
+					}else{
+						product.isOwner = false;
+					}
 					this.productRegistry.set(product.id, product);
 				});
 				this.loadingInitial = false;
@@ -59,6 +68,7 @@ export default class ProductStore {
 
 	@action loadProduct = async (id: string) => {
 		let product = this.getProduct(id);
+		const user = this.rootStore.userStore.user!;
 		if (product) {
 			this.product = product;
 			return product;
@@ -68,6 +78,13 @@ export default class ProductStore {
 				product = await agent.Products.details(id);
 				runInAction('getting single product', () => {
 					product.date = new Date(product.date);
+					if(user){
+						product.isOwner = product.attendees.some(
+							(a: any) => a.username === user.username && a.isOwner
+						)
+						}else{
+							product.isOwner = false;
+						}
 					this.product = product;
 					this.productRegistry.set(product.id, product);
 					this.loadingInitial = false;
@@ -95,6 +112,10 @@ export default class ProductStore {
 		this.submitting = true;
 		try {
 			await agent.Products.create(product);
+			const attendee = createAttendee(this.rootStore.userStore.user!);
+			let attendees = [];
+			attendees.push(attendee);
+			product.attendees = attendees;
 			runInAction('creating product', () => {
 				this.productRegistry.set(product.id, product);
 				this.submitting = false;

@@ -6,6 +6,8 @@ export interface IProduct {
 	price: number;
 	city: string;
 	date: Date;
+	isOwner: boolean;
+	attendees: IAttendee[];
 }
 
 export interface IProductFormValues extends Partial<IProduct> {
@@ -28,4 +30,13 @@ export class ProductFormValues implements IProductFormValues {
 		}
 		Object.assign(this, init);
 	}
+}
+
+export interface IAttendee {
+	username: string;
+	displayName: string;
+	image: string;
+	isOwner: boolean;
+	phoneNumber: string;
+	city: string;
 }

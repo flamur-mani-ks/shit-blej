@@ -3,32 +3,12 @@ import { Link } from 'react-router-dom';
 import { Button, Icon, Item, Label } from 'semantic-ui-react';
 import { IProduct } from '../../../app/models/product';
 import { format } from 'date-fns';
+import ProductItemOwner from './ProductItemOwner';
+import { observer } from 'mobx-react-lite';
 
 const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
-	return (
-		// <Item key={product.id}>
-		// 	<Item.Content>
-		// 		<Item.Header as='a'>{product.title}</Item.Header>
-		// 		<Item.Meta>{product.date}</Item.Meta>
-		// 		<Item.Description>
-		// 			<div>{product.description}</div>
-		// 			<div>
-		// 				{product.city}, {product.price}
-		// 			</div>
-		// 		</Item.Description>
-		// 		<Item.Extra>
-		// <Button
-		// 	as={Link}
-		// 	to={`/products/${product.id}`}
-		// 	floated='right'
-		// 	content='View'
-		// 	color='blue'
-		// />
-		// 			<Label basic content={product.category} />
-		// 		</Item.Extra>
-		// 	</Item.Content>
-		// </Item>
 
+	return (
 		<Item
 			style={{
 				padding: '10px',
@@ -40,7 +20,7 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
 			<Item.Image size='medium' src='/assets/placeholder.png' />
 
 			<Item.Content>
-				<Item.Header as='a'>{product.title}</Item.Header>
+				<Item.Header as={Link} to={`/products/${product.id}`}>{product.title}</Item.Header>
 				<Item.Meta>
 					<span className='cinema'>{product.category}</span>
 				</Item.Meta>
@@ -54,7 +34,7 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
 						color='blue'
 					/>
 					<Label>{product.price} €</Label>
-
+					<ProductItemOwner attendees={product.attendees} />
 					<div>
 						<Icon name='clock' /> {format(product.date, 'eeee do MMMM')} at{' '}
 						{format(product.date, 'h:mm a')}
@@ -66,4 +46,4 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
 	);
 };
 
-export default ProductListItem;
+export default observer(ProductListItem);

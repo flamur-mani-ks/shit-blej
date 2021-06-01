@@ -1,25 +1,39 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Segment, Item } from 'semantic-ui-react';
+import { IAttendee } from '../../../app/models/product';
 
-const ProductDetailedSidebar = () => {
+interface IProps {
+	attendees: IAttendee[];
+}
+
+const ProductDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
 	return (
 		<Segment.Group>
-      <Segment>
-				<Item.Group>
-					<Item>
-						<Item.Image size='tiny' circular src='/assets/user.png' />
-					</Item>
-				</Item.Group>
-        <div>
-          {'Emri i autorit'}
-        </div>
-        <div>
-          {'Numri i telefonit'}
-        </div>
-        </Segment>
-			
+			{attendees.map((attendee) => (
+				<Segment>
+					<Item.Group>
+						<Item>
+							<Item.Image
+							
+								size='small'
+								circular
+								src={attendee.image || '/assets/user.png'}
+							/>
+						</Item>
+					</Item.Group>
+
+					<Item.Header as='h2'>
+						<Link to={`/profile/${attendee.username}`}>{attendee.displayName}</Link>
+					</Item.Header>
+					
+					<div>{attendee.city}</div>
+					<div>{attendee.phoneNumber}</div>
+				</Segment>
+			))}
 		</Segment.Group>
 	);
 };
 
-export default ProductDetailedSidebar;
+export default observer(ProductDetailedSidebar);

@@ -38,7 +38,7 @@ const ProductDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 				<ProductDetailedInfo product={product} />
 			</Grid.Column>
 			<Grid.Column width={6}>
-				<ProductDetailedSidebar />
+				<ProductDetailedSidebar attendees={product.attendees}  />
 			</Grid.Column>
 		</Grid>
 	);
