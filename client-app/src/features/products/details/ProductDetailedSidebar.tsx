@@ -12,15 +12,17 @@ const ProductDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
 	return (
 		<Segment.Group>
 			{attendees.map((attendee) => (
-				<Segment>
+				<Segment style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
 					<Item.Group>
 						<Item>
-							<Item.Image
 							
+							<Item.Image
+						
 								size='small'
 								circular
 								src={attendee.image || '/assets/user.png'}
 							/>
+							
 						</Item>
 					</Item.Group>
 

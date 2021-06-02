@@ -18,25 +18,26 @@ import { RootStoreContext } from '../stores/rootStore';
 import LoadingComponent from './LoadingComponent';
 import ModalContainer from '../common/modals/ModalContainer';
 import ProfilePage from '../../features/profiles/ProfilePage';
+import SearchComponent from '../../features/search/SearchComponent';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
 	const rootStore = useContext(RootStoreContext);
-	const {setAppLoaded, token, appLoaded} = rootStore.commonStore;
-	const {getUser} = rootStore.userStore;
+	const { setAppLoaded, token, appLoaded } = rootStore.commonStore;
+	const { getUser } = rootStore.userStore;
 
 	useEffect(() => {
-		if(token){
-			getUser().finally(() => setAppLoaded())
-		}else{
-			setAppLoaded()
+		if (token) {
+			getUser().finally(() => setAppLoaded());
+		} else {
+			setAppLoaded();
 		}
-	}, [getUser, setAppLoaded, token])
+	}, [getUser, setAppLoaded, token]);
 
-	if(!appLoaded) return <LoadingComponent content='Loading app...' />
+	if (!appLoaded) return <LoadingComponent content='Loading app...' />;
 
 	return (
 		<Fragment>
-			<ModalContainer/>
+			<ModalContainer />
 			<ToastContainer position='bottom-right' />
 			<Route exact path='/' component={HomePage} />
 			<Route
@@ -44,7 +45,9 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 				render={() => (
 					<Fragment>
 						<NavBar />
+
 						<Container style={{ marginTop: '7em' }}>
+							
 							<Switch>
 								<Route exact path='/products' component={ProductDashboard} />
 								<Route path='/products/:id' component={ProductDetails} />

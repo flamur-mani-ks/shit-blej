@@ -1,12 +1,13 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Tab } from 'semantic-ui-react';
+import ProfileDescription from './ProfileDescription';
 import ProfilePhotos from './ProfilePhotos';
 
 const panes = [
 	{
 		menuItem: 'Të dhënat personale',
-		render: () => <Tab.Pane>Te dhenat personale</Tab.Pane>,
+		render: () => <ProfileDescription />,
 	},
 	{
 		menuItem: 'Fotot',
