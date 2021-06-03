@@ -7,6 +7,8 @@ import { createAttendee } from '../common/util/util';
 import { IProduct } from '../models/product';
 import { RootStore } from './rootStore';
 
+const LIMIT = 3;
+
 
 export default class ProductStore {
 	rootStore: RootStore;
@@ -19,12 +21,22 @@ export default class ProductStore {
 	@observable product: IProduct | null = null;
 	@observable submitting = false;
 	@observable target = '';
+	@observable productCount = 0;
+  @observable page = 0;
 
 	@computed get productsByDate() {
 		return Array.from(this.productRegistry.values()).sort(
 			(a, b) => b.date!.getTime() - a.date!.getTime()
 		);
 	}
+
+	@computed get totalPages() {
+    return Math.ceil(this.productCount / LIMIT);
+  }
+
+	@action setPage = (page: number) => {
+    this.page = page;
+  }
 
 	// @computed get productsByDate() {
 	// 	return this.groupProductsByCategory(Array.from(this.productRegistry.values()));
@@ -43,7 +55,8 @@ export default class ProductStore {
 		this.loadingInitial = true;
 		const user = this.rootStore.userStore.user!;
 		try {
-			const products = await agent.Products.list();
+			const productsEnvelope = await agent.Products.list(LIMIT, this.page);
+			const {products, productCount} = productsEnvelope;
 			runInAction('loading products', () => {
 				products.forEach((product) => {
 					product.date = new Date(product.date);
@@ -56,6 +69,7 @@ export default class ProductStore {
 					}
 					this.productRegistry.set(product.id, product);
 				});
+				this.productCount = productCount;
 				this.loadingInitial = false;
 			});
 		} catch (error) {

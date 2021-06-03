@@ -14,9 +14,9 @@ namespace API.Controllers
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult<List<ProductDto>>> List()
+    public async Task<ActionResult<List.ProductsEnvelope>> List(int? limit, int? offset)
     {
-      return await Mediator.Send(new List.Query());
+      return await Mediator.Send(new List.Query(limit, offset));
     }
 
     [AllowAnonymous]
