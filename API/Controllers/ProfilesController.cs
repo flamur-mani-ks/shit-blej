@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Profiles;
 using MediatR;
@@ -19,6 +20,13 @@ namespace API.Controllers
     public async Task<ActionResult<Unit>> Edit(Edit.Command command)
     {
       return await Mediator.Send(command);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("{username}/products")]
+    public async Task<ActionResult<List<UserProductDto>>> GetUserProducts(string username)
+    {
+      return await Mediator.Send(new ListProducts.Query{Username = username});
     }
   }
 }

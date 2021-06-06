@@ -3,6 +3,7 @@ import React from 'react';
 import { Tab } from 'semantic-ui-react';
 import ProfileDescription from './ProfileDescription';
 import ProfilePhotos from './ProfilePhotos';
+import ProfileProducts from './ProfileProducts';
 
 const panes = [
 	{
@@ -15,7 +16,7 @@ const panes = [
 	},
 	{
 		menuItem: 'Produktet',
-		render: () => <Tab.Pane>Te gjitha produktet</Tab.Pane>,
+		render: () => <ProfileProducts />,
 	},
 ];
 

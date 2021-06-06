@@ -75,7 +75,7 @@ namespace Application.User
             Username = user.UserName,
             PhoneNumber = null,
             City = null,
-            Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+            Image = null
           };
         }
 

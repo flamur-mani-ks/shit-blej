@@ -1,7 +1,7 @@
 import { action, computed, observable, runInAction } from 'mobx';
 import { toast } from 'react-toastify';
 import agent from '../api/agent';
-import { IPhoto, IProfile } from '../models/profile';
+import { IPhoto, IProfile, IUserProduct } from '../models/profile';
 import { RootStore } from './rootStore';
 
 export default class ProfileStore {
@@ -14,12 +14,30 @@ export default class ProfileStore {
 	@observable loadingProfile = true;
 	@observable uploadingPhoto = false;
 	@observable loading = false;
+	@observable userProducts: IUserProduct[] = [];
+	@observable loadingProducts = false;
 
 	@computed get isCurrentUser() {
 		if (this.rootStore.userStore.user && this.profile) {
 			return this.rootStore.userStore.user.username === this.profile.username;
 		} else {
 			return false;
+		}
+	}
+
+	@action loadUserProducts = async (username: string) => {
+		this.loadingProducts = true;
+		try {
+			const products = await agent.Profiles.listProducts(username);
+			runInAction(() => {
+				this.userProducts = products;
+				this.loadingProducts = false;
+			})
+		} catch (error) {
+			toast.error('Problem loading products');
+			runInAction(() => {
+				this.loadingProducts = false;
+			})
 		}
 	}
 

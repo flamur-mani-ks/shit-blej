@@ -1,5 +1,5 @@
-import { action, computed, observable, runInAction } from 'mobx';
-import {SyntheticEvent } from 'react';
+import { action, computed, observable, reaction, runInAction } from 'mobx';
+import { SyntheticEvent } from 'react';
 import { toast } from 'react-toastify';
 import { history } from '../..';
 import agent from '../api/agent';
@@ -7,13 +7,21 @@ import { createAttendee } from '../common/util/util';
 import { IProduct } from '../models/product';
 import { RootStore } from './rootStore';
 
-const LIMIT = 3;
-
+const LIMIT = 50;
 
 export default class ProductStore {
 	rootStore: RootStore;
 	constructor(rootStore: RootStore) {
 		this.rootStore = rootStore;
+
+		reaction(
+			() => this.predicate.keys(),
+			() => {
+				this.page = 0;
+				this.productRegistry.clear();
+				this.loadProducts();
+			}
+		)
 	}
 
 	@observable productRegistry = new Map();
@@ -22,7 +30,25 @@ export default class ProductStore {
 	@observable submitting = false;
 	@observable target = '';
 	@observable productCount = 0;
-  @observable page = 0;
+	@observable page = 0;
+	@observable predicate = new Map();
+
+	@action setPredicate = (predicate: string, value: string) => {
+		this.predicate.clear();
+		if (predicate !== 'all') {
+			this.predicate.set(predicate, value);
+		}
+	};
+
+	@computed get axiosParams() {
+		const params = new URLSearchParams();
+		params.append('limit', String(LIMIT));
+		params.append('offset', `${this.page ? this.page * LIMIT : 0}`);
+		this.predicate.forEach((value, key) => {
+			params.append(key, value);
+		});
+		return params;
+	}
 
 	@computed get productsByDate() {
 		return Array.from(this.productRegistry.values()).sort(
@@ -31,12 +57,12 @@ export default class ProductStore {
 	}
 
 	@computed get totalPages() {
-    return Math.ceil(this.productCount / LIMIT);
-  }
+		return Math.ceil(this.productCount / LIMIT);
+	}
 
 	@action setPage = (page: number) => {
-    this.page = page;
-  }
+		this.page = page;
+	};
 
 	// @computed get productsByDate() {
 	// 	return this.groupProductsByCategory(Array.from(this.productRegistry.values()));
@@ -55,16 +81,16 @@ export default class ProductStore {
 		this.loadingInitial = true;
 		const user = this.rootStore.userStore.user!;
 		try {
-			const productsEnvelope = await agent.Products.list(LIMIT, this.page);
-			const {products, productCount} = productsEnvelope;
+			const productsEnvelope = await agent.Products.list(this.axiosParams);
+			const { products, productCount } = productsEnvelope;
 			runInAction('loading products', () => {
 				products.forEach((product) => {
 					product.date = new Date(product.date);
-					if(user){
-					product.isOwner = product.attendees.some(
-						a => a.username === user.username && a.isOwner
-					)
-					}else{
+					if (user) {
+						product.isOwner = product.attendees.some(
+							(a) => a.username === user.username && a.isOwner
+						);
+					} else {
 						product.isOwner = false;
 					}
 					this.productRegistry.set(product.id, product);
@@ -92,13 +118,13 @@ export default class ProductStore {
 				product = await agent.Products.details(id);
 				runInAction('getting single product', () => {
 					product.date = new Date(product.date);
-					if(user){
+					if (user) {
 						product.isOwner = product.attendees.some(
 							(a: any) => a.username === user.username && a.isOwner
-						)
-						}else{
-							product.isOwner = false;
-						}
+						);
+					} else {
+						product.isOwner = false;
+					}
 					this.product = product;
 					this.productRegistry.set(product.id, product);
 					this.loadingInitial = false;
@@ -176,7 +202,6 @@ export default class ProductStore {
 				this.submitting = false;
 				this.target = '';
 			});
-			
 		} catch (error) {
 			console.log(error);
 			runInAction('delete product error', () => {

@@ -19,6 +19,8 @@ import {
 } from 'revalidate';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 
+const citiesWithoutAllOption = city.slice(1,city.length);
+const categoriesWithoutAllOption = category.slice(1,category.length);
 const validate = combineValidators({
 	title: isRequired({ message: 'Titulli i produktit është i detyrueshëm' }),
 	category: isRequired({
@@ -104,7 +106,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 									placeholder='Category'
 									value={product.category}
 									component={SelectInput}
-									options={category}
+									options={categoriesWithoutAllOption}
 								/>
 								{/* <Form.Group widths='equal'>
                   <Field
@@ -127,7 +129,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 									placeholder='City'
 									value={product.city}
 									component={SelectInput}
-									options={city}
+									options={citiesWithoutAllOption}
 								/>
 
 								<Field
@@ -164,6 +166,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 									<Button
 									onClick={(e) => {deleteProduct(e, product.id!); history.push('/products');} }
 										loading={submitting}
+										name={product.id}
 										floated='right'
 										negative
 										type='submit'

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Grid, Loader } from 'semantic-ui-react';
+import { Grid, Loader } from 'semantic-ui-react';
 import ProductList from './ProductList';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
@@ -39,7 +39,6 @@ const ProductDashboard: React.FC = () => {
 				</InfiniteScroll>
 			</Grid.Column>
 			<Grid.Column width={6}>
-				
 			</Grid.Column>
 			<Grid.Column width={10}>
 				<Loader active={loadingNext} />

@@ -8,6 +8,8 @@ import TextInput from '../../app/common/form/TextInput';
 import SelectInput from '../../app/common/form/SelectInput';
 import { city } from '../../app/common/options/cityOptions';
 
+const citiesWithoutAllOption = city.slice(1,city.length);
+
 const validate = combineValidators({
 	displayName: isRequired({message: 'Display Name është i detyrueshëm'}),
 });
@@ -43,7 +45,7 @@ const ProfileEditForm: React.FC<IProps> = ({ updateProfile, profile }) => {
 						placeholder='City'
 						value={profile!.city}
 						component={SelectInput}
-						options={city}
+						options={citiesWithoutAllOption}
 					/>
 					<Button
 						loading={submitting}
