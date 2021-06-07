@@ -8,6 +8,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 
 
 const ProductDashboard: React.FC = () => {
+
 	const rootStore = useContext(RootStoreContext);
 	const { loadProducts, loadingInitial, setPage, page, totalPages } =
 		rootStore.productStore;
