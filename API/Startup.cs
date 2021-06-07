@@ -68,8 +68,14 @@ namespace API
           {
             policy.Requirements.Add(new IsOwnerRequirement());
           });
+          opt.AddPolicy("IsJobOwner", policy =>
+          {
+            policy.Requirements.Add(new IsJobOwnerRequirement());
+          });
+
         });
       services.AddTransient<IAuthorizationHandler, IsOwnerRequirementHandler>();
+      services.AddTransient<IAuthorizationHandler, IsJobOwnerRequirementHandler>();
 
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

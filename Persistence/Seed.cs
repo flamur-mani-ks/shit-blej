@@ -115,6 +115,73 @@ namespace Persistence
         await context.Products.AddRangeAsync(products);
         await context.SaveChangesAsync();
       }
+
+
+      if (!context.Jobs.Any())
+      {
+        var jobs = new List<Job>
+                {
+                    new Job
+                    {
+                        Title = "Asistentë/e të shitjes",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
+                        Category = "Shitje",
+                        City = "Ferizaj",
+                        WorkingHours = "Full Time",
+                        CreatedAt = DateTime.Now,
+                        ExpiresAt = DateTime.Now.AddDays(15),
+                        UserJobs = new List<UserJob>
+                        {
+                            new UserJob
+                            {
+                                AppUserId = "a",
+                                IsOwner = true,
+                            }
+                        }
+                    },
+                    new Job
+                    {
+                        Title = "Pizzaman",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
+                        Category = "Gastronomi",
+                        City = "Prishtine",
+                        WorkingHours = "Full Time",
+                        CreatedAt = DateTime.Now,
+                        ExpiresAt = DateTime.Now.AddDays(20),
+                        UserJobs = new List<UserJob>
+                        {
+                            new UserJob
+                            {
+                                AppUserId = "b",
+                                IsOwner = true,
+                            }
+                        }
+                    },
+                   new Job
+                    {
+                        Title = "Call Center Agent",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
+                        Category = "Telekomunikim",
+                        City = "Gjilan",
+                        WorkingHours = "Part Time",
+                        CreatedAt = DateTime.Now,
+                        ExpiresAt = DateTime.Now.AddDays(30),
+                        UserJobs = new List<UserJob>
+                        {
+                            new UserJob
+                            {
+                                AppUserId = "c",
+                                IsOwner = true,
+                            }
+                        }
+                    },
+
+
+                };
+
+        await context.Jobs.AddRangeAsync(jobs);
+        await context.SaveChangesAsync();
+      }
     }
   }
 }
