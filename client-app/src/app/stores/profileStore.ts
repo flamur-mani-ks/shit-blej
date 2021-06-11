@@ -1,7 +1,7 @@
 import { action, computed, observable, runInAction } from 'mobx';
 import { toast } from 'react-toastify';
 import agent from '../api/agent';
-import { IPhoto, IProfile, IUserProduct } from '../models/profile';
+import { IPhoto, IProfile, IUserJob, IUserProduct } from '../models/profile';
 import { RootStore } from './rootStore';
 
 export default class ProfileStore {
@@ -16,6 +16,8 @@ export default class ProfileStore {
 	@observable loading = false;
 	@observable userProducts: IUserProduct[] = [];
 	@observable loadingProducts = false;
+	@observable userJobs: IUserJob[] = [];
+	@observable loadingJobs = false;
 
 	@computed get isCurrentUser() {
 		if (this.rootStore.userStore.user && this.profile) {
@@ -37,6 +39,22 @@ export default class ProfileStore {
 			toast.error('Problem loading products');
 			runInAction(() => {
 				this.loadingProducts = false;
+			})
+		}
+	}
+
+	@action loadUserJobs = async (username: string) => {
+		this.loadingJobs = true;
+		try {
+			const jobs = await agent.Profiles.listJobs(username);
+			runInAction(() => {
+				this.userJobs = jobs;
+				this.loadingJobs = false;
+			})
+		} catch (error) {
+			toast.error('Problem loading jobs');
+			runInAction(() => {
+				this.loadingJobs = false;
 			})
 		}
 	}

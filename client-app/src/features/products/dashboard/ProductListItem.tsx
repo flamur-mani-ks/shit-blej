@@ -24,7 +24,7 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
 				<Item.Meta>
 					<span className='cinema'>{product.category}</span>
 				</Item.Meta>
-				<Item.Description>{product.description}</Item.Description>
+				
 				<Item.Extra>
 					<Button
 						as={Link}
@@ -35,7 +35,7 @@ const ProductListItem: React.FC<{ product: IProduct }> = ({ product }) => {
 					/>
 					<Label>{product.price} €</Label>
 					<ProductItemOwner attendees={product.attendees} />
-					<div>
+					<div style={{marginTop: '15px'}}>
 						<Icon name='clock' /> {format(product.date, 'eeee do MMMM')} at{' '}
 						{format(product.date, 'h:mm a')}
 						<Icon name='marker' /> {product.city}

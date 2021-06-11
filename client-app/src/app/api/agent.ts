@@ -4,6 +4,7 @@ import { history } from '../..';
 import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
 import { IPhoto, IProfile } from '../models/profile';
+import {IJob} from '../models/job';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -96,10 +97,21 @@ const Profiles = {
 		requests.put(`/profiles`, profile),
 	listProducts: (username: string) =>
 		requests.get(`/profiles/${username}/products`),
+	listJobs: (username: string) =>
+		requests.get(`/profiles/${username}/jobs`),
 };
+
+const Jobs = {
+	list: (): Promise<IJob[]> => requests.get('/jobs'),
+	details: (id: string) => requests.get(`/jobs/${id}`),
+	create: (job: IJob) => requests.post('/jobs', job),
+	update: (job: IJob) => requests.put(`/jobs/${job.id}`, job),
+	delete: (id: string) => requests.del(`/jobs/${id}`),
+}
 
 export default {
 	Products,
 	User,
 	Profiles,
+	Jobs
 };

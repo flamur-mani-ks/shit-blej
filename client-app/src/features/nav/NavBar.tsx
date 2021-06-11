@@ -19,20 +19,29 @@ const NavBar: React.FC = () => {
 					Shit-Blej
 				</Menu.Item>
 				<Menu.Item name='Produktet' as={NavLink} to='/products' />
+				<Menu.Item name='Shpalljet' as={NavLink} to='/jobs' />
 				
 				{isLoggedIn && user ? (
 					<Fragment>
 						<Menu.Item>
 							<Button
-							style={{marginRight: '40px'}}
+							style={{marginRight: '20px'}}
 								as={NavLink}
 								to='/createProduct'
 								positive
 								content='Shto Produkt'
 							/>
+							<Button
+							
+							as={NavLink}
+							to='/createJob'
+							
+							
+							color='teal'
+							content='Shto Shpallje'
+						/>
 							
 						</Menu.Item>
-						{/* <Menu.Item name='Shpalljet' as={NavLink} to='/jobs' /> */}
 						<Menu.Item position='right'>
 							<Image
 								avatar

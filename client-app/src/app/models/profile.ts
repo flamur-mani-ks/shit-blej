@@ -19,3 +19,10 @@ export interface IUserProduct {
   category: string;
   date: Date;
 }
+
+export interface IUserJob {
+  id: string;
+  title: string;
+  category: string;
+  expiresAt: Date;
+}

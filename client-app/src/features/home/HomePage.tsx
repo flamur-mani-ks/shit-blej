@@ -14,6 +14,9 @@ const HomePage = () => {
                 <Button as={Link} to='/products' size='huge' inverted>
                     Më dërgo te produket
                 </Button>
+                <Button as={Link} to='/jobs' size='huge' inverted>
+                    Më dërgo te vendet e punes
+                </Button>
             </Container>
         </Segment>
   );

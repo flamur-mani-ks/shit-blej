@@ -18,6 +18,9 @@ import { RootStoreContext } from '../stores/rootStore';
 import LoadingComponent from './LoadingComponent';
 import ModalContainer from '../common/modals/ModalContainer';
 import ProfilePage from '../../features/profiles/ProfilePage';
+import JobDashboard from '../../features/jobs/dashboard/JobDashboard';
+import JobDetails from '../../features/jobs/details/JobDetails';
+import JobForm from '../../features/jobs/form/JobForm';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
 	const rootStore = useContext(RootStoreContext);
@@ -39,6 +42,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 			<ModalContainer />
 			<ToastContainer position='bottom-right' />
 			<Route exact path='/' component={HomePage} />
+			
 			<Route
 				path={'/(.+)'}
 				render={() => (
@@ -48,6 +52,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 						<Container style={{ marginTop: '7em' }}>
 							
 							<Switch>
+								//Products
 								<Route exact path='/products' component={ProductDashboard} />
 								<Route path='/products/:id' component={ProductDetails} />
 								<Route
@@ -55,7 +60,20 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 									path={['/createProduct', '/manage/:id']}
 									component={ProductForm}
 								/>
+
+								//Profile
 								<Route path='/profile/:username' component={ProfilePage} />
+
+								//Jobs
+								<Route exact path='/jobs' component={JobDashboard} />
+								<Route path='/jobs/:id' component={JobDetails} />
+								<Route
+									key={location.key}
+									path={['/createJob', '/manageJob/:id']}
+									component={JobForm}
+								/>
+
+								//Not found component
 								<Route component={NotFound} />
 							</Switch>
 						</Container>

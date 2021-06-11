@@ -4,6 +4,7 @@ import { Tab } from 'semantic-ui-react';
 import ProfileDescription from './ProfileDescription';
 import ProfilePhotos from './ProfilePhotos';
 import ProfileProducts from './ProfileProducts';
+import ProfileJobs from './ProfileJobs';
 
 const panes = [
 	{
@@ -17,6 +18,10 @@ const panes = [
 	{
 		menuItem: 'Produktet',
 		render: () => <ProfileProducts />,
+	},
+	{
+		menuItem: 'Shpalljet e punës',
+		render: () => <ProfileJobs />,
 	},
 ];
 

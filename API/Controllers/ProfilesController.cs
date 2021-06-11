@@ -28,5 +28,12 @@ namespace API.Controllers
     {
       return await Mediator.Send(new ListProducts.Query{Username = username});
     }
+
+    [AllowAnonymous]
+    [HttpGet("{username}/jobs")]
+    public async Task<ActionResult<List<UserJobDto>>> GetUserJobs(string username)
+    {
+      return await Mediator.Send(new ListJobs.Query{Username = username});
+    }
   }
 }
