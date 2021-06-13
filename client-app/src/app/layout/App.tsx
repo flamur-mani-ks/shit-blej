@@ -21,6 +21,7 @@ import ProfilePage from '../../features/profiles/ProfilePage';
 import JobDashboard from '../../features/jobs/dashboard/JobDashboard';
 import JobDetails from '../../features/jobs/details/JobDetails';
 import JobForm from '../../features/jobs/form/JobForm';
+import ContactUs from '../../features/contact/ContactUs';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
 	const rootStore = useContext(RootStoreContext);
@@ -71,6 +72,12 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 									key={location.key}
 									path={['/createJob', '/manageJob/:id']}
 									component={JobForm}
+								/>
+
+								//Contact
+								<Route
+									path='/contact'
+									component={ContactUs}
 								/>
 
 								//Not found component

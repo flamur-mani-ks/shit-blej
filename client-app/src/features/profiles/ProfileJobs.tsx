@@ -21,7 +21,7 @@ const ProfileEvents = () => {
 		<Tab.Pane loading={loadingJobs}>
 			<Grid>
 				<Grid.Column width={16}>
-					<Header floated='left' icon='announcement' content={'Jobs'} />
+					<Header floated='left' icon='announcement' content={'Shpalljet e punës'} />
 				</Grid.Column>
 				<Grid.Column width={16}>
 					<br />

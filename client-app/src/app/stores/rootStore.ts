@@ -6,6 +6,7 @@ import CommonStore from './commonStore';
 import ModalStore from './modalStore';
 import ProfileStore from './profileStore';
 import JobStore from './jobStore';
+import ContactStore from './contactStore';
 
 configure({enforceActions: 'always'});
 
@@ -16,6 +17,7 @@ export class RootStore {
     modalStore: ModalStore;
     profileStore: ProfileStore;
     jobStore: JobStore;
+    contactStore: ContactStore;
 
     constructor() {
         this.productStore = new ProductStore(this);
@@ -24,6 +26,7 @@ export class RootStore {
         this.modalStore = new ModalStore(this);
         this.profileStore = new ProfileStore(this);
         this.jobStore = new JobStore(this);
+        this.contactStore = new ContactStore(this);
     }
 }
 

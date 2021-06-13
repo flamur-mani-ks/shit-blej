@@ -20,6 +20,7 @@ const NavBar: React.FC = () => {
 				</Menu.Item>
 				<Menu.Item name='Produktet' as={NavLink} to='/products' />
 				<Menu.Item name='Shpalljet' as={NavLink} to='/jobs' />
+				<Menu.Item name='Kontakto' as={NavLink} to='/contact' />
 				
 				{isLoggedIn && user ? (
 					<Fragment>
@@ -63,7 +64,6 @@ const NavBar: React.FC = () => {
 					</Fragment>
 				) : (
 					<Fragment>
-						{/* <Menu.Item name='Shpalljet' as={NavLink} to='/jobs' /> */}
 						<Menu.Item position='right'>
 							<Button
 								style={{ marginRight: '10px' }}

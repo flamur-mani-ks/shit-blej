@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
 import { IPhoto, IProfile } from '../models/profile';
 import {IJob} from '../models/job';
+import { IContact } from '../models/contact';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -109,9 +110,17 @@ const Jobs = {
 	delete: (id: string) => requests.del(`/jobs/${id}`),
 }
 
+const Contacts = {
+	list: (): Promise<IContact[]> => requests.get('/contacts'),
+	details: (id: string) => requests.get(`/contacts/${id}`),
+	create: (job: IContact) => requests.post('/contacts', job),
+	delete: (id: string) => requests.del(`/contacts/${id}`),
+}
+
 export default {
 	Products,
 	User,
 	Profiles,
-	Jobs
+	Jobs,
+	Contacts
 };
