@@ -27,6 +27,15 @@ export default class ProfileStore {
 		}
 	}
 
+	@computed get isCurrentUserAdmin() {
+		if (this.rootStore.userStore.user && this.profile) {
+			return this.rootStore.userStore.user.username === this.profile.username && this.rootStore.userStore.user.role === "admin";
+		} else {
+			return false;
+		}
+	}
+
+
 	@action loadUserProducts = async (username: string) => {
 		this.loadingProducts = true;
 		try {

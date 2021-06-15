@@ -63,7 +63,8 @@ namespace Application.User
             PhoneNumber = user.PhoneNumber,
             City = user.City,
             Username = user.UserName,
-            Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+            Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+            Role = user.Role,
           };
 
         }

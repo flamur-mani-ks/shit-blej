@@ -10,15 +10,15 @@ namespace API.Controllers
 {
   public class ContactsController : BaseController
   {
-    [AllowAnonymous]
     [HttpGet]
+    [Authorize(Policy = "IsAdmin")]
     public async Task<ActionResult<List<ContactDto>>> List()
     {
       return await Mediator.Send(new List.Query());
     }
 
-
     [HttpGet("{id}")]
+    [Authorize(Policy = "IsAdmin")]
     public async Task<ActionResult<ContactDto>> Details(Guid id)
     {
       return await Mediator.Send(new Details.Query { Id = id });
@@ -32,6 +32,8 @@ namespace API.Controllers
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policy = "IsAdmin")]
+
     public async Task<ActionResult<Unit>> Delete(Guid id)
     {
       return await Mediator.Send(new Delete.Command { Id = id });

@@ -22,8 +22,8 @@ namespace Application.User
       public string DisplayName { get; set; }
       public string Username { get; set; }
       public string Email { get; set; }
-
       public string Password { get; set; }
+      public string Role { get; set; }
     }
 
     public class CommandValidator : AbstractValidator<Command>
@@ -75,7 +75,8 @@ namespace Application.User
             Username = user.UserName,
             PhoneNumber = null,
             City = null,
-            Image = null
+            Image = null,
+            Role = user.Role,
           };
         }
 

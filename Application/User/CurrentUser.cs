@@ -36,7 +36,8 @@ namespace Application.User
           Token = _jwtGenerator.CreateToken(user),
           PhoneNumber = user.PhoneNumber,
           City = user.City,
-          Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+          Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+          Role = user.Role
         };
       }
     }

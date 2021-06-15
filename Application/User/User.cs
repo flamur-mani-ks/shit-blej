@@ -8,5 +8,6 @@ namespace Application.User
     public string PhoneNumber { get; set; }
     public string City { get; set; }
     public string Image { get; set; }
+    public string Role { get; set; }
   }
 }

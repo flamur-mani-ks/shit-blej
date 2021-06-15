@@ -5,6 +5,7 @@ export interface IUser {
   image?: string;
   phoneNumber?: string;
   city?: string;
+  role: string;
 }
 
 export interface IUserFormValues {

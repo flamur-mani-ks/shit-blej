@@ -16,6 +16,7 @@ namespace Application.Profiles
       public string DisplayName { get; set; }
       public string PhoneNumber { get; set; }
       public string City { get; set; }
+      public string Role { get; set; }
     }
 
     public class CommandValidator : AbstractValidator<Command>
@@ -43,6 +44,7 @@ namespace Application.Profiles
         user.DisplayName = request.DisplayName ?? user.DisplayName;
         user.PhoneNumber = request.PhoneNumber ?? user.PhoneNumber;
         user.City = request.City ?? user.City;
+        user.Role = request.Role ?? user.Role;
 
         var success = await _context.SaveChangesAsync() > 0;
 

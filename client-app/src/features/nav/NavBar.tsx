@@ -9,6 +9,7 @@ import RegisterForm from '../user/RegisterForm';
 const NavBar: React.FC = () => {
 	const rootStore = useContext(RootStoreContext);
 	const { isLoggedIn, user, logout } = rootStore.userStore;
+	const { isCurrentUserAdmin } = rootStore.profileStore!;
 	const { openModal } = rootStore.modalStore;
 
 	return (
@@ -21,28 +22,26 @@ const NavBar: React.FC = () => {
 				<Menu.Item name='Produktet' as={NavLink} to='/products' />
 				<Menu.Item name='Shpalljet' as={NavLink} to='/jobs' />
 				<Menu.Item name='Kontakto' as={NavLink} to='/contact' />
-				
+
 				{isLoggedIn && user ? (
 					<Fragment>
-						<Menu.Item>
-							<Button
-							style={{marginRight: '20px'}}
-								as={NavLink}
-								to='/createProduct'
-								positive
-								content='Shto Produkt'
-							/>
-							<Button
-							
-							as={NavLink}
-							to='/createJob'
-							
-							
-							color='teal'
-							content='Shto Shpallje'
-						/>
-							
-						</Menu.Item>
+						{!isCurrentUserAdmin && (
+							<Menu.Item>
+								<Button
+									style={{ marginRight: '20px' }}
+									as={NavLink}
+									to='/createProduct'
+									positive
+									content='Shto Produkt'
+								/>
+								<Button
+									as={NavLink}
+									to='/createJob'
+									color='teal'
+									content='Shto Shpallje'
+								/>
+							</Menu.Item>
+						)}
 						<Menu.Item position='right'>
 							<Image
 								avatar

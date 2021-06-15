@@ -9,21 +9,21 @@ using Persistence;
 
 namespace Infrastructure.Security
 {
-  public class IsOwnerRequirement : IAuthorizationRequirement
+  public class IsAdminRequirement : IAuthorizationRequirement
   {
   }
 
-  public class IsOwnerRequirementHandler : AuthorizationHandler<IsOwnerRequirement>
+  public class IsAdminRequirementHandler : AuthorizationHandler<IsAdminRequirement>
   {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly DataContext _context;
-    public IsOwnerRequirementHandler(IHttpContextAccessor httpContextAccessor, DataContext context)
+    public IsAdminRequirementHandler(IHttpContextAccessor httpContextAccessor, DataContext context)
     {
       _context = context;
       _httpContextAccessor = httpContextAccessor;
     }
 
-    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsOwnerRequirement requirement)
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsAdminRequirement requirement)
     {
       if (context.Resource is AuthorizationFilterContext authContext)
       {
@@ -31,13 +31,9 @@ namespace Infrastructure.Security
 
         var user = _context.Users.SingleOrDefault(x => x.UserName == currentUserName);
 
-        var productId = Guid.Parse(authContext.RouteData.Values["id"].ToString());
+        
 
-        var product = _context.Products.FindAsync(productId).Result;
-
-        var host = product.UserProducts.FirstOrDefault(x => x.IsOwner);
-
-        if (host?.AppUser?.UserName == currentUserName || user.Role == "admin")
+        if (user.Role == "admin")
           context.Succeed(requirement);
       }
       else

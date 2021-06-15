@@ -5,8 +5,10 @@ import ProfileDescription from './ProfileDescription';
 import ProfilePhotos from './ProfilePhotos';
 import ProfileProducts from './ProfileProducts';
 import ProfileJobs from './ProfileJobs';
+import { useContext } from 'react';
+import { RootStoreContext } from '../../app/stores/rootStore';
 
-const panes = [
+let panes = [
 	{
 		menuItem: 'Të dhënat personale',
 		render: () => <ProfileDescription />,
@@ -26,6 +28,30 @@ const panes = [
 ];
 
 const ProfileContent = () => {
+	const rootStore = useContext(RootStoreContext);
+	const { isCurrentUserAdmin } = rootStore.profileStore!;
+
+	if (isCurrentUserAdmin) {
+		panes = [
+			{
+				menuItem: 'Përdoruesit',
+				render: () => <Tab.Pane>Lista e te gjithe userav</Tab.Pane>,
+			},
+			{
+				menuItem: 'Produktet',
+				render: () => <Tab.Pane>Lista e te gjithe produktev</Tab.Pane>,
+			},
+			{
+				menuItem: 'Shpalljet e punës',
+				render: () => <Tab.Pane>Lista e te gjithe shpalljeve te punes</Tab.Pane>,
+			},
+			{
+				menuItem: 'Mesazhet',
+				render: () => <Tab.Pane>Lista e te gjithe mesazheve</Tab.Pane>,
+			},
+		];
+	}
+
 	return (
 		<Tab
 			menu={{ fluid: true, vertical: true }}

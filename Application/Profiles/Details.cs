@@ -33,7 +33,8 @@ namespace Application.Profiles
                     Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
                     Photos = user.Photos,
                     PhoneNumber = user.PhoneNumber,
-                    City = user.City
+                    City = user.City,
+                    Role = user.Role,
                 };
             }
         }

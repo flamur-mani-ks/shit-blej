@@ -21,21 +21,25 @@ export default class UserStore {
 			const user = await agent.User.current();
 			runInAction(() => {
 				this.user = user;
-			})
+			});
 		} catch (error) {
 			console.log(error);
 		}
-	}
+	};
 
 	@action login = async (values: IUserFormValues) => {
 		try {
 			const user = await agent.User.login(values);
 			runInAction(() => {
 				this.user = user;
-			})
+			});
 			this.rootStore.commonStore.setToken(user.token);
 			this.rootStore.modalStore.closeModal();
-			history.push('/products')
+			if (user.role === 'admin') {
+				history.push('/admin');
+			} else {
+				history.push('/products');
+			}
 		} catch (error) {
 			throw error;
 		}
@@ -45,16 +49,16 @@ export default class UserStore {
 		this.rootStore.commonStore.setToken(null);
 		this.user = null;
 		history.push('/products');
-	}
+	};
 
 	@action register = async (values: IUserFormValues) => {
-    try {
-      const user = await agent.User.register(values);
-      this.rootStore.commonStore.setToken(user.token);
-      this.rootStore.modalStore.closeModal();
-      history.push('/products')
-    } catch (error) {
-      throw error;
-    }
-  }
+		try {
+			const user = await agent.User.register(values);
+			this.rootStore.commonStore.setToken(user.token);
+			this.rootStore.modalStore.closeModal();
+			history.push('/products');
+		} catch (error) {
+			throw error;
+		}
+	};
 }
