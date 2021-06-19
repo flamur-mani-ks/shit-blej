@@ -17,6 +17,8 @@ const ProfilePage: React.FC<IProps> = ({ match }) => {
 	const rootStore = useContext(RootStoreContext);
 	const { loadingProfile, profile, loadProfile } = rootStore.profileStore;
 
+	const { isCurrentUserAdmin } = rootStore.profileStore!;
+
 	useEffect(() => {
 		loadProfile(match.params.username);
 	}, [loadProfile, match]);
@@ -26,8 +28,8 @@ const ProfilePage: React.FC<IProps> = ({ match }) => {
 	return (
 		<Grid>
 			<Grid.Column width={16}>
-				<ProfileHeader profile={profile!} />
-				<ProfileContent />
+				{!isCurrentUserAdmin && <ProfileHeader profile={profile!} />}
+				<ProfileContent match={match} />
 			</Grid.Column>
 		</Grid>
 	);

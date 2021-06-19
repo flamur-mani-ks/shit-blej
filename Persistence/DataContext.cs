@@ -44,7 +44,8 @@ namespace Persistence
       builder.Entity<UserProduct>()
           .HasOne(p => p.Product)
           .WithMany(u => u.UserProducts)
-          .HasForeignKey(p => p.ProductId);
+          .HasForeignKey(p => p.ProductId)
+          .OnDelete(DeleteBehavior.Cascade);
 
       //User dhe Jobs relationship
       builder.Entity<UserJob>(x => x.HasKey(up =>
@@ -58,7 +59,8 @@ namespace Persistence
       builder.Entity<UserJob>()
           .HasOne(p => p.Job)
           .WithMany(u => u.UserJobs)
-          .HasForeignKey(p => p.JobId);
+          .HasForeignKey(p => p.JobId)
+          .OnDelete(DeleteBehavior.Cascade);
 
       //Adding default value to column Role in table AppUser
       builder.Entity<AppUser>()

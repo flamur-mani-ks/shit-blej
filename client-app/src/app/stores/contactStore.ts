@@ -1,5 +1,4 @@
 import { action, computed, observable, runInAction } from 'mobx';
-import { SyntheticEvent } from 'react';
 import { toast } from 'react-toastify';
 import agent from '../api/agent';
 import { IContact } from '../models/contact';
@@ -20,7 +19,7 @@ export default class ContactStore {
 
 	@computed get contactsByDate() {
 		return Array.from(this.contactRegistry.values()).sort(
-			(a, b) => b.createdAt!.getTime() - a.createdAt!.getTime()
+			(a, b) => b.date!.getTime() - a.date!.getTime()
 		);
 	}
 
@@ -95,23 +94,19 @@ export default class ContactStore {
 	};
 
 	@action deleteContact = async (
-		event: SyntheticEvent<HTMLButtonElement>,
 		id: string
 	) => {
 		this.submitting = true;
-		this.target = event.currentTarget.name;
 		try {
 			await agent.Contacts.delete(id);
 			runInAction('delete contact', () => {
 				this.contactRegistry.delete(id);
 				this.submitting = false;
-				this.target = '';
 			});
 		} catch (error) {
 			console.log(error);
 			runInAction('delete contact error', () => {
 				this.submitting = false;
-				this.target = '';
 			});
 		}
 	};

@@ -173,4 +173,23 @@ export default class JobStore {
 			});
 		}
 	};
+
+	@action deleteJobFromAdmin = async (
+		id: string
+	) => {
+		this.submitting = true;
+		try {
+			await agent.Jobs.delete(id);
+			runInAction('delete job', () => {
+				this.jobRegistry.delete(id);
+				this.submitting = false;
+			});
+			
+		} catch (error) {
+			console.log(error);
+			runInAction('delete job error', () => {
+				this.submitting = false;
+			});
+		}
+	};
 }

@@ -19,6 +19,10 @@ export default class ProfileStore {
 	@observable userJobs: IUserJob[] = [];
 	@observable loadingJobs = false;
 
+	@observable userRegistry = new Map();
+	@observable users: IProfile[] = [];
+	@observable loadingUsers = false;
+
 	@computed get isCurrentUser() {
 		if (this.rootStore.userStore.user && this.profile) {
 			return this.rootStore.userStore.user.username === this.profile.username;
@@ -29,12 +33,22 @@ export default class ProfileStore {
 
 	@computed get isCurrentUserAdmin() {
 		if (this.rootStore.userStore.user && this.profile) {
-			return this.rootStore.userStore.user.username === this.profile.username && this.rootStore.userStore.user.role === "admin";
+			return (
+				this.rootStore.userStore.user.username === this.profile.username &&
+				this.rootStore.userStore.user.role === 'admin'
+			);
 		} else {
 			return false;
 		}
 	}
 
+	@computed get isAdmin() {
+		if (this.rootStore.userStore.user && this.profile) {
+			return this.rootStore.userStore.user.role === 'admin';
+		} else {
+			return false;
+		}
+	}
 
 	@action loadUserProducts = async (username: string) => {
 		this.loadingProducts = true;
@@ -43,14 +57,14 @@ export default class ProfileStore {
 			runInAction(() => {
 				this.userProducts = products;
 				this.loadingProducts = false;
-			})
+			});
 		} catch (error) {
 			toast.error('Problem loading products');
 			runInAction(() => {
 				this.loadingProducts = false;
-			})
+			});
 		}
-	}
+	};
 
 	@action loadUserJobs = async (username: string) => {
 		this.loadingJobs = true;
@@ -59,14 +73,32 @@ export default class ProfileStore {
 			runInAction(() => {
 				this.userJobs = jobs;
 				this.loadingJobs = false;
-			})
+			});
 		} catch (error) {
 			toast.error('Problem loading jobs');
 			runInAction(() => {
 				this.loadingJobs = false;
-			})
+			});
 		}
-	}
+	};
+
+	@action loadUsers = async () => {
+		this.loadingUsers = true;
+		try {
+			const users = await agent.Profiles.listAllProfiles();
+			runInAction(() => {
+				this.users = users;
+				this.loadingUsers = false;
+			});
+		} catch (error) {
+			toast.error('Problem loading users');
+			runInAction(() => {
+				this.loadingUsers = false;
+			});
+		}
+	};
+
+
 
 	@action loadProfile = async (username: string) => {
 		this.loadingProfile = true;
@@ -81,6 +113,21 @@ export default class ProfileStore {
 				this.loadingProfile = false;
 			});
 			console.log(error);
+		}
+	};
+
+	@action deleteUser = async (username: string) => {
+		this.loading = true;
+		try {
+			await agent.Profiles.deleteProfile(username);
+			runInAction(() => {
+				this.users = this.users.filter(a => a.username !== username);
+			});
+		} catch (error) {
+			toast.error('Problem deleting the user');
+			runInAction(() => {
+				this.loading = false;
+			});
 		}
 	};
 

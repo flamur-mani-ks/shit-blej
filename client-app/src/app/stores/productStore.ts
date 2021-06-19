@@ -210,4 +210,23 @@ export default class ProductStore {
 			});
 		}
 	};
+
+	@action deleteProductFromAdmin = async (
+		id: string
+	) => {
+		this.submitting = true;
+		try {
+			await agent.Products.delete(id);
+			runInAction('delete product', () => {
+				this.productRegistry.delete(id);
+				this.submitting = false;
+			});
+			// window.location.reload();
+		} catch (error) {
+			console.log(error);
+			runInAction('delete product error', () => {
+				this.submitting = false;
+			});
+		}
+	};
 }

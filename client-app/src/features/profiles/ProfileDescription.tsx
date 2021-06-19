@@ -18,7 +18,8 @@ const ProfileDescription = () => {
 						icon='user'
 						content={`Rreth ${profile!.displayName}`}
 					/>
-					{isCurrentUser && (
+					{ isCurrentUser && (
+
 						<Button
 							floated='right'
 							basic

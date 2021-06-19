@@ -12,7 +12,7 @@ const ProductDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
 	return (
 		<Segment.Group>
 			{attendees.map((attendee) => (
-				<Segment style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+				<Segment key={attendee.username} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
 					<Item.Group>
 						<Item>
 							

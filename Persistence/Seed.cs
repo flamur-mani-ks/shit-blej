@@ -19,27 +19,28 @@ namespace Persistence
                     new AppUser
                     {
                         Id = "a",
-                        DisplayName = "Bob",
-                        UserName = "bob",
-                        Email = "bob@test.com",
+                        DisplayName = "Flamur",
+                        UserName = "flamur",
+                        Email = "flamur@test.com",
                         City = "Ferizaj",
-                        PhoneNumber = "+383-44-111-222"
+                        PhoneNumber = "+383-44-111-222",
+                        Role = "admin"
                     },
                     new AppUser
                     {
                         Id = "b",
-                        DisplayName = "Jane",
-                        UserName = "jane",
-                        Email = "jane@test.com",
+                        DisplayName = "Besfort",
+                        UserName = "besfort",
+                        Email = "besfort@test.com",
                         City = "Prishtine",
                         PhoneNumber = "+383-49-123-456"
                     },
                     new AppUser
                     {
                         Id = "c",
-                        DisplayName = "Tom",
-                        UserName = "tom",
-                        Email = "tom@test.com",
+                        DisplayName = "Fisnik",
+                        UserName = "fisnik",
+                        Email = "fisnik@test.com",
                         City = "Gjilan",
                         PhoneNumber = "+383-43-987-654"
                     },
@@ -67,7 +68,7 @@ namespace Persistence
                         {
                             new UserProduct
                             {
-                                AppUserId = "a",
+                                AppUserId = "b",
                                 IsOwner = true,
 
                             }
@@ -102,7 +103,7 @@ namespace Persistence
                         {
                             new UserProduct
                             {
-                                AppUserId = "b",
+                                AppUserId = "c",
                                 IsOwner = true,
                             },
 
@@ -134,7 +135,7 @@ namespace Persistence
                         {
                             new UserJob
                             {
-                                AppUserId = "a",
+                                AppUserId = "c",
                                 IsOwner = true,
                             }
                         }

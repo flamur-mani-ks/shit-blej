@@ -9,6 +9,13 @@ namespace API.Controllers
 {
   public class ProfilesController : BaseController
   {
+    [HttpGet]
+    [Authorize(Policy = "IsAdmin")]
+    public async Task<ActionResult<List<ProfileDto>>> List()
+    {
+      return await Mediator.Send(new List.Query());
+    }
+
     [AllowAnonymous]
     [HttpGet("{username}")]
     public async Task<ActionResult<Profile>> Get(string username)
@@ -34,6 +41,13 @@ namespace API.Controllers
     public async Task<ActionResult<List<UserJobDto>>> GetUserJobs(string username)
     {
       return await Mediator.Send(new ListJobs.Query{Username = username});
+    }
+
+    [HttpDelete("{username}")]
+    [Authorize(Policy = "IsAdmin")]
+    public async Task<ActionResult<Unit>> Delete(string username)
+    {
+      return await Mediator.Send(new Delete.Command { Username = username });
     }
   }
 }

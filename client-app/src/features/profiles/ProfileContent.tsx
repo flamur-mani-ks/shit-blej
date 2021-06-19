@@ -5,49 +5,62 @@ import ProfileDescription from './ProfileDescription';
 import ProfilePhotos from './ProfilePhotos';
 import ProfileProducts from './ProfileProducts';
 import ProfileJobs from './ProfileJobs';
+import Users from '../admin/Users';
+import Products from '../admin/Products';
+import Jobs from '../admin/Jobs';
+import Messages from '../admin/Messages';
 import { useContext } from 'react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 
-let panes = [
-	{
-		menuItem: 'Të dhënat personale',
-		render: () => <ProfileDescription />,
-	},
-	{
-		menuItem: 'Fotot',
-		render: () => <ProfilePhotos />,
-	},
-	{
-		menuItem: 'Produktet',
-		render: () => <ProfileProducts />,
-	},
-	{
-		menuItem: 'Shpalljet e punës',
-		render: () => <ProfileJobs />,
-	},
-];
+let panes: any = undefined;
 
-const ProfileContent = () => {
+
+
+interface IProps {
+	match: any;
+}
+
+const ProfileContent: React.FC<IProps> = ({match}) => {
 	const rootStore = useContext(RootStoreContext);
-	const { isCurrentUserAdmin } = rootStore.profileStore!;
+	const { isCurrentUserAdmin, profile, isAdmin } = rootStore.profileStore!;
 
-	if (isCurrentUserAdmin) {
+
+	if (isCurrentUserAdmin && match.params.username === profile!.username && isAdmin) {
 		panes = [
 			{
 				menuItem: 'Përdoruesit',
-				render: () => <Tab.Pane>Lista e te gjithe userav</Tab.Pane>,
+				render: () => <Users />,
 			},
 			{
 				menuItem: 'Produktet',
-				render: () => <Tab.Pane>Lista e te gjithe produktev</Tab.Pane>,
+				render: () => <Products />,
 			},
 			{
 				menuItem: 'Shpalljet e punës',
-				render: () => <Tab.Pane>Lista e te gjithe shpalljeve te punes</Tab.Pane>,
+				render: () => <Jobs />,
 			},
 			{
 				menuItem: 'Mesazhet',
-				render: () => <Tab.Pane>Lista e te gjithe mesazheve</Tab.Pane>,
+				render: () => <Messages />,
+			},
+		];
+	}else{
+		panes = [
+			{
+				menuItem: 'Të dhënat personale',
+				render: () => <ProfileDescription />,
+			},
+			{
+				menuItem: 'Fotot',
+				render: () => <ProfilePhotos />,
+			},
+			{
+				menuItem: 'Produktet',
+				render: () => <ProfileProducts />,
+			},
+			{
+				menuItem: 'Shpalljet e punës',
+				render: () => <ProfileJobs />,
 			},
 		];
 	}

@@ -9,7 +9,7 @@ import RegisterForm from '../user/RegisterForm';
 const NavBar: React.FC = () => {
 	const rootStore = useContext(RootStoreContext);
 	const { isLoggedIn, user, logout } = rootStore.userStore;
-	const { isCurrentUserAdmin } = rootStore.profileStore!;
+	const { isAdmin} = rootStore.profileStore!;
 	const { openModal } = rootStore.modalStore;
 
 	return (
@@ -25,7 +25,7 @@ const NavBar: React.FC = () => {
 
 				{isLoggedIn && user ? (
 					<Fragment>
-						{!isCurrentUserAdmin && (
+						{ !isAdmin && (
 							<Menu.Item>
 								<Button
 									style={{ marginRight: '20px' }}

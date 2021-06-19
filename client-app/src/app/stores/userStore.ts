@@ -36,7 +36,7 @@ export default class UserStore {
 			this.rootStore.commonStore.setToken(user.token);
 			this.rootStore.modalStore.closeModal();
 			if (user.role === 'admin') {
-				history.push('/admin');
+				history.push(`/profile/${user.username}`);
 			} else {
 				history.push('/products');
 			}
