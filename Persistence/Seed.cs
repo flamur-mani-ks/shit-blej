@@ -19,11 +19,11 @@ namespace Persistence
                     new AppUser
                     {
                         Id = "a",
-                        DisplayName = "Flamur",
-                        UserName = "flamur",
-                        Email = "flamur@test.com",
+                        DisplayName = "Admin",
+                        UserName = "admin",
+                        Email = "admin@test.com",
                         City = "Ferizaj",
-                        PhoneNumber = "+383-44-111-222",
+                        PhoneNumber = "+383-44-000-111",
                         Role = "admin"
                     },
                     new AppUser

@@ -21,6 +21,9 @@ namespace Persistence
 
     public DbSet<Contact> Contacts { get; set; }
 
+    public DbSet<Blog> Blogs { get; set; }
+    public DbSet<UserBlog> UserBlogs { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
       base.OnModelCreating(builder);
@@ -61,6 +64,21 @@ namespace Persistence
           .WithMany(u => u.UserJobs)
           .HasForeignKey(p => p.JobId)
           .OnDelete(DeleteBehavior.Cascade);
+
+      //Lidhja mes userav dhe blog postimev
+      builder.Entity<UserBlog>(x => x.HasKey(up =>
+         new { up.AppUserId, up.BlogId }));
+
+      builder.Entity<UserBlog>()
+         .HasOne(u => u.AppUser)
+         .WithMany(p => p.UserBlogs)
+         .HasForeignKey(u => u.AppUserId);
+
+      builder.Entity<UserBlog>()
+        .HasOne(p => p.Blog)
+        .WithMany(u => u.UserBlogs)
+        .HasForeignKey(p => p.BlogId)
+        .OnDelete(DeleteBehavior.Cascade);
 
       //Adding default value to column Role in table AppUser
       builder.Entity<AppUser>()

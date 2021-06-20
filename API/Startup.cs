@@ -77,11 +77,15 @@ namespace API
           {
             policy.Requirements.Add(new IsAdminRequirement());
           });
-
+          opt.AddPolicy("IsBlogAuthor", policy =>
+          {
+            policy.Requirements.Add(new IsBlogAuthorRequirement());
+          });
         });
       services.AddTransient<IAuthorizationHandler, IsOwnerRequirementHandler>();
       services.AddTransient<IAuthorizationHandler, IsJobOwnerRequirementHandler>();
       services.AddTransient<IAuthorizationHandler, IsAdminRequirementHandler>();
+      services.AddTransient<IAuthorizationHandler, IsBlogAuthorRequirementHandler>();
 
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
