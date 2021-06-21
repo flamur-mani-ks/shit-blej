@@ -1,7 +1,7 @@
 import { action, computed, observable, runInAction } from 'mobx';
 import { toast } from 'react-toastify';
 import agent from '../api/agent';
-import { IPhoto, IProfile, IUserJob, IUserProduct } from '../models/profile';
+import { IPhoto, IProfile, IUserBlog, IUserJob, IUserProduct } from '../models/profile';
 import { RootStore } from './rootStore';
 
 export default class ProfileStore {
@@ -16,8 +16,12 @@ export default class ProfileStore {
 	@observable loading = false;
 	@observable userProducts: IUserProduct[] = [];
 	@observable loadingProducts = false;
+
 	@observable userJobs: IUserJob[] = [];
 	@observable loadingJobs = false;
+
+	@observable userBlogs: IUserBlog[] = [];
+	@observable loadingBlogs = false;
 
 	@observable userRegistry = new Map();
 	@observable users: IProfile[] = [];
@@ -78,6 +82,22 @@ export default class ProfileStore {
 			toast.error('Problem loading jobs');
 			runInAction(() => {
 				this.loadingJobs = false;
+			});
+		}
+	};
+
+	@action loadUserBlogs = async (username: string) => {
+		this.loadingBlogs = true;
+		try {
+			const blogs = await agent.Profiles.listBlogs(username);
+			runInAction(() => {
+				this.userBlogs = blogs;
+				this.loadingBlogs = false;
+			});
+		} catch (error) {
+			toast.error('Problem loading blogs');
+			runInAction(() => {
+				this.loadingBlogs = false;
 			});
 		}
 	};

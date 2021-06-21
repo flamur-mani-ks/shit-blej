@@ -37,8 +37,9 @@ namespace Application.Profiles
 
         var products = user.UserProducts.Where(x => x.IsOwner).ToList();
         var jobs = user.UserJobs.Where(x => x.IsOwner).ToList();
-
-
+        var blogs = user.UserBlogs.Where(x => x.IsAuthor).ToList();
+        var photos = user.Photos.ToList();
+         
 
         if (products != null)
         {
@@ -55,6 +56,24 @@ namespace Application.Profiles
           {
             var job = _context.Jobs.Find(jobs[i].JobId);
             _context.Remove(job);
+          }
+        }
+
+        if (blogs != null)
+        {
+          for (int i = 0; i < blogs.Count; i++)
+          {
+            var blog = _context.Blogs.Find(blogs[i].BlogId);
+            _context.Remove(blog);
+          }
+        }
+
+        if (photos != null)
+        {
+          for (int i = 0; i < photos.Count; i++)
+          {
+            var photo = _context.Photos.Find(photos[i].Id);
+            _context.Remove(photo);
           }
         }
 

@@ -22,6 +22,9 @@ import JobDashboard from '../../features/jobs/dashboard/JobDashboard';
 import JobDetails from '../../features/jobs/details/JobDetails';
 import JobForm from '../../features/jobs/form/JobForm';
 import ContactUs from '../../features/contact/ContactUs';
+import BlogDashboard from '../../features/blogs/dashboard/BlogDashboard';
+import BlogDetails from '../../features/blogs/details/BlogDetails';
+import BlogForm from '../../features/blogs/form/BlogForm';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
 	const rootStore = useContext(RootStoreContext);
@@ -78,6 +81,15 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 								<Route
 									path='/contact'
 									component={ContactUs}
+								/>
+
+								//Jobs
+								<Route exact path='/blogs' component={BlogDashboard} />
+								<Route path='/blogs/:id' component={BlogDetails} />
+								<Route
+									key={location.key}
+									path={['/createBlog', '/manageBlog/:id']}
+									component={BlogForm}
 								/>
 
 								//Not found component

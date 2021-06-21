@@ -26,3 +26,10 @@ export interface IUserJob {
   category: string;
   expiresAt: Date;
 }
+
+export interface IUserBlog {
+  id: string;
+  title: string;
+  category: string;
+  date: Date;
+}

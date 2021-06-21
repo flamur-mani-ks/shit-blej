@@ -43,6 +43,13 @@ namespace API.Controllers
       return await Mediator.Send(new ListJobs.Query{Username = username});
     }
 
+     [AllowAnonymous]
+    [HttpGet("{username}/blogs")]
+    public async Task<ActionResult<List<UserBlogDto>>> GetUserBlogs(string username)
+    {
+      return await Mediator.Send(new ListBlogs.Query{Username = username});
+    }
+
     [HttpDelete("{username}")]
     [Authorize(Policy = "IsAdmin")]
     public async Task<ActionResult<Unit>> Delete(string username)

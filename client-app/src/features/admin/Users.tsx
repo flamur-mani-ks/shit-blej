@@ -38,54 +38,66 @@ const Users = () => {
 				</Grid.Column>
 				<Grid.Column width={16}>
 					<br />
-					<Table singleLine size='large' style={{ marginTop: 0 }}>
-						<Table.Header>
-							<Table.Row>
-								<Table.HeaderCell>Username</Table.HeaderCell>
-								<Table.HeaderCell>Display Name</Table.HeaderCell>
-								<Table.HeaderCell>Numri i telefonit</Table.HeaderCell>
-								<Table.HeaderCell>Qyteti</Table.HeaderCell>
-								<Table.HeaderCell>Foto</Table.HeaderCell>
-								<Table.HeaderCell>Opsionet</Table.HeaderCell>
-							</Table.Row>
-						</Table.Header>
+					{users.filter((a) => a.username !== user!.username).length > 0 ? (
+						<Table singleLine size='large' style={{ marginTop: 0 }}>
+							<Table.Header>
+								<Table.Row>
+									<Table.HeaderCell>Username</Table.HeaderCell>
+									<Table.HeaderCell>Display Name</Table.HeaderCell>
+									<Table.HeaderCell>Numri i telefonit</Table.HeaderCell>
+									<Table.HeaderCell>Qyteti</Table.HeaderCell>
+									<Table.HeaderCell>Foto</Table.HeaderCell>
+									<Table.HeaderCell>Opsionet</Table.HeaderCell>
+								</Table.Row>
+							</Table.Header>
 
-						<Table.Body>
-							{users
-								.filter((a) => a.username !== user!.username)
-								.map((user: IProfile) => (
-									<Table.Row key={user.username}>
-										<Table.Cell>{user.username}</Table.Cell>
-										<Table.Cell><Link to={`/profile/${user.username}`}>{user.displayName}</Link></Table.Cell>
-										<Table.Cell>{user.phoneNumber}</Table.Cell>
-										<Table.Cell>{user.city}</Table.Cell>
-										<Table.Cell>
-											<Image
-												src={user.image || '/assets/user.png'}
-												circular
-												size='mini'
-											/>
-										</Table.Cell>
-										<Table.Cell>
-											<Icon
-												onClick={() => setConfirm(true)}
-												name='trash alternate outline'
-												style={{ cursor: 'pointer' }}
-											/>
+							<Table.Body>
+								{users
+									.filter((a) => a.username !== user!.username)
+									.map((user: IProfile) => (
+										<Table.Row key={user.username}>
+											<Table.Cell>{user.username}</Table.Cell>
+											<Table.Cell>
+												<Link to={`/profile/${user.username}`}>
+													{user.displayName}
+												</Link>
+											</Table.Cell>
+											<Table.Cell>{user.phoneNumber}</Table.Cell>
+											<Table.Cell>{user.city}</Table.Cell>
+											<Table.Cell>
+												<Image
+													src={user.image || '/assets/user.png'}
+													circular
+													size='mini'
+												/>
+											</Table.Cell>
+											<Table.Cell>
+												<Icon
+													onClick={() => setConfirm(true)}
+													name='trash alternate outline'
+													style={{ cursor: 'pointer' }}
+												/>
 
-											<Confirm
-												open={confirm}
-												onCancel={() => setConfirm(false)}
-												onConfirm={() => {
-													handleDelete(user.username);
-												}}
-												content='A je i sigurt ?'
-											/>
-										</Table.Cell>
-									</Table.Row>
-								))}
-						</Table.Body>
-					</Table>
+												<Confirm
+													open={confirm}
+													onCancel={() => setConfirm(false)}
+													onConfirm={() => {
+														handleDelete(user.username);
+													}}
+													content='A je i sigurt ?'
+												/>
+											</Table.Cell>
+										</Table.Row>
+									))}
+							</Table.Body>
+						</Table>
+					) : (
+						<Header
+							as='h2'
+							textAlign='center'
+							content={'Nuk ka asnjë përdorues për të shfaqur'}
+						></Header>
+					)}
 				</Grid.Column>
 			</Grid>
 		</Tab.Pane>

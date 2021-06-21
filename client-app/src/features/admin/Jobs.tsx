@@ -45,6 +45,7 @@ const Jobs = () => {
 				</Grid.Column>
 				<Grid.Column width={16}>
 					<br />
+					{jobsByDate.length > 0 ? (
 					<Table celled padded size='small' style={{ marginTop: 0 }}>
 						<Table.Header>
 							<Table.Row>
@@ -66,7 +67,7 @@ const Jobs = () => {
 								.map((job: IJob) => (
 									<Table.Row key={job.id}>
 										<Table.Cell><Link to={`/jobs/${job.id}`}>{job.title}</Link></Table.Cell>
-										<Table.Cell>{job.description}</Table.Cell>
+										<Table.Cell>{job.description.slice(0, 40) + (job.description.length > 40 ? "..." : "")}</Table.Cell>
 										<Table.Cell>{job.category}</Table.Cell>
 										<Table.Cell>{job.workingHours}</Table.Cell>
 										<Table.Cell>{job.city}</Table.Cell>
@@ -111,6 +112,13 @@ const Jobs = () => {
 								))}
 						</Table.Body>
 					</Table>
+						): (
+							<Header
+								as='h2'
+								textAlign='center'
+								content={'Nuk ka asnjë shpallje pune për të shfaqur'}
+							></Header>
+						)}
 				</Grid.Column>
 			</Grid>
 		</Tab.Pane>

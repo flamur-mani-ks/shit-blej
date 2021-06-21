@@ -29,6 +29,7 @@ const ProfileEvents = () => {
         <Grid.Column width={16}>
           
           <br />
+          {userProducts.length > 0 ? (
           <Card.Group itemsPerRow={4}>
             {userProducts.map((product: IUserProduct) => (
               <Card
@@ -50,6 +51,13 @@ const ProfileEvents = () => {
               </Card>
             ))}
           </Card.Group>
+          ): (
+            <Header
+							as='h2'
+							textAlign='center'
+							content={'Nuk ka asnjë produkt për të shfaqur'}
+						></Header>
+          )}
         </Grid.Column>
       </Grid>
     </Tab.Pane>

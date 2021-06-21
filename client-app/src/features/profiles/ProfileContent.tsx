@@ -5,10 +5,12 @@ import ProfileDescription from './ProfileDescription';
 import ProfilePhotos from './ProfilePhotos';
 import ProfileProducts from './ProfileProducts';
 import ProfileJobs from './ProfileJobs';
+import ProfileBlogs from './ProfileBlogs';
 import Users from '../admin/Users';
 import Products from '../admin/Products';
 import Jobs from '../admin/Jobs';
 import Messages from '../admin/Messages';
+import Blogs from '../admin/Blogs';
 import { useContext } from 'react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 
@@ -40,6 +42,10 @@ const ProfileContent: React.FC<IProps> = ({match}) => {
 				render: () => <Jobs />,
 			},
 			{
+				menuItem: 'Blog postimet',
+				render: () => <Blogs />,
+			},
+			{
 				menuItem: 'Mesazhet',
 				render: () => <Messages />,
 			},
@@ -61,6 +67,10 @@ const ProfileContent: React.FC<IProps> = ({match}) => {
 			{
 				menuItem: 'Shpalljet e punës',
 				render: () => <ProfileJobs />,
+			},
+			{
+				menuItem: 'Blog postimet',
+				render: () => <ProfileBlogs />,
 			},
 		];
 	}

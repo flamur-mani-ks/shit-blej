@@ -29,6 +29,9 @@ const Messages = () => {
 				</Grid.Column>
 				<Grid.Column width={16}>
 					<br />
+					{contactsByDate.length > 0 ? (
+
+					
 					<Table celled padded size='small' style={{ marginTop: 0 }}>
 						<Table.Header>
 							<Table.Row>
@@ -47,7 +50,7 @@ const Messages = () => {
 								<Table.Row key={contact.id}>
 									<Table.Cell>{contact.fullName}</Table.Cell>
 									<Table.Cell>{contact.email}</Table.Cell>
-									<Table.Cell>{contact.message}</Table.Cell>
+									<Table.Cell>{contact.message.slice(0, 60) + (contact.message.length > 60 ? "..." : "")}</Table.Cell>
 									<Table.Cell>{contact.phoneNumber}</Table.Cell>
 									<Table.Cell>{contact.city}</Table.Cell>
 									<Table.Cell>
@@ -75,6 +78,13 @@ const Messages = () => {
 							))}
 						</Table.Body>
 					</Table>
+					): (
+						<Header
+							as='h2'
+							textAlign='center'
+							content={'Nuk ka asnjë mesazh për të shfaqur'}
+						></Header>
+					)}
 				</Grid.Column>
 			</Grid>
 		</Tab.Pane>

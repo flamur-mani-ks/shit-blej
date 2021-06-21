@@ -183,6 +183,63 @@ namespace Persistence
         await context.Jobs.AddRangeAsync(jobs);
         await context.SaveChangesAsync();
       }
+
+       if (!context.Blogs.Any())
+      {
+        var blogs = new List<Blog>
+                {
+                    new Blog
+                    {
+                        Title = "Simpotmat e COVID-19 që duhet ti dini",
+                        Body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
+                        Category = "Shëndetësi",
+                        Date = DateTime.Now.AddDays(1),
+                        UserBlogs = new List<UserBlog>
+                        {
+                            new UserBlog
+                            {
+                                AppUserId = "c",
+                                IsAuthor = true,
+                            }
+                        }
+                    },
+                    new Blog
+                    {
+                        Title = "Si ta gjejm balancin mes karrierës dhe shoqërisë",
+                        Body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
+                        Category = "Jeta",
+                        Date = DateTime.Now.AddDays(20),
+                        UserBlogs = new List<UserBlog>
+                        {
+                            new UserBlog
+                            {
+                                AppUserId = "b",
+                                IsAuthor = true,
+                            }
+                        }
+                    },
+                   new Blog
+                    {
+                        Title = "Zhvillimi i I.O.T dhe ndikimi që ka në jetën tonë të përditshme",
+                        Body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
+                        Category = "Teknologji",
+                        Date = DateTime.Now.AddDays(3),
+                        UserBlogs = new List<UserBlog>
+                        {
+                            new UserBlog
+                            {
+                                AppUserId = "c",
+                                IsAuthor = true,
+                            }
+                        }
+                    },
+
+
+                };
+
+        await context.Blogs.AddRangeAsync(blogs);
+        await context.SaveChangesAsync();
+      }
     }
   }
 }

@@ -6,6 +6,7 @@ import { IUser, IUserFormValues } from '../models/user';
 import { IPhoto, IProfile } from '../models/profile';
 import { IJob } from '../models/job';
 import { IContact } from '../models/contact';
+import { IBlog } from '../models/blog';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -99,6 +100,7 @@ const Profiles = {
 	listProducts: (username: string) =>
 		requests.get(`/profiles/${username}/products`),
 	listJobs: (username: string) => requests.get(`/profiles/${username}/jobs`),
+	listBlogs: (username: string) => requests.get(`/profiles/${username}/blogs`),
 	listAllProfiles: (): Promise<IProfile[]> => requests.get('/profiles'),
 	deleteProfile: (username: string) => requests.del(`/profiles/${username}`),
 };
@@ -118,10 +120,19 @@ const Contacts = {
 	delete: (id: string) => requests.del(`/contacts/${id}`),
 };
 
+const Blogs = {
+	list: (): Promise<IBlog[]> => requests.get('/blogs'),
+	details: (id: string) => requests.get(`/blogs/${id}`),
+	create: (job: IBlog) => requests.post('/blogs', job),
+	update: (job: IBlog) => requests.put(`/blogs/${job.id}`, job),
+	delete: (id: string) => requests.del(`/blogs/${id}`),
+};
+
 export default {
 	Products,
 	User,
 	Profiles,
 	Jobs,
 	Contacts,
+	Blogs
 };
