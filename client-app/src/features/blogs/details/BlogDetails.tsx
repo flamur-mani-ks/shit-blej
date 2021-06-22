@@ -14,6 +14,7 @@ import {
 } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { RootStoreContext } from '../../../app/stores/rootStore';
+import BlogDetailsChat from './BlogDetailsChat';
 
 interface DetailParams {
 	id: string;
@@ -75,17 +76,21 @@ const BlogDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 					<Grid.Column style={{ marginTop: '20px' }} width={10}>
 						<Image src={'/assets/placeholder.png'} rounded size='big' />
 					</Grid.Column>
-					<Grid.Column centered columns width={15}>
+					<Grid.Column width={15}>
 						<div style={{ paddingLeft: '50px' }}>
-            {isLoggedIn && owner.username === user!.username && (
-              <>
-							<Button as={Link} to={`/manageBlog/${blog.id}`} color='orange'>
-								Menagjo postimin
-							</Button>
-              <br />
-              <br />
-              </>
-					)}
+							{isLoggedIn && owner.username === user!.username && (
+								<>
+									<Button
+										as={Link}
+										to={`/manageBlog/${blog.id}`}
+										color='orange'
+									>
+										Menagjo postimin
+									</Button>
+									<br />
+									<br />
+								</>
+							)}
 							<Label size='large' tag color='violet'>
 								{blog.category}
 							</Label>
@@ -96,6 +101,7 @@ const BlogDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 							></Header>
 							<Icon name='clock' /> {format(blog.date, 'eeee do MMMM')} at{' '}
 							{format(blog.date, 'h:mm a')}
+							<BlogDetailsChat />
 						</div>
 					</Grid.Column>
 				</Grid>

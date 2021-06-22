@@ -6,7 +6,7 @@ import agent from '../api/agent';
 import { createAttendee } from '../common/util/util';
 import { IBlog } from '../models/blog';
 import { RootStore } from './rootStore';
-
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
 
 export default class BlogStore {
 	rootStore: RootStore;
@@ -19,6 +19,7 @@ export default class BlogStore {
 	@observable blog: IBlog | null = null;
 	@observable submitting = false;
 	@observable target = '';
+	@observable.ref hubConnection: HubConnection | null = null;
 
 	@computed get blogsByDate() {
 		return Array.from(this.blogRegistry.values()).sort(
@@ -26,18 +27,39 @@ export default class BlogStore {
 		);
 	}
 
-	// @computed get blogsByDate() {
-	// 	return this.groupBlogsByCategory(Array.from(this.blogRegistry.values()));
-	// }
+	
+  @action createHubConnection = () => {
+    this.hubConnection = new HubConnectionBuilder()
+      .withUrl('http://localhost:5000/chat', {
+        accessTokenFactory: () => this.rootStore.commonStore.token!
+      })
+      .configureLogging(LogLevel.Information)
+      .build();
 
-	// helper function for grouping blogs by category
-	// groupBlogsByCategory (blogs: IBlog[]){
-	// 	return Object.entries(blogs.reduce((blogs, blog) => {
-	// 		const category = blog.category;
-	// 		blogs[category] = blogs[category] ? [...blogs[category], blog] : [blog];
-	// 		return blogs;
-	// 	}, {} as {[key: string]: IBlog[]}));
-	// }
+    this.hubConnection
+      .start()
+      .then(() => console.log(this.hubConnection!.state))
+      .catch(error => console.log('Error establishing connection: ', error));
+
+    this.hubConnection.on('ReceiveComment', comment => {
+      runInAction(() => {
+        this.blog!.comments.push(comment)
+      })
+    })
+  };
+
+  @action stopHubConnection = () => {
+    this.hubConnection!.stop()
+  }
+
+  @action addComment = async (values: any) => {
+    values.blogId = this.blog!.id;
+    try {
+      await this.hubConnection!.invoke('SendComment', values)
+    } catch (error) {
+      console.log(error);
+    }
+  } 
 
 	@action loadBlogs = async () => {
 		this.loadingInitial = true;
@@ -116,6 +138,7 @@ export default class BlogStore {
 			let attendees = [];
 			attendees.push(attendee);
 			blog.attendees = attendees;
+			blog.comments = [];
 			runInAction('creating blog', () => {
 				this.blogRegistry.set(blog.id, blog);
 				this.submitting = false;

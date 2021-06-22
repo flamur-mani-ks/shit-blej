@@ -12,5 +12,6 @@ namespace Domain
     public DateTime Date { get; set; }
 
     public virtual ICollection<UserBlog> UserBlogs { get; set; }
+    public virtual ICollection<Comment> Comments { get; set; }
   }
 }

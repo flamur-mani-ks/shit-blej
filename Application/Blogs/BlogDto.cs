@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Application.Comments;
 using Newtonsoft.Json;
 
 namespace Application.Blogs
@@ -14,5 +15,7 @@ namespace Application.Blogs
 
         [JsonProperty("attendees")]
         public virtual ICollection<AttendeeDto> UserBlogs { get; set; }
+
+        public ICollection<CommentDto> Comments { get; set; }
     }
 }

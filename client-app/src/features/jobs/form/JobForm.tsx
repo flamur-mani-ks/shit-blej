@@ -85,7 +85,6 @@ const JobForm: React.FC<RouteComponentProps<DetailParams>> = ({
 	/*
       // @ts-ignore */
 			const dateExp: Date = format(new Date(job.expiresAt), 'yyyy-MM-dd')
-			console.log(job);
 
 	return (
 		<Grid>
@@ -135,7 +134,7 @@ const JobForm: React.FC<RouteComponentProps<DetailParams>> = ({
 										name='time'
 										time={true}
 										placeholder='Ora'
-										value={job.time}
+										value={job.expiresAt}
 									/>
 								</Form.Group>
 								<Field
