@@ -103,6 +103,9 @@ const Profiles = {
 	listBlogs: (username: string) => requests.get(`/profiles/${username}/blogs`),
 	listAllProfiles: (): Promise<IProfile[]> => requests.get('/profiles'),
 	deleteProfile: (username: string) => requests.del(`/profiles/${username}`),
+	follow: (username: string) => requests.post(`/profiles/${username}/follow`, {}),
+	unfollow: (username: string) => requests.del(`/profiles/${username}/follow`),
+	listFollowings: (username: string, predicate: string) => requests.get(`/profiles/${username}/follow?predicate=${predicate}`)
 };
 
 const Jobs = {

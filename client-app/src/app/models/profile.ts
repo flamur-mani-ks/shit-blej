@@ -4,6 +4,9 @@ export interface IProfile {
   phoneNumber: string,
   city: string;
   image: string,
+  following: boolean,
+  followersCount: number,
+  followingCount: number,
   photos: IPhoto[]
 }
 

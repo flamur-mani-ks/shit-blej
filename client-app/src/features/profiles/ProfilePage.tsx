@@ -15,9 +15,19 @@ interface IProps extends RouteComponentProps<RouteParams> {}
 
 const ProfilePage: React.FC<IProps> = ({ match }) => {
 	const rootStore = useContext(RootStoreContext);
-	const { loadingProfile, profile, loadProfile } = rootStore.profileStore;
+	const {
+		loadingProfile,
+		profile,
+		loadProfile,
+		follow,
+		unfollow,
+		isCurrentUser,
+		loading,
+		isCurrentUserAdmin,
+		setActiveTab
+	} = rootStore.profileStore;
 
-	const { isCurrentUserAdmin } = rootStore.profileStore!;
+	const { isLoggedIn } = rootStore.userStore!;
 
 	useEffect(() => {
 		loadProfile(match.params.username);
@@ -28,8 +38,17 @@ const ProfilePage: React.FC<IProps> = ({ match }) => {
 	return (
 		<Grid>
 			<Grid.Column width={16}>
-				{!isCurrentUserAdmin && <ProfileHeader profile={profile!} />}
-				<ProfileContent match={match} />
+				{!isCurrentUserAdmin && (
+					<ProfileHeader
+						profile={profile!}
+						isCurrentUser={isCurrentUser}
+						loading={loading}
+						follow={follow}
+						unfollow={unfollow}
+						isLoggedIn={isLoggedIn}
+					/>
+				)}
+				<ProfileContent match={match} setActiveTab={setActiveTab} />
 			</Grid.Column>
 		</Grid>
 	);

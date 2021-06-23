@@ -12,5 +12,7 @@ namespace Domain
     public virtual ICollection<UserProduct> UserProducts { get; set; }
     public virtual ICollection<UserJob> UserJobs { get; set; }
     public virtual ICollection<UserBlog> UserBlogs { get; set; }
+    public virtual ICollection<UserFollowing> Followings { get; set; }
+    public virtual ICollection<UserFollowing> Followers { get; set; }
   }
 }

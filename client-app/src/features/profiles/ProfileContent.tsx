@@ -13,6 +13,7 @@ import Messages from '../admin/Messages';
 import Blogs from '../admin/Blogs';
 import { useContext } from 'react';
 import { RootStoreContext } from '../../app/stores/rootStore';
+import ProfileFollowings from './ProfileFollowings';
 
 let panes: any = undefined;
 
@@ -20,9 +21,10 @@ let panes: any = undefined;
 
 interface IProps {
 	match: any;
+	setActiveTab: (activeIndex: any) => void;
 }
 
-const ProfileContent: React.FC<IProps> = ({match}) => {
+const ProfileContent: React.FC<IProps> = ({match, setActiveTab}) => {
 	const rootStore = useContext(RootStoreContext);
 	const { isCurrentUserAdmin, profile, isAdmin } = rootStore.profileStore!;
 
@@ -72,6 +74,14 @@ const ProfileContent: React.FC<IProps> = ({match}) => {
 				menuItem: 'Blog postimet',
 				render: () => <ProfileBlogs />,
 			},
+			{
+				menuItem: 'Followers',
+				render: () => <ProfileFollowings />,
+			},
+			{
+				menuItem: 'Following',
+				render: () => <ProfileFollowings />,
+			},
 		];
 	}
 
@@ -80,6 +90,7 @@ const ProfileContent: React.FC<IProps> = ({match}) => {
 			menu={{ fluid: true, vertical: true }}
 			menuPosition='right'
 			panes={panes}
+			onTabChange={(e, data) => setActiveTab(data.activeIndex)}
 		/>
 	);
 };

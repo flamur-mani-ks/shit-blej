@@ -4,6 +4,7 @@ using API.Middleware;
 using API.SignalR;
 using Application.Interfaces;
 using Application.Products;
+using Application.Profiles;
 using AutoMapper;
 using Domain;
 using FluentValidation.AspNetCore;
@@ -22,6 +23,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
+using List = Application.Products.List;
 
 namespace API
 {
@@ -120,6 +122,7 @@ namespace API
       services.AddScoped<IJwtGenerator, JwtGenerator>();
       services.AddScoped<IUserAccessor, UserAccessor>();
       services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+      services.AddScoped<IProfileReader, ProfileReader>();
       services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
     }
 
