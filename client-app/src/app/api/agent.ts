@@ -7,6 +7,7 @@ import { IPhoto, IProfile } from '../models/profile';
 import { IJob } from '../models/job';
 import { IContact } from '../models/contact';
 import { IBlog } from '../models/blog';
+import { ICity } from '../models/city';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -131,11 +132,19 @@ const Blogs = {
 	delete: (id: string) => requests.del(`/blogs/${id}`),
 };
 
+const Cities = {
+	list: (): Promise<ICity[]> => requests.get('/cities'),
+	create: (city: ICity) => requests.post('/cities', city),
+	update: (city: ICity) => requests.put(`/cities/${city.id}`, city),
+	delete: (id: string) => requests.del(`/cities/${id}`),
+};
+
 export default {
 	Products,
 	User,
 	Profiles,
 	Jobs,
 	Contacts,
-	Blogs
+	Blogs,
+	Cities
 };

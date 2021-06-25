@@ -1,5 +1,9 @@
-import { action, observable, reaction } from 'mobx';
+import { action, observable, reaction, runInAction } from 'mobx';
 import { RootStore } from './rootStore';
+import { ICity } from '../models/city';
+import agent from '../api/agent';
+import { toast } from 'react-toastify';
+import { SyntheticEvent } from 'react';
 
 export default class CommonStore {
 	rootStore: RootStore;

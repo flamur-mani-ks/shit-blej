@@ -50,7 +50,7 @@ const Messages = () => {
 								<Table.Row key={contact.id}>
 									<Table.Cell>{contact.fullName}</Table.Cell>
 									<Table.Cell>{contact.email}</Table.Cell>
-									<Table.Cell>{contact.message.slice(0, 60) + (contact.message.length > 60 ? "..." : "")}</Table.Cell>
+									<Table.Cell>{contact.message}</Table.Cell>
 									<Table.Cell>{contact.phoneNumber}</Table.Cell>
 									<Table.Cell>{contact.city}</Table.Cell>
 									<Table.Cell>

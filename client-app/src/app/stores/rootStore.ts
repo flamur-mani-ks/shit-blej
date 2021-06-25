@@ -7,6 +7,7 @@ import ProfileStore from './profileStore';
 import JobStore from './jobStore';
 import ContactStore from './contactStore';
 import BlogStore from './blogStore';
+import CityStore from './cityStore';
 
 // configure({enforceActions: 'always'});
 
@@ -19,6 +20,7 @@ export class RootStore {
     jobStore: JobStore;
     contactStore: ContactStore;
     blogStore: BlogStore;
+    cityStore: CityStore;
 
     constructor() {
         this.productStore = new ProductStore(this);
@@ -29,6 +31,7 @@ export class RootStore {
         this.jobStore = new JobStore(this);
         this.contactStore = new ContactStore(this);
         this.blogStore = new BlogStore(this);
+        this.cityStore = new CityStore(this);
     }
 }
 

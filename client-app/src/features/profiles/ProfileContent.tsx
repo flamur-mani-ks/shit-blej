@@ -11,6 +11,7 @@ import Products from '../admin/Products';
 import Jobs from '../admin/Jobs';
 import Messages from '../admin/Messages';
 import Blogs from '../admin/Blogs';
+import Cities from '../admin/Cities';
 import { useContext } from 'react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import ProfileFollowings from './ProfileFollowings';
@@ -50,6 +51,10 @@ const ProfileContent: React.FC<IProps> = ({match, setActiveTab}) => {
 			{
 				menuItem: 'Mesazhet',
 				render: () => <Messages />,
+			},
+			{
+				menuItem: 'Qytetet',
+				render: () => <Cities />,
 			},
 		];
 	}else{
