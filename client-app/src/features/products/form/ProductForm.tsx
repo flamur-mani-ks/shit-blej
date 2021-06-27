@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Segment, Form, Button, Grid, List } from 'semantic-ui-react';
+import { Segment, Form, Button, Grid } from 'semantic-ui-react';
 import { v4 as uuid } from 'uuid';
 import moment from 'moment';
 import { observer } from 'mobx-react-lite';
@@ -8,8 +8,6 @@ import { Form as FinalForm, Field } from 'react-final-form';
 import TextInput from '../../../app/common/form/TextInput';
 import TextAreaInput from '../../../app/common/form/TextAreaInput';
 import SelectInput from '../../../app/common/form/SelectInput';
-import { category } from '../../../app/common/options/categoryOptions';
-import { city } from '../../../app/common/options/cityOptions';
 import { ProductFormValues } from '../../../app/models/product';
 import {
 	combineValidators,
@@ -18,10 +16,7 @@ import {
 	hasLengthGreaterThan,
 } from 'revalidate';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { ICity } from '../../../app/models/city';
 
-const citiesWithoutAllOption = city.slice(1, city.length);
-const categoriesWithoutAllOption = category.slice(1, category.length);
 const validate = combineValidators({
 	title: isRequired({ message: 'Titulli i produktit është i detyrueshëm' }),
 	category: isRequired({
@@ -50,12 +45,15 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 		rootStore.productStore;
 
 	const { loadCities, citiesByDate } = rootStore.cityStore;
+	const { loadProductCategories, productCategoriesArr } =
+		rootStore.productCategoryStore;
 
 	const [product, setProduct] = useState(new ProductFormValues());
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		loadCities();
+		loadProductCategories();
 		if (match.params.id) {
 			setLoading(true);
 			loadProduct(match.params.id)
@@ -64,7 +62,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 				})
 				.finally(() => setLoading(false));
 		}
-	}, [loadProduct, loadCities, match.params.id]);
+	}, [loadProduct, loadProductCategories, loadCities, match.params.id]);
 
 	const handleFinalFormSubmit = (values: any) => {
 		const { date, time, ...product } = values;
@@ -81,12 +79,20 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 	};
 
 	let citiesArr: any = [];
-
 	for (let i = 0; i < citiesByDate.length; i++) {
 		citiesArr.push({
 			key: citiesByDate[i].cityName,
 			text: citiesByDate[i].cityName,
 			value: citiesByDate[i].cityName,
+		});
+	}
+
+	let productCategoriesArray: any = [];
+	for (let i = 0; i < productCategoriesArr.length; i++) {
+		productCategoriesArray.push({
+			key: productCategoriesArr[i].category,
+			text: productCategoriesArr[i].category,
+			value: productCategoriesArr[i].category,
 		});
 	}
 
@@ -118,7 +124,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 									placeholder='Category'
 									value={product.category}
 									component={SelectInput}
-									options={categoriesWithoutAllOption}
+									options={productCategoriesArray}
 								/>
 								<Field
 									name='city'

@@ -1,90 +1,73 @@
-import React, { useEffect, useContext, useState, FormEvent } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import {
-	Tab,
-	Grid,
-	Header,
-	Icon,
-	Table,
-	Confirm,
-	Button,
-	Segment,
-	Form,
-} from 'semantic-ui-react';
-import { RootStoreContext } from '../../app/stores/rootStore';
-import { IContact } from '../../app/models/contact';
-import { format } from 'date-fns';
-import { ICity } from '../../app/models/city';
+import { Tab, Grid, Header, Table, Confirm, Button } from 'semantic-ui-react';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import { IProductCategory } from '../../../app/models/productCategory';
 import { Fragment } from 'react';
-import { v4 as uuid } from 'uuid';
-import CityForm from './CityForm';
+import ProductCategoryForm from './ProductCategoryForm';
 
-const Cities = () => {
+const ProductCategories = () => {
 	const rootStore = useContext(RootStoreContext);
 	const {
-		citiesByDate,
-		loadCities,
-		selectedCity,
+		productCategoriesArr,
+		loadProductCategories,
+		selectedProductCategory,
 		openEditForm,
 		openCreateForm,
-		cancelSelectedCity,
 		editMode,
 		loadingInitial,
-		deleteCity,
+		deleteProductCategory,
 		submitting,
 		target,
 		cancelFormOpen,
-	} = rootStore.cityStore;
+	} = rootStore.productCategoryStore;
 
 	const [confirm, setConfirm] = useState(false);
 
-	const handleDelete = (e: any, cityId: string,) => {
-		deleteCity(e,cityId);
+	const handleDelete = (e: any, productCategoryId: string) => {
+		deleteProductCategory(e, productCategoryId);
 		setConfirm(false);
 	};
 
 	useEffect(() => {
-		loadCities();
-	}, [loadCities]);
-
-	console.log(citiesByDate.map((city: ICity) => city.cityName))
-
+		loadProductCategories();
+	}, [loadProductCategories]);
 
 	return (
 		<Tab.Pane loading={loadingInitial}>
 			<Grid>
 				<Grid.Column width={16}>
-					<Header floated='left' content={'Qytetet'} />
+					<Header floated='left' content={'Kategoritë e produktev'} />
 				</Grid.Column>
 				<Grid.Column width={8}>
 					<br />
 					<Table celled padded size='small' style={{ marginTop: 0 }}>
 						<Table.Header>
 							<Table.Row>
-								<Table.HeaderCell>Qyeti</Table.HeaderCell>
+								<Table.HeaderCell>Kategoria</Table.HeaderCell>
 								<Table.HeaderCell width={8}>Opsionet</Table.HeaderCell>
 							</Table.Row>
 						</Table.Header>
 
 						<Table.Body>
-							{citiesByDate.map((city: ICity) => (
-								<Table.Row key={city.id}>
-									<Table.Cell>{city.cityName}</Table.Cell>
+							{productCategoriesArr.map((productCategory: IProductCategory) => (
+								<Table.Row key={productCategory.id}>
+									<Table.Cell>{productCategory.category}</Table.Cell>
 
 									<Table.Cell>
 										<Button
 											style={{ marginRight: '10px' }}
-											name={city.id}
+											name={productCategory.id}
 											size='small'
 											color='facebook'
 											type='submit'
 											content='Edit'
-											onClick={() => openEditForm(city!.id)}
+											onClick={() => openEditForm(productCategory!.id)}
 										/>
 										<Button
 											onClick={() => setConfirm(true)}
-											loading={target === city.id && submitting}
-											name={city.id}
+											loading={target === productCategory.id && submitting}
+											name={productCategory.id}
 											size='small'
 											negative
 											type='submit'
@@ -94,7 +77,7 @@ const Cities = () => {
 										<Confirm
 											open={confirm}
 											onCancel={() => setConfirm(false)}
-											onConfirm={(e) => handleDelete(e, city.id)}
+											onConfirm={(e) => handleDelete(e, productCategory.id)}
 											content='A je i sigurt ?'
 										/>
 									</Table.Cell>
@@ -107,7 +90,7 @@ const Cities = () => {
 					{!editMode ? (
 						<Button
 							positive
-							content='Shto Qytet'
+							content='Shto Kategori'
 							onClick={openCreateForm}
 							size='small'
 						/>
@@ -119,9 +102,11 @@ const Cities = () => {
 								onClick={cancelFormOpen}
 								size='small'
 							/>
-							<CityForm
-								key={(selectedCity && selectedCity.id) || 0}
-								city={selectedCity!}
+							<ProductCategoryForm
+								key={
+									(selectedProductCategory && selectedProductCategory.id) || 0
+								}
+								productCategory={selectedProductCategory!}
 							/>
 						</Fragment>
 					)}
@@ -131,4 +116,4 @@ const Cities = () => {
 	);
 };
 
-export default observer(Cities);
+export default observer(ProductCategories);

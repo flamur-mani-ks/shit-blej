@@ -9,48 +9,52 @@ import {
 	Confirm,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { RootStoreContext } from '../../app/stores/rootStore';
-import { IProduct } from '../../app/models/product';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import { IJob } from '../../../app/models/job';
 import { format } from 'date-fns';
 
-const Products = () => {
+const Jobs = () => {
 	const rootStore = useContext(RootStoreContext);
-	const {
-		loadProducts,
-		loadingInitial,
-		productsByDate,
-		deleteProductFromAdmin,
-	} = rootStore.productStore!;
+	const { loadJobs, loadingInitial, jobsByDate, deleteJobFromAdmin } =
+		rootStore.jobStore!;
 	const { user } = rootStore.userStore;
 
-	const [confirm, setConfirm] = useState(false);
+	const { formatDistance } = require('date-fns');
+	const presentDay = new Date();
 
 	const handleDelete = (id: string) => {
-		deleteProductFromAdmin(id);
+		deleteJobFromAdmin(id);
 		setConfirm(false);
 	};
 
+	const [confirm, setConfirm] = useState(false);
+
 	useEffect(() => {
-		loadProducts();
-	}, [loadProducts]);
+		loadJobs();
+	}, [loadJobs]);
 
 	return (
 		<Tab.Pane loading={loadingInitial}>
 			<Grid>
 				<Grid.Column width={16}>
-					<Header floated='left' icon='calendar' content={'Produktet'} />
+					<Header
+						floated='left'
+						icon='announcement'
+						content={'Shpalljet e punës'}
+					/>
 				</Grid.Column>
 				<Grid.Column width={16}>
 					<br />
-					{productsByDate.length > 0 ? (
-					<Table celled padded size='large' style={{ marginTop: 0 }}>
+					{jobsByDate.length > 0 ? (
+					<Table celled padded size='small' style={{ marginTop: 0 }}>
 						<Table.Header>
 							<Table.Row>
 								<Table.HeaderCell>Titulli</Table.HeaderCell>
 								<Table.HeaderCell>Përshkrimi</Table.HeaderCell>
 								<Table.HeaderCell>Kategoria</Table.HeaderCell>
-								<Table.HeaderCell>Çmimi</Table.HeaderCell>
+								<Table.HeaderCell>Orari</Table.HeaderCell>
 								<Table.HeaderCell>Qyteti</Table.HeaderCell>
+								<Table.HeaderCell>Skadon</Table.HeaderCell>
 								<Table.HeaderCell>Postuar me</Table.HeaderCell>
 								<Table.HeaderCell>Postuar nga</Table.HeaderCell>
 								<Table.HeaderCell>Opsionet</Table.HeaderCell>
@@ -58,27 +62,31 @@ const Products = () => {
 						</Table.Header>
 
 						<Table.Body>
-							{productsByDate
+							{jobsByDate
 								.filter((a) => a.username !== user!.username)
-								.map((product: IProduct) => (
-									<Table.Row key={product.id}>
-									<Table.Cell><Link to={`/products/${product.id}`}>{product.title}</Link></Table.Cell>
-										<Table.Cell>{product.description.slice(0, 50) + (product.description.length > 50 ? "..." : "")}</Table.Cell>
-										<Table.Cell>{product.category}</Table.Cell>
-										<Table.Cell>{product.price} €</Table.Cell>
-										<Table.Cell>{product.city}</Table.Cell>
+								.map((job: IJob) => (
+									<Table.Row key={job.id}>
+										<Table.Cell><Link to={`/jobs/${job.id}`}>{job.title}</Link></Table.Cell>
+										<Table.Cell>{job.description.slice(0, 40) + (job.description.length > 40 ? "..." : "")}</Table.Cell>
+										<Table.Cell>{job.category}</Table.Cell>
+										<Table.Cell>{job.workingHours}</Table.Cell>
+										<Table.Cell>{job.city}</Table.Cell>
+										<Table.Cell>{`${formatDistance(
+											presentDay,
+											job.expiresAt
+										).replace('days', 'ditë')}`}</Table.Cell>
 										<Table.Cell>
-											{format(product.date, 'eeee do MMMM')} at{' '}
-											{format(product.date, 'h:mm a')}
+											{format(job.createdAt, 'eeee do MMMM')} at{' '}
+											{format(job.createdAt, 'h:mm a')}
 										</Table.Cell>
-										<Table.Cell>{product.attendees[0].displayName}</Table.Cell>
+										<Table.Cell>{job.attendees[0].displayName}</Table.Cell>
 
 										<Table.Cell>
 											<Link
 												style={{
 													marginRight: '10px',
 												}}
-												to={`/manage/${product.id}`}
+												to={`/manageJob/${job.id}`}
 											>
 												<Icon
 													name='edit outline'
@@ -94,7 +102,9 @@ const Products = () => {
 											<Confirm
 												open={confirm}
 												onCancel={() => setConfirm(false)}
-												onConfirm={() => handleDelete(product.id)}
+												onConfirm={() => {
+													handleDelete(job.id);
+												}}
 												content='A je i sigurt ?'
 											/>
 										</Table.Cell>
@@ -106,7 +116,7 @@ const Products = () => {
 							<Header
 								as='h2'
 								textAlign='center'
-								content={'Nuk ka asnjë produkt për të shfaqur'}
+								content={'Nuk ka asnjë shpallje pune për të shfaqur'}
 							></Header>
 						)}
 				</Grid.Column>
@@ -115,4 +125,4 @@ const Products = () => {
 	);
 };
 
-export default observer(Products);
+export default observer(Jobs);

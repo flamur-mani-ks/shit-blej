@@ -8,9 +8,7 @@ import { Form as FinalForm, Field } from 'react-final-form';
 import TextInput from '../../../app/common/form/TextInput';
 import TextAreaInput from '../../../app/common/form/TextAreaInput';
 import SelectInput from '../../../app/common/form/SelectInput';
-import { jobCategories } from '../../../app/common/options/jobCategoryOptions';
-import { city } from '../../../app/common/options/cityOptions';
-import {workingHoursOptions} from '../../../app/common/options/workingHoursOptions';
+import { workingHoursOptions } from '../../../app/common/options/workingHoursOptions';
 import { JobFormValues } from '../../../app/models/job';
 import {
 	combineValidators,
@@ -23,7 +21,6 @@ import DateInput from '../../../app/common/form/DateInput';
 import { combineDateAndTime } from '../../../app/common/util/util';
 import { format } from 'date-fns';
 
-const citiesWithoutAllOption = city.slice(1, city.length);
 const validate = combineValidators({
 	title: isRequired({ message: 'Titulli i punës është i detyrueshëm' }),
 	category: isRequired({
@@ -51,10 +48,16 @@ const JobForm: React.FC<RouteComponentProps<DetailParams>> = ({
 	const { createJob, editJob, submitting, loadJob, deleteJob } =
 		rootStore.jobStore;
 
+	const { loadJobCategories, jobCategoriesArr } = rootStore.jobCategoryStore;
+
+	const { loadCities, citiesByDate } = rootStore.cityStore;
+
 	const [job, setJob] = useState(new JobFormValues());
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
+		loadJobCategories();
+		loadCities();
 		if (match.params.id) {
 			setLoading(true);
 			loadJob(match.params.id)
@@ -63,18 +66,18 @@ const JobForm: React.FC<RouteComponentProps<DetailParams>> = ({
 				})
 				.finally(() => setLoading(false));
 		}
-	}, [loadJob, match.params.id]);
+	}, [loadJob, loadJobCategories, loadCities, match.params.id]);
 
 	const handleFinalFormSubmit = (values: any) => {
 		const dateAndTime = combineDateAndTime(values.date, values.time);
 		const { date, time, ...job } = values;
 		job.expiresAt = dateAndTime;
-		
+
 		if (!job.id) {
 			let newJob = {
 				...job,
 				id: uuid(),
-				createdAt: moment().format('YYYY-MM-DD hh:mm:ss')
+				createdAt: moment().format('YYYY-MM-DD hh:mm:ss'),
 			};
 			createJob(newJob);
 		} else {
@@ -84,7 +87,25 @@ const JobForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
 	/*
       // @ts-ignore */
-			const dateExp: Date = format(new Date(job.expiresAt), 'yyyy-MM-dd')
+	const dateExp: Date = format(new Date(job.expiresAt), 'yyyy-MM-dd');
+
+	let jobCategoriesArray: any = [];
+	for (let i = 0; i < jobCategoriesArr.length; i++) {
+		jobCategoriesArray.push({
+			key: jobCategoriesArr[i].category,
+			text: jobCategoriesArr[i].category,
+			value: jobCategoriesArr[i].category,
+		});
+	}
+
+	let citiesArr: any = [];
+	for (let i = 0; i < citiesByDate.length; i++) {
+		citiesArr.push({
+			key: citiesByDate[i].cityName,
+			text: citiesByDate[i].cityName,
+			value: citiesByDate[i].cityName,
+		});
+	}
 
 	return (
 		<Grid>
@@ -114,7 +135,7 @@ const JobForm: React.FC<RouteComponentProps<DetailParams>> = ({
 									placeholder='Kategoria'
 									value={job.category}
 									component={SelectInput}
-									options={jobCategories}
+									options={jobCategoriesArray}
 								/>
 								<Form.Group widths='equal'>
 									<Field
@@ -124,10 +145,9 @@ const JobForm: React.FC<RouteComponentProps<DetailParams>> = ({
 										name='date'
 										date={true}
 										placeholder='Data Skadimit'
-											/*
+										/*
       // @ts-ignore */
 										value={dateExp}
-										
 									/>
 									<Field
 										component={DateInput}
@@ -142,7 +162,7 @@ const JobForm: React.FC<RouteComponentProps<DetailParams>> = ({
 									placeholder='Qyteti'
 									value={job.city}
 									component={SelectInput}
-									options={citiesWithoutAllOption}
+									options={citiesArr}
 								/>
 
 								<Field

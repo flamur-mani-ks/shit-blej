@@ -1,41 +1,40 @@
 import React, { useState, FormEvent, useContext } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
-import { ICity } from '../../app/models/city';
+import { IBlogCategory } from '../../../app/models/blogCategory';
 import { v4 as uuid } from 'uuid';
-import CityStore from '../../app/stores/cityStore';
 import { observer } from 'mobx-react-lite';
-import { RootStoreContext } from '../../app/stores/rootStore';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 
 interface IProps {
-	city: ICity;
+	blogCategory: IBlogCategory;
 }
 
-const CityForm: React.FC<IProps> = ({ city: initialFormState }) => {
+const BlogCategoryForm: React.FC<IProps> = ({ blogCategory: initialFormState }) => {
 	const rootStore = useContext(RootStoreContext);
-	const { createCity, editCity, submitting, cancelFormOpen } =
-		rootStore.cityStore;
+	const { createBlogCategory, editBlogCategory, submitting, cancelFormOpen } =
+		rootStore.blogCategoryStore;
 	const initializeForm = () => {
 		if (initialFormState) {
 			return initialFormState;
 		} else {
 			return {
 				id: '',
-				cityName: ''
+				category: ''
 			};
 		}
 	};
 
-	const [city, setCity] = useState<ICity>(initializeForm);
+	const [blogCategory, setBlogCategory] = useState<IBlogCategory>(initializeForm);
 
 	const handleSubmit = () => {
-		if (city.id.length === 0) {
-			let newCity = {
-				...city,
+		if (blogCategory.id.length === 0) {
+			let newBlogCategory = {
+				...blogCategory,
 				id: uuid(),
 			};
-			createCity(newCity);
+			createBlogCategory(newBlogCategory);
 		} else {
-			editCity(city);
+			editBlogCategory(blogCategory);
 		}
 	};
 
@@ -43,7 +42,7 @@ const CityForm: React.FC<IProps> = ({ city: initialFormState }) => {
 		event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
 		const { name, value } = event.currentTarget;
-		setCity({ ...city, [name]: value });
+		setBlogCategory({ ...blogCategory, [name]: value });
 	};
 
 	return (
@@ -51,9 +50,9 @@ const CityForm: React.FC<IProps> = ({ city: initialFormState }) => {
 			<Form onSubmit={handleSubmit}>
 				<Form.Input
 					onChange={handleInputChange}
-					name='cityName'
-					placeholder='Emri qytetit'
-					value={city.cityName}
+					name='category'
+					placeholder='Kategoria'
+					value={blogCategory.category}
 				/>
 				
 				<Button
@@ -74,4 +73,4 @@ const CityForm: React.FC<IProps> = ({ city: initialFormState }) => {
 	);
 };
 
-export default observer(CityForm);
+export default observer(BlogCategoryForm);

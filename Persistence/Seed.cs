@@ -32,7 +32,7 @@ namespace Persistence
                         DisplayName = "Besfort",
                         UserName = "besfort",
                         Email = "besfort@test.com",
-                        City = "Prishtine",
+                        City = "Prishtinë",
                         PhoneNumber = "+383-49-123-456"
                     },
                     new AppUser
@@ -43,6 +43,15 @@ namespace Persistence
                         Email = "fisnik@test.com",
                         City = "Gjilan",
                         PhoneNumber = "+383-43-987-654"
+                    },
+                     new AppUser
+                    {
+                        Id = "d",
+                        DisplayName = "Eron",
+                        UserName = "eron",
+                        Email = "eron@test.com",
+                        City = "Lipjan",
+                        PhoneNumber = "+383-43-555-666"
                     },
                 };
 
@@ -59,7 +68,7 @@ namespace Persistence
                     new Product
                     {
                         Title = "Shes Laptop Hp",
-                        Description = "Laptopi eshte ne gjendje perfekte",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
                         Category = "Teknologji",
                         Price = 99.99,
                         City = "Ferizaj",
@@ -77,8 +86,8 @@ namespace Persistence
                     new Product
                     {
                         Title = "Shes Banesen ne qender te Ferizajt",
-                        Description = "Banesa eshte ne gjendje perfekte",
-                        Category = "Patundshmeri",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
+                        Category = "Patundshmëri",
                         Price = 65000,
                         City = "Ferizaj",
                         Date = DateTime.Now.AddDays(-2),
@@ -94,7 +103,7 @@ namespace Persistence
                     new Product
                     {
                         Title = "Shes Iphone X MAX shume pak i perdorun",
-                        Description = "Telefoni eshte ne gjendje perfekte",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
                         Category = "Teknologji",
                         Price = 350,
                         City = "Gjilan",
@@ -104,6 +113,25 @@ namespace Persistence
                             new UserProduct
                             {
                                 AppUserId = "c",
+                                IsOwner = true,
+                            },
+
+                        }
+                    },
+
+                    new Product
+                    {
+                        Title = "Shes shtepine ne lagjen Ulpiana",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
+                        Category = "Patundshmëri",
+                        Price = 85000,
+                        City = "Prishtinë",
+                        Date = DateTime.Now,
+                        UserProducts = new List<UserProduct>
+                        {
+                            new UserProduct
+                            {
+                                AppUserId = "d",
                                 IsOwner = true,
                             },
 
@@ -145,7 +173,7 @@ namespace Persistence
                         Title = "Pizzaman",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
                         Category = "Gastronomi",
-                        City = "Prishtine",
+                        City = "Prishtinë",
                         WorkingHours = "Full Time",
                         CreatedAt = DateTime.Now,
                         ExpiresAt = DateTime.Now.AddDays(20),
@@ -184,7 +212,7 @@ namespace Persistence
         await context.SaveChangesAsync();
       }
 
-       if (!context.Blogs.Any())
+      if (!context.Blogs.Any())
       {
         var blogs = new List<Blog>
                 {
@@ -220,7 +248,7 @@ namespace Persistence
                     },
                    new Blog
                     {
-                        Title = "Zhvillimi i I.O.T dhe ndikimi që ka në jetën tonë të përditshme",
+                        Title = "Zhvillimi i I.O.T dhe ndikimi që ka",
                         Body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
                         Category = "Teknologji",
                         Date = DateTime.Now.AddDays(3),

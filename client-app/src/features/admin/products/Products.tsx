@@ -1,47 +1,56 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Tab, Grid, Header, Icon, Table, Confirm } from 'semantic-ui-react';
+import {
+	Tab,
+	Grid,
+	Header,
+	Icon,
+	Table,
+	Confirm,
+} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { RootStoreContext } from '../../app/stores/rootStore';
-import { IBlog } from '../../app/models/blog';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import { IProduct } from '../../../app/models/product';
 import { format } from 'date-fns';
 
-const Blogs = () => {
+const Products = () => {
 	const rootStore = useContext(RootStoreContext);
-	const { loadBlogs, loadingInitial, blogsByDate, deleteBlogFromAdmin } =
-		rootStore.blogStore!;
+	const {
+		loadProducts,
+		loadingInitial,
+		productsByDate,
+		deleteProductFromAdmin,
+	} = rootStore.productStore!;
 	const { user } = rootStore.userStore;
-
-	const handleDelete = (id: string) => {
-		deleteBlogFromAdmin(id);
-		setConfirm(false);
-	};
 
 	const [confirm, setConfirm] = useState(false);
 
+	const handleDelete = (id: string) => {
+		deleteProductFromAdmin(id);
+		setConfirm(false);
+	};
+
 	useEffect(() => {
-		loadBlogs();
-	}, [loadBlogs]);
+		loadProducts();
+	}, [loadProducts]);
 
 	return (
 		<Tab.Pane loading={loadingInitial}>
 			<Grid>
 				<Grid.Column width={16}>
-					<Header
-						floated='left'
-            icon='window maximize outline'
-						content={'Blog postimet'}
-					/>
+					<Header floated='left' icon='calendar' content={'Produktet'} />
 				</Grid.Column>
 				<Grid.Column width={16}>
 					<br />
-					{blogsByDate.length > 0 ? (
-					<Table celled padded size='small' style={{ marginTop: 0 }}>
+					{productsByDate.length > 0 ? (
+					<Table celled padded size='large' style={{ marginTop: 0 }}>
 						<Table.Header>
 							<Table.Row>
 								<Table.HeaderCell>Titulli</Table.HeaderCell>
-								<Table.HeaderCell>Përmbajtja</Table.HeaderCell>
+								<Table.HeaderCell>Përshkrimi</Table.HeaderCell>
 								<Table.HeaderCell>Kategoria</Table.HeaderCell>
+								<Table.HeaderCell>Çmimi</Table.HeaderCell>
+								<Table.HeaderCell>Qyteti</Table.HeaderCell>
 								<Table.HeaderCell>Postuar me</Table.HeaderCell>
 								<Table.HeaderCell>Postuar nga</Table.HeaderCell>
 								<Table.HeaderCell>Opsionet</Table.HeaderCell>
@@ -49,30 +58,27 @@ const Blogs = () => {
 						</Table.Header>
 
 						<Table.Body>
-							{blogsByDate
+							{productsByDate
 								.filter((a) => a.username !== user!.username)
-								.map((blog: IBlog) => (
-									<Table.Row key={blog.id}>
+								.map((product: IProduct) => (
+									<Table.Row key={product.id}>
+									<Table.Cell><Link to={`/products/${product.id}`}>{product.title}</Link></Table.Cell>
+										<Table.Cell>{product.description.slice(0, 50) + (product.description.length > 50 ? "..." : "")}</Table.Cell>
+										<Table.Cell>{product.category}</Table.Cell>
+										<Table.Cell>{product.price} €</Table.Cell>
+										<Table.Cell>{product.city}</Table.Cell>
 										<Table.Cell>
-											<Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+											{format(product.date, 'eeee do MMMM')} at{' '}
+											{format(product.date, 'h:mm a')}
 										</Table.Cell>
-										<Table.Cell>
-											{blog.body.slice(0, 80) +
-												(blog.body.length > 80 ? '...' : '')}
-										</Table.Cell>
-										<Table.Cell>{blog.category}</Table.Cell>
-										<Table.Cell>
-											{format(blog.date, 'eeee do MMMM')} at{' '}
-											{format(blog.date, 'h:mm a')}
-										</Table.Cell>
-										<Table.Cell>{blog.attendees[0].displayName}</Table.Cell>
+										<Table.Cell>{product.attendees[0].displayName}</Table.Cell>
 
 										<Table.Cell>
 											<Link
 												style={{
 													marginRight: '10px',
 												}}
-												to={`/manageBlog/${blog.id}`}
+												to={`/manage/${product.id}`}
 											>
 												<Icon
 													name='edit outline'
@@ -88,9 +94,7 @@ const Blogs = () => {
 											<Confirm
 												open={confirm}
 												onCancel={() => setConfirm(false)}
-												onConfirm={() => {
-													handleDelete(blog.id);
-												}}
+												onConfirm={() => handleDelete(product.id)}
 												content='A je i sigurt ?'
 											/>
 										</Table.Cell>
@@ -102,7 +106,7 @@ const Blogs = () => {
 							<Header
 								as='h2'
 								textAlign='center'
-								content={'Nuk ka asnjë blog post për të shfaqur'}
+								content={'Nuk ka asnjë produkt për të shfaqur'}
 							></Header>
 						)}
 				</Grid.Column>
@@ -111,4 +115,4 @@ const Blogs = () => {
 	);
 };
 
-export default observer(Blogs);
+export default observer(Products);

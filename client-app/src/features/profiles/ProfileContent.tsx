@@ -7,11 +7,14 @@ import ProfileProducts from './ProfileProducts';
 import ProfileJobs from './ProfileJobs';
 import ProfileBlogs from './ProfileBlogs';
 import Users from '../admin/Users';
-import Products from '../admin/Products';
-import Jobs from '../admin/Jobs';
+import Products from '../admin/products/Products';
+import Jobs from '../admin/jobs/Jobs';
 import Messages from '../admin/Messages';
-import Blogs from '../admin/Blogs';
-import Cities from '../admin/Cities';
+import Blogs from '../admin/blogs/Blogs';
+import Cities from '../admin/cities/Cities';
+import BlogCategories from '../admin/blogs/BlogCategories';
+import JobCategories from '../admin/jobs/JobCategories';
+import ProductCategories from '../admin/products/ProductCategories';
 import { useContext } from 'react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import ProfileFollowings from './ProfileFollowings';
@@ -55,6 +58,18 @@ const ProfileContent: React.FC<IProps> = ({match, setActiveTab}) => {
 			{
 				menuItem: 'Qytetet',
 				render: () => <Cities />,
+			},
+			{
+				menuItem: 'Kategoritë e produktev',
+				render: () => <ProductCategories />,
+			},
+			{
+				menuItem: 'Kategoritë e shpalljev',
+				render: () => <JobCategories />,
+			},
+			{
+				menuItem: 'Kategoritë e blogjev',
+				render: () => <BlogCategories />,
 			},
 		];
 	}else{

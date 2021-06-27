@@ -8,6 +8,9 @@ import { IJob } from '../models/job';
 import { IContact } from '../models/contact';
 import { IBlog } from '../models/blog';
 import { ICity } from '../models/city';
+import { IProductCategory } from '../models/productCategory';
+import { IJobCategory } from '../models/jobCategory';
+import { IBlogCategory } from '../models/blogCategory';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -104,9 +107,11 @@ const Profiles = {
 	listBlogs: (username: string) => requests.get(`/profiles/${username}/blogs`),
 	listAllProfiles: (): Promise<IProfile[]> => requests.get('/profiles'),
 	deleteProfile: (username: string) => requests.del(`/profiles/${username}`),
-	follow: (username: string) => requests.post(`/profiles/${username}/follow`, {}),
+	follow: (username: string) =>
+		requests.post(`/profiles/${username}/follow`, {}),
 	unfollow: (username: string) => requests.del(`/profiles/${username}/follow`),
-	listFollowings: (username: string, predicate: string) => requests.get(`/profiles/${username}/follow?predicate=${predicate}`)
+	listFollowings: (username: string, predicate: string) =>
+		requests.get(`/profiles/${username}/follow?predicate=${predicate}`),
 };
 
 const Jobs = {
@@ -139,6 +144,34 @@ const Cities = {
 	delete: (id: string) => requests.del(`/cities/${id}`),
 };
 
+const ProductCategories = {
+	list: (): Promise<IProductCategory[]> => requests.get('/productCategories'),
+	create: (productCategory: IProductCategory) =>
+		requests.post('/productCategories', productCategory),
+	update: (productCategory: IProductCategory) =>
+		requests.put(`/productCategories/${productCategory.id}`, productCategory),
+	delete: (id: string) => requests.del(`/productCategories/${id}`),
+};
+
+const JobCategories = {
+	list: (): Promise<IJobCategory[]> => requests.get('/jobCategories'),
+	create: (jobCategory: IJobCategory) =>
+		requests.post('/jobCategories', jobCategory),
+	update: (jobCategory: IJobCategory) =>
+		requests.put(`/jobCategories/${jobCategory.id}`, jobCategory),
+	delete: (id: string) => requests.del(`/jobCategories/${id}`),
+};
+
+const BlogCategories = {
+	list: (): Promise<IBlogCategory[]> => requests.get('/blogCategories'),
+	create: (blogCategory: IBlogCategory) =>
+		requests.post('/blogCategories', blogCategory),
+	update: (blogCategory: IBlogCategory) =>
+		requests.put(`/blogCategories/${blogCategory.id}`, blogCategory),
+	delete: (id: string) => requests.del(`/blogCategories/${id}`),
+};
+
+
 export default {
 	Products,
 	User,
@@ -146,5 +179,8 @@ export default {
 	Jobs,
 	Contacts,
 	Blogs,
-	Cities
+	Cities,
+	ProductCategories,
+	BlogCategories,
+	JobCategories,
 };

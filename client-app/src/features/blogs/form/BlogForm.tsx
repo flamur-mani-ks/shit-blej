@@ -8,7 +8,6 @@ import { Form as FinalForm, Field } from 'react-final-form';
 import TextInput from '../../../app/common/form/TextInput';
 import TextAreaInput from '../../../app/common/form/TextAreaInput';
 import SelectInput from '../../../app/common/form/SelectInput';
-import { blogCategories } from '../../../app/common/options/blogCategoryOptions';
 import { BlogFormValues } from '../../../app/models/blog';
 import {
 	combineValidators,
@@ -45,10 +44,13 @@ const BlogForm: React.FC<RouteComponentProps<DetailParams>> = ({
 	const { createBlog, editBlog, submitting, loadBlog, deleteBlog } =
 		rootStore.blogStore;
 
+	const { loadBlogCategories, blogCategoriesArr } = rootStore.blogCategoryStore;
+
 	const [blog, setBlog] = useState(new BlogFormValues());
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
+		loadBlogCategories();
 		if (match.params.id) {
 			setLoading(true);
 			loadBlog(match.params.id)
@@ -57,13 +59,23 @@ const BlogForm: React.FC<RouteComponentProps<DetailParams>> = ({
 				})
 				.finally(() => setLoading(false));
 		}
-	}, [loadBlog, match.params.id]);
+	}, [loadBlog, loadBlogCategories, match.params.id]);
+
+	let blogCategoriesArray: any = [];
+
+	for (let i = 0; i < blogCategoriesArr.length; i++) {
+		blogCategoriesArray.push({
+			key: blogCategoriesArr[i].category,
+			text: blogCategoriesArr[i].category,
+			value: blogCategoriesArr[i].category,
+		});
+	}
 
 	const handleFinalFormSubmit = (values: any) => {
 		const dateAndTime = combineDateAndTime(values.date, values.time);
 		const { date, time, ...blog } = values;
 		blog.date = dateAndTime;
-    blog.time = dateAndTime;
+		blog.time = dateAndTime;
 		if (!blog.id) {
 			let newBlog = {
 				...blog,
@@ -104,24 +116,24 @@ const BlogForm: React.FC<RouteComponentProps<DetailParams>> = ({
 									placeholder='Kategoria'
 									value={blog.category}
 									component={SelectInput}
-									options={blogCategories}
+									options={blogCategoriesArray}
 								/>
 								<Form.Group widths='equal'>
-                  <Field
-                    component={DateInput}
-                    name='date'
-                    date={true}
-                    placeholder='Data'
-                    value={blog.date}
-                  />
-                  <Field
-                    component={DateInput}
-                    name='time'
-                    time={true}
-                    placeholder='Ora'
-                    value={blog.time}
-                  />
-                </Form.Group>
+									<Field
+										component={DateInput}
+										name='date'
+										date={true}
+										placeholder='Data'
+										value={blog.date}
+									/>
+									<Field
+										component={DateInput}
+										name='time'
+										time={true}
+										placeholder='Ora'
+										value={blog.time}
+									/>
+								</Form.Group>
 								<Button
 									loading={submitting}
 									floated='right'
@@ -143,7 +155,10 @@ const BlogForm: React.FC<RouteComponentProps<DetailParams>> = ({
 								/>
 								{blog.id && (
 									<Button
-									onClick={(e) => {deleteBlog(e, blog.id!); history.push('/blogs');} }
+										onClick={(e) => {
+											deleteBlog(e, blog.id!);
+											history.push('/blogs');
+										}}
 										loading={submitting}
 										name={blog.id}
 										floated='right'
