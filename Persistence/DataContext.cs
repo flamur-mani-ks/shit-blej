@@ -29,6 +29,9 @@ namespace Persistence
     public DbSet<UserFollowing> Followings { get; set; }
 
     public DbSet<City> Cities {get; set;}
+    public DbSet<ProductCategory> ProductCategories {get; set;}
+    public DbSet<JobCategory> JobCategories {get; set;}
+    public DbSet<BlogCategory> BlogCategories {get; set;}
     protected override void OnModelCreating(ModelBuilder builder)
     {
       base.OnModelCreating(builder);

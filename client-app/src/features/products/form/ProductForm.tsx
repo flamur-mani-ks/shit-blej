@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Segment, Form, Button, Grid } from 'semantic-ui-react';
+import { Segment, Form, Button, Grid, List } from 'semantic-ui-react';
 import { v4 as uuid } from 'uuid';
 import moment from 'moment';
 import { observer } from 'mobx-react-lite';
@@ -18,9 +18,10 @@ import {
 	hasLengthGreaterThan,
 } from 'revalidate';
 import { RootStoreContext } from '../../../app/stores/rootStore';
+import { ICity } from '../../../app/models/city';
 
-const citiesWithoutAllOption = city.slice(1,city.length);
-const categoriesWithoutAllOption = category.slice(1,category.length);
+const citiesWithoutAllOption = city.slice(1, city.length);
+const categoriesWithoutAllOption = category.slice(1, category.length);
 const validate = combineValidators({
 	title: isRequired({ message: 'Titulli i produktit është i detyrueshëm' }),
 	category: isRequired({
@@ -48,10 +49,13 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 	const { createProduct, editProduct, submitting, loadProduct, deleteProduct } =
 		rootStore.productStore;
 
+	const { loadCities, citiesByDate } = rootStore.cityStore;
+
 	const [product, setProduct] = useState(new ProductFormValues());
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
+		loadCities();
 		if (match.params.id) {
 			setLoading(true);
 			loadProduct(match.params.id)
@@ -60,12 +64,10 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 				})
 				.finally(() => setLoading(false));
 		}
-	}, [loadProduct, match.params.id]);
+	}, [loadProduct, loadCities, match.params.id]);
 
 	const handleFinalFormSubmit = (values: any) => {
-		// const dateAndTime = combineDateAndTime(values.date, values.time);
 		const { date, time, ...product } = values;
-		// product.date = dateAndTime;
 		if (!product.id) {
 			let newProduct = {
 				...product,
@@ -77,6 +79,16 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 			editProduct(product);
 		}
 	};
+
+	let citiesArr: any = [];
+
+	for (let i = 0; i < citiesByDate.length; i++) {
+		citiesArr.push({
+			key: citiesByDate[i].cityName,
+			text: citiesByDate[i].cityName,
+			value: citiesByDate[i].cityName,
+		});
+	}
 
 	return (
 		<Grid>
@@ -108,28 +120,12 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 									component={SelectInput}
 									options={categoriesWithoutAllOption}
 								/>
-								{/* <Form.Group widths='equal'>
-                  <Field
-                    component={DateInput}
-                    name='date'
-                    date={true}
-                    placeholder='Date'
-                    value={product.date}
-                  />
-                  <Field
-                    component={DateInput}
-                    name='time'
-                    time={true}
-                    placeholder='Time'
-                    value={product.time}
-                  />
-                </Form.Group> */}
 								<Field
 									name='city'
 									placeholder='City'
 									value={product.city}
 									component={SelectInput}
-									options={citiesWithoutAllOption}
+									options={citiesArr}
 								/>
 
 								<Field
@@ -164,7 +160,10 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 								/>
 								{product.id && (
 									<Button
-									onClick={(e) => {deleteProduct(e, product.id!); history.push('/products');} }
+										onClick={(e) => {
+											deleteProduct(e, product.id!);
+											history.push('/products');
+										}}
 										loading={submitting}
 										name={product.id}
 										floated='right'

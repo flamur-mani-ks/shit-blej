@@ -47,6 +47,9 @@ const Cities = () => {
 		loadCities();
 	}, [loadCities]);
 
+	console.log(citiesByDate.map((city: ICity) => city.cityName))
+
+
 	return (
 		<Tab.Pane loading={loadingInitial}>
 			<Grid>
