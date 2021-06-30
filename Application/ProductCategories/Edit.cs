@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -12,6 +13,14 @@ namespace Application.ProductCategories
     {
       public Guid Id { get; set; }
       public string Category { get; set; }
+    }
+
+    public class CommandValidator : AbstractValidator<Command>
+    {
+      public CommandValidator()
+      {
+        RuleFor(x => x.Category).NotEmpty();
+      }
     }
 
     public class Handler : IRequestHandler<Command>

@@ -1,27 +1,16 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Domain;
-using FluentValidation;
 using MediatR;
 using Persistence;
 
-namespace Application.BlogCategories
+namespace Application.TeamMembers
 {
-  public class Create
+  public class Delete
   {
     public class Command : IRequest
     {
       public Guid Id { get; set; }
-      public string Category { get; set; }
-    }
-
-    public class CommandValidator : AbstractValidator<Command>
-    {
-      public CommandValidator()
-      {
-        RuleFor(x => x.Category).NotEmpty();
-      }
     }
 
     public class Handler : IRequestHandler<Command>
@@ -34,13 +23,13 @@ namespace Application.BlogCategories
 
       public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
       {
-        var blogCategory = new BlogCategory
-        {
-          Id = request.Id,
-          Category = request.Category
-        };
+        var teamMember = await _context.TeamMembers.FindAsync(request.Id);
 
-        _context.BlogCategories.Add(blogCategory);
+        if (teamMember == null)
+          throw new Exception("Could not find teamMember");
+
+        _context.Remove(teamMember);
+
         var success = await _context.SaveChangesAsync() > 0;
 
         if (success) return Unit.Value;

@@ -22,13 +22,20 @@ namespace Persistence
                         DisplayName = "Admin",
                         UserName = "admin",
                         Email = "admin@test.com",
-                        City = "Ferizaj",
-                        PhoneNumber = "+383-44-000-111",
                         Role = "admin"
                     },
                     new AppUser
                     {
                         Id = "b",
+                        DisplayName = "Flamur",
+                        UserName = "flamur",
+                        Email = "flamur@test.com",
+                        City = "Ferizaj",
+                        PhoneNumber = "+383-44-000-111",
+                    },
+                    new AppUser
+                    {
+                        Id = "c",
                         DisplayName = "Besfort",
                         UserName = "besfort",
                         Email = "besfort@test.com",
@@ -37,7 +44,7 @@ namespace Persistence
                     },
                     new AppUser
                     {
-                        Id = "c",
+                        Id = "d",
                         DisplayName = "Fisnik",
                         UserName = "fisnik",
                         Email = "fisnik@test.com",
@@ -46,11 +53,20 @@ namespace Persistence
                     },
                      new AppUser
                     {
-                        Id = "d",
+                        Id = "e",
                         DisplayName = "Eron",
                         UserName = "eron",
                         Email = "eron@test.com",
                         City = "Lipjan",
+                        PhoneNumber = "+383-43-555-666"
+                    },
+                    new AppUser
+                    {
+                        Id = "f",
+                        DisplayName = "Gentrit",
+                        UserName = "gentrit",
+                        Email = "gentrit@test.com",
+                        City = "Viti",
                         PhoneNumber = "+383-43-555-666"
                     },
                 };
@@ -95,7 +111,7 @@ namespace Persistence
                         {
                             new UserProduct
                             {
-                                AppUserId = "b",
+                                AppUserId = "c",
                                 IsOwner = true,
                             },
                         }
@@ -112,7 +128,7 @@ namespace Persistence
                         {
                             new UserProduct
                             {
-                                AppUserId = "c",
+                                AppUserId = "d",
                                 IsOwner = true,
                             },
 
@@ -131,7 +147,7 @@ namespace Persistence
                         {
                             new UserProduct
                             {
-                                AppUserId = "d",
+                                AppUserId = "e",
                                 IsOwner = true,
                             },
 
@@ -163,7 +179,7 @@ namespace Persistence
                         {
                             new UserJob
                             {
-                                AppUserId = "c",
+                                AppUserId = "f",
                                 IsOwner = true,
                             }
                         }
@@ -226,7 +242,7 @@ namespace Persistence
                         {
                             new UserBlog
                             {
-                                AppUserId = "c",
+                                AppUserId = "d",
                                 IsAuthor = true,
                             }
                         }
@@ -241,7 +257,7 @@ namespace Persistence
                         {
                             new UserBlog
                             {
-                                AppUserId = "b",
+                                AppUserId = "e",
                                 IsAuthor = true,
                             }
                         }
@@ -256,7 +272,7 @@ namespace Persistence
                         {
                             new UserBlog
                             {
-                                AppUserId = "c",
+                                AppUserId = "f",
                                 IsAuthor = true,
                             }
                         }
@@ -266,6 +282,233 @@ namespace Persistence
                 };
 
         await context.Blogs.AddRangeAsync(blogs);
+        await context.SaveChangesAsync();
+      }
+
+    if (!context.Cities.Any())
+      {
+        var cities = new List<City>
+                {
+                    new City
+                    {
+                        CityName = "Artanë"
+                    },
+                    new City
+                    {
+                        CityName = "Besianë"
+                    },
+                    new City
+                    {
+                        CityName = "Burim"
+                    },
+                    new City
+                    {
+                        CityName = "Dardanë"
+                    },
+                    new City
+                    {
+                        CityName = "Deçan"
+                    },
+                    new City
+                    {
+                        CityName = "Dragash"
+                    },
+                    new City
+                    {
+                        CityName = "Drenas"
+                    },
+                    new City
+                    {
+                        CityName = "Ferizaj"
+                    },
+                    new City
+                    {
+                        CityName = "Fushë Kosovë"
+                    },
+                    new City
+                    {
+                        CityName = "Gjakovë"
+                    },
+                    new City
+                    {
+                        CityName = "Gjilan"
+                    },
+                    new City
+                    {
+                        CityName = "Kastriot"
+                    },
+                    new City
+                    {
+                        CityName = "Kaçanik"
+                    },
+                    new City
+                    {
+                        CityName = "Klinë"
+                    },
+                    new City
+                    {
+                        CityName = "Leposaviq"
+                    },
+                    new City
+                    {
+                        CityName = "Lipjan"
+                    },
+                    new City
+                    {
+                        CityName = "Malishevë"
+                    },
+                    new City
+                    {
+                        CityName = "Mitrovicë"
+                    },
+                    new City
+                    {
+                        CityName = "Pejë"
+                    },
+                    new City
+                    {
+                        CityName = "Prishtinë"
+                    },
+                    new City
+                    {
+                        CityName = "Prizren"
+                    },
+                    new City
+                    {
+                        CityName = "Rahovec"
+                    },
+                    new City
+                    {
+                        CityName = "Skenderaj"
+                    },
+                    new City
+                    {
+                        CityName = "Shtërpcë"
+                    },
+                    new City
+                    {
+                        CityName = "Shtime"
+                    },
+                    new City
+                    {
+                        CityName = "Therandë"
+                    },
+                    new City
+                    {
+                        CityName = "Viti"
+                    },
+                    new City
+                    {
+                        CityName = "Vushtrri"
+                    },
+                    new City
+                    {
+                        CityName = "Zubin Potok"
+                    },
+                    new City
+                    {
+                        CityName = "Zveçan"
+                    },
+                     
+                };
+
+        await context.Cities.AddRangeAsync(cities);
+        await context.SaveChangesAsync();
+      }
+
+       if (!context.ProductCategories.Any())
+      {
+        var productCategories = new List<ProductCategory>
+                {
+                    new ProductCategory
+                    {
+                        Category = "Vetura",
+                    },
+                     new ProductCategory
+                    {
+                        Category = "Autopjesë dhe Pajisje",
+                    },
+                    new ProductCategory
+                    {
+                        Category = "Motoçikleta (mbi 50cc)",
+                    },
+                    new ProductCategory
+                    {
+                        Category = "Moped (nën 50cc)",
+                    },
+                };
+
+        await context.ProductCategories.AddRangeAsync(productCategories);
+        await context.SaveChangesAsync();
+      }
+
+      if (!context.TeamMembers.Any())
+      {
+        var teamMembers = new List<TeamMember>
+                {
+                    new TeamMember
+                    {
+                        FullName = "Gentrit Arfi",
+                        Position = "Front-End Developer",
+                        Bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu magna et leo viverra vestibulum sit amet ac velit.",
+                        Facebook = "https://www.facebook.com/",
+                        Twitter = "https://twitter.com/",
+                        Github = "https://github.com/",
+                        LinkedIn = "https://www.linkedin.com/"
+                    },
+                     new TeamMember
+                    {
+                        FullName = "Ermal Bajrami",
+                        Position = "UI/UX Designer",
+                        Bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu magna et leo viverra vestibulum sit amet ac velit.",
+                        Facebook = "https://www.facebook.com/",
+                        Twitter = "https://twitter.com/",
+                        Github = "https://github.com/",
+                        LinkedIn = "https://www.linkedin.com/"
+                    },
+                     new TeamMember
+                    {
+                        FullName = "Eron Guta",
+                        Position = "SEO Specialist",
+                        Bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu magna et leo viverra vestibulum sit amet ac velit.",
+                        Facebook = "https://www.facebook.com/",
+                        Twitter = "https://twitter.com/",
+                        Github = "https://github.com/",
+                        LinkedIn = "https://www.linkedin.com/"
+                    },
+                     new TeamMember
+                    {
+                        FullName = "Fisnik Hetemi",
+                        Position = "Full-Stack Developer",
+                        Bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu magna et leo viverra vestibulum sit amet ac velit.",
+                        Facebook = "https://www.facebook.com/",
+                        Twitter = "https://twitter.com/",
+                        Github = "https://github.com/",
+                        LinkedIn = "https://www.linkedin.com/"
+                    },
+                     new TeamMember
+                    {
+                        FullName = "Besfort Sherifi",
+                        Position = "Dev-Ops Engineer",
+                        Bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu magna et leo viverra vestibulum sit amet ac velit.",
+                        Facebook = "https://www.facebook.com/",
+                        Twitter = "https://twitter.com/",
+                        Github = "https://github.com/",
+                        LinkedIn = "https://www.linkedin.com/"
+                    },
+                    new TeamMember
+                    {
+                        FullName = "Flamur Mani",
+                        Position = "Back-End Developer",
+                        Bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu magna et leo viverra vestibulum sit amet ac velit.",
+                        Facebook = "https://www.facebook.com/",
+                        Twitter = "https://twitter.com/",
+                        Github = "https://github.com/",
+                        LinkedIn = "https://www.linkedin.com/"
+                    },
+                };
+
+        await context.TeamMembers.AddRangeAsync(teamMembers);
         await context.SaveChangesAsync();
       }
     }

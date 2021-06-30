@@ -10,8 +10,6 @@ namespace Persistence
     public DataContext(DbContextOptions options) : base(options)
     {
     }
-
-    public DbSet<Value> Values { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<UserProduct> UserProducts { get; set; }
     public DbSet<Photo> Photos { get; set; }
@@ -32,17 +30,11 @@ namespace Persistence
     public DbSet<ProductCategory> ProductCategories {get; set;}
     public DbSet<JobCategory> JobCategories {get; set;}
     public DbSet<BlogCategory> BlogCategories {get; set;}
+
+    public DbSet<TeamMember> TeamMembers {get; set;}
     protected override void OnModelCreating(ModelBuilder builder)
     {
       base.OnModelCreating(builder);
-
-      builder.Entity<Value>()
-          .HasData(
-              new Value { Id = 1, Name = "Value 101" },
-              new Value { Id = 2, Name = "Value 102" },
-              new Value { Id = 3, Name = "Value 103" }
-          );
-
       //User dhe produktet relationship
       builder.Entity<UserProduct>(x => x.HasKey(up =>
          new { up.AppUserId, up.ProductId }));
