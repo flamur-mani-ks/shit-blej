@@ -11,6 +11,8 @@ import CityStore from './cityStore';
 import BlogCategoryStore from './blogCategoryStore';
 import JobCategoryStore from './jobCategoryStore';
 import ProductCategoryStore from './productCategoryStore';
+import TeamMemberStore from './teamMemberStore';
+
 
 // configure({enforceActions: 'always'});
 
@@ -27,6 +29,7 @@ export class RootStore {
     blogCategoryStore: BlogCategoryStore;
     jobCategoryStore: JobCategoryStore;
     productCategoryStore: ProductCategoryStore;
+    teamMemberStore: TeamMemberStore;
 
     constructor() {
         this.productStore = new ProductStore(this);
@@ -41,6 +44,7 @@ export class RootStore {
         this.blogCategoryStore = new BlogCategoryStore(this);
         this.jobCategoryStore = new JobCategoryStore(this);
         this.productCategoryStore = new ProductCategoryStore(this);
+        this.teamMemberStore = new TeamMemberStore(this);
     }
 }
 

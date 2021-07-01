@@ -249,7 +249,7 @@ namespace Persistence
                     },
                     new Blog
                     {
-                        Title = "Si ta gjejm balancin mes karrierës dhe shoqërisë",
+                        Title = "Pesë (5) rregulla që iu garantojnë sukses",
                         Body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
                         Category = "Jeta",
                         Date = DateTime.Now.AddDays(20),
@@ -264,7 +264,7 @@ namespace Persistence
                     },
                    new Blog
                     {
-                        Title = "Zhvillimi i I.O.T dhe ndikimi që ka",
+                        Title = "Zhvillimi i I.O.T dhe ndikimi që ka në botë",
                         Body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
                         Category = "Teknologji",
                         Date = DateTime.Now.AddDays(3),
@@ -448,7 +448,7 @@ namespace Persistence
                 {
                     new TeamMember
                     {
-                        FullName = "Gentrit Arfi",
+                        FullName = "Gentrit Arifi",
                         Position = "Front-End Developer",
                         Bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu magna et leo viverra vestibulum sit amet ac velit.",
                         Facebook = "https://www.facebook.com/",

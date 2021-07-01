@@ -25,6 +25,7 @@ import ContactUs from '../../features/contact/ContactUs';
 import BlogDashboard from '../../features/blogs/dashboard/BlogDashboard';
 import BlogDetails from '../../features/blogs/details/BlogDetails';
 import BlogForm from '../../features/blogs/form/BlogForm';
+import TeamMemberDashboard from '../../features/teamMembers/dashboard/TeamMemberDashboard';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
 	const rootStore = useContext(RootStoreContext);
@@ -75,6 +76,12 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 									key={location.key}
 									path={['/createJob', '/manageJob/:id']}
 									component={JobForm}
+								/>
+
+								//Contact
+								<Route
+									path='/team'
+									component={TeamMemberDashboard}
 								/>
 
 								//Contact

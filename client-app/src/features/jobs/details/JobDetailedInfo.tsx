@@ -12,13 +12,13 @@ const JobDetailedInfo: React.FC<{ job: IJob }> = ({ job }) => {
 
 	return (
 		<Segment.Group>
-			<Segment>
 				{isLoggedIn && owner.username === user!.username && (
+			<Segment>
 					<Button as={Link} to={`/manageJob/${job.id}`} color='orange'>
 						Menagjo postimin
 					</Button>
-				)}
 			</Segment>
+				)}
 			<Segment>
 				<Header as='h3' content={job.description} />
 			</Segment>

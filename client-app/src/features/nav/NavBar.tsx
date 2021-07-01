@@ -22,6 +22,7 @@ const NavBar: React.FC = () => {
 				<Menu.Item name='Produktet' as={NavLink} to='/products' />
 				<Menu.Item name='Shpalljet' as={NavLink} to='/jobs' />
 				<Menu.Item name='Blogs' as={NavLink} to='/blogs' />
+				<Menu.Item name='Ekipa' as={NavLink} to='/team' />
 				<Menu.Item name='Kontakto' as={NavLink} to='/contact' />
 
 				{isLoggedIn && user ? (
@@ -61,7 +62,7 @@ const NavBar: React.FC = () => {
 									<Dropdown.Item
 										as={Link}
 										to={`/profile/${user.username}`}
-										text='Profili im'
+										text={'Dashboard'}
 										icon='user'
 									/>
 									<Dropdown.Item onClick={logout} text='Logout' icon='power' />

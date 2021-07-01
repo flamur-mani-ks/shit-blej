@@ -1,3 +1,7 @@
+*:not(i, span){
+  font-family: 'Nunito Sans', sans-serif !important;
+}
+
 body {
   background-color: rgb(234, 234, 234) !important;
 }
@@ -41,3 +45,15 @@ body {
 }
 
 /*end home page styles*/
+
+.extra.content.member-social-links i{
+  margin-right: 10px;
+  margin-top: 15px;
+  transition: 0.25s;
+  text-decoration: none !important;
+}
+
+.extra.content.member-social-links i:hover, .extra.content.member-social-links i:focus{
+  box-shadow: 0px 10px 30px rgba(0,0,0,0.1);
+  transform: translateY(-4px);
+}

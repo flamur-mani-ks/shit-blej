@@ -18,6 +18,7 @@ import ProductCategories from '../admin/products/ProductCategories';
 import { useContext } from 'react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import ProfileFollowings from './ProfileFollowings';
+import TeamMembers from '../admin/teamMembers/TeamMembers';
 
 let panes: any = undefined;
 
@@ -50,6 +51,10 @@ const ProfileContent: React.FC<IProps> = ({match, setActiveTab}) => {
 			{
 				menuItem: 'Blog postimet',
 				render: () => <Blogs />,
+			},
+			{
+				menuItem: 'Antarët e ekipit',
+				render: () => <TeamMembers />,
 			},
 			{
 				menuItem: 'Mesazhet',
