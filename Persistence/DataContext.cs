@@ -32,6 +32,7 @@ namespace Persistence
     public DbSet<BlogCategory> BlogCategories {get; set;}
 
     public DbSet<TeamMember> TeamMembers {get; set;}
+    public DbSet<TeamMemberPosition> TeamMemberPositions {get; set;}
     protected override void OnModelCreating(ModelBuilder builder)
     {
       base.OnModelCreating(builder);
