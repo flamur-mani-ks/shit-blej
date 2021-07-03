@@ -1,6 +1,6 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Tab, Grid, Header, Table, Confirm, Button } from 'semantic-ui-react';
+import { Tab, Grid, Header, Table, Button } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { ITeamMemberPosition } from '../../../app/models/teamMemberPosition';
 import { Fragment } from 'react';

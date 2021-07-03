@@ -1,6 +1,6 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Tab, Grid, Header, Icon, Table, Confirm } from 'semantic-ui-react';
+import { Tab, Grid, Header, Icon, Table } from 'semantic-ui-react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { IContact } from '../../app/models/contact';
 import { format } from 'date-fns';

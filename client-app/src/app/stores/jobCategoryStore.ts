@@ -1,5 +1,4 @@
 import { observable, action, computed, runInAction } from 'mobx';
-import { SyntheticEvent } from 'react';
 import { IJobCategory } from '../models/jobCategory';
 import agent from '../api/agent';
 import { RootStore } from './rootStore';

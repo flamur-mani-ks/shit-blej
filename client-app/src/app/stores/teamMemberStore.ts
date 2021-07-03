@@ -1,5 +1,4 @@
 import { observable, action, computed, runInAction } from 'mobx';
-import { SyntheticEvent } from 'react';
 import { ITeamMember } from '../models/teamMember';
 import agent from '../api/agent';
 import { RootStore } from './rootStore';

@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import { ITeamMember } from '../../../app/models/teamMember';
 import { v4 as uuid } from 'uuid';
@@ -9,7 +9,6 @@ import { Form as FinalForm, Field } from 'react-final-form';
 import TextInput from '../../../app/common/form/TextInput';
 import TextAreaInput from '../../../app/common/form/TextAreaInput';
 import SelectInput from '../../../app/common/form/SelectInput';
-import { BlogFormValues } from '../../../app/models/blog';
 
 interface IProps {
 	teamMember: ITeamMember;
@@ -36,7 +35,7 @@ const TeamMemberForm: React.FC<IProps> = ({ teamMember: initialFormState }) => {
 		}
 	};
 
-	const [teamMember, setTeamMember] = useState<ITeamMember>(initializeForm);
+	const [teamMember] = useState<ITeamMember>(initializeForm);
 	const { loadTeamMemberPositions, teamMemberPositionsArr } =
 		rootStore.teamMemberPositionStore;
 
