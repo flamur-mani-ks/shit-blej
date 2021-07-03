@@ -19,7 +19,7 @@ const ProfileFollowings = () => {
         <Grid.Column width={16}>
           <Header
             floated='left'
-            icon='user'
+            icon='users'
             content={
               activeTab === 5
                 ? `Përdoruesit following ${profile!.displayName}`

@@ -64,19 +64,6 @@ export default class ProductStore {
 		this.page = page;
 	};
 
-	// @computed get productsByDate() {
-	// 	return this.groupProductsByCategory(Array.from(this.productRegistry.values()));
-	// }
-
-	// helper function for grouping products by category
-	// groupProductsByCategory (products: IProduct[]){
-	// 	return Object.entries(products.reduce((products, product) => {
-	// 		const category = product.category;
-	// 		products[category] = products[category] ? [...products[category], product] : [product];
-	// 		return products;
-	// 	}, {} as {[key: string]: IProduct[]}));
-	// }
-
 	@action loadProducts = async () => {
 		this.loadingInitial = true;
 		const user = this.rootStore.userStore.user!;
@@ -161,6 +148,7 @@ export default class ProductStore {
 				this.submitting = false;
 			});
 			history.push(`/products/${product.id}`);
+			toast.success('Të dhënat u ruajtën me sukses');
 		} catch (error) {
 			console.log(error.response);
 			toast.error('Problem në ruajtjen e të dhënave');
@@ -180,6 +168,7 @@ export default class ProductStore {
 				this.submitting = false;
 			});
 			history.push(`/products/${product.id}`);
+			toast.success('Të dhënat u ruajtën me sukses');
 		} catch (error) {
 			console.log(error.response);
 			toast.error('Problem në ruajtjen e ndryshimeve');
@@ -202,6 +191,7 @@ export default class ProductStore {
 				this.submitting = false;
 				this.target = '';
 			});
+			toast.info('Të dhënat u fshinë me sukses');
 		} catch (error) {
 			console.log(error);
 			runInAction('delete product error', () => {
@@ -221,7 +211,7 @@ export default class ProductStore {
 				this.productRegistry.delete(id);
 				this.submitting = false;
 			});
-			// window.location.reload();
+			toast.info('Të dhënat u fshinë me sukses');
 		} catch (error) {
 			console.log(error);
 			runInAction('delete product error', () => {

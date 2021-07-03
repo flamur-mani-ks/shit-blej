@@ -10,13 +10,6 @@ const Messages = () => {
 	const { loadContacts, loadingInitial, contactsByDate, deleteContact } =
 		rootStore.contactStore!;
 
-	const handleDelete = (id: string) => {
-		deleteContact(id);
-		setConfirm(false);
-	};
-
-	const [confirm, setConfirm] = useState(false);
-
 	useEffect(() => {
 		loadContacts();
 	}, [loadContacts]);
@@ -60,19 +53,14 @@ const Messages = () => {
 
 									<Table.Cell textAlign='center'>
 										<Icon
-											onClick={() => setConfirm(true)}
+											onClick={() => {
+												if (window.confirm('A je i sigurt ?'))
+													deleteContact(contact.id);
+											}}
 											name='trash alternate outline'
 											style={{ cursor: 'pointer' }}
 										/>
 
-										<Confirm
-											open={confirm}
-											onCancel={() => setConfirm(false)}
-											onConfirm={() => {
-												handleDelete(contact.id);
-											}}
-											content='A je i sigurt ?'
-										/>
 									</Table.Cell>
 								</Table.Row>
 							))}

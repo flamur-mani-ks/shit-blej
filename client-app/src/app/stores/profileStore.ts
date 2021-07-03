@@ -79,6 +79,14 @@ export default class ProfileStore {
 		}
 	}
 
+	@computed get isDefaultUser() {
+		if (this.rootStore.userStore.user && this.profile) {
+			return this.rootStore.userStore.user.role === 'user';
+		} else {
+			return false;
+		}
+	}
+
 	@action loadUserProducts = async (username: string) => {
 		this.loadingProducts = true;
 		try {
@@ -166,6 +174,7 @@ export default class ProfileStore {
 			runInAction(() => {
 				this.users = this.users.filter((a) => a.username !== username);
 			});
+			toast.info('Të dhënat u fshinë me sukses');
 		} catch (error) {
 			toast.error('Problem deleting the user');
 			runInAction(() => {
@@ -188,6 +197,7 @@ export default class ProfileStore {
 				}
 				this.uploadingPhoto = false;
 			});
+			toast.success('Të dhënat u ruajtën me sukses');
 		} catch (error) {
 			console.log(error);
 			toast.error('Problem uploading photo');
@@ -226,6 +236,7 @@ export default class ProfileStore {
 				);
 				this.loading = false;
 			});
+			toast.info('Të dhënat u fshinë me sukses');
 		} catch (error) {
 			toast.error('Problem deleting the photo');
 			runInAction(() => {

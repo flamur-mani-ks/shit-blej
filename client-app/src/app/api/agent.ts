@@ -12,6 +12,7 @@ import { IProductCategory } from '../models/productCategory';
 import { IJobCategory } from '../models/jobCategory';
 import { IBlogCategory } from '../models/blogCategory';
 import { ITeamMember } from '../models/teamMember';
+import { ITeamMemberPosition } from '../models/teamMemberPosition';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -181,6 +182,15 @@ const TeamMembers = {
 	delete: (id: string) => requests.del(`/teamMembers/${id}`),
 };
 
+const TeamMemberPositions = {
+	list: (): Promise<ITeamMemberPosition[]> => requests.get('/teamMemberPositions'),
+	create: (teamMemberPosition: ITeamMemberPosition) =>
+		requests.post('/teamMemberPositions', teamMemberPosition),
+	update: (teamMemberPosition: ITeamMemberPosition) =>
+		requests.put(`/teamMemberPositions/${teamMemberPosition.id}`, teamMemberPosition),
+	delete: (id: string) => requests.del(`/teamMemberPositions/${id}`),
+};
+
 
 export default {
 	Products,
@@ -193,5 +203,6 @@ export default {
 	ProductCategories,
 	BlogCategories,
 	JobCategories,
-	TeamMembers
+	TeamMembers,
+	TeamMemberPositions
 };

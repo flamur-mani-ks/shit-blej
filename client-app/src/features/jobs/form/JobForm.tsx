@@ -194,7 +194,8 @@ const JobForm: React.FC<RouteComponentProps<DetailParams>> = ({
 								{job.id && (
 									<Button
 										onClick={(e) => {
-											deleteJob(e, job.id!);
+											if (window.confirm('A je i sigurt ?'))
+												deleteJob(e, job.id!);
 											history.push('/jobs');
 										}}
 										loading={submitting}

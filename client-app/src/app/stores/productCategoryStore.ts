@@ -78,23 +78,19 @@ export default class ProductCategoryStore {
 	};
 
 	@action deleteProductCategory = async (
-		event: SyntheticEvent<HTMLButtonElement>,
 		id: string
 	) => {
 		this.submitting = true;
-		this.target = event.currentTarget.name;
 		try {
 			await agent.ProductCategories.delete(id);
 			runInAction('deleting productCategory', () => {
 				this.productCategoryRegistry.delete(id);
 				this.submitting = false;
-				this.target = '';
 			});
 			toast.info('Të dhënat u fshinë me sukses');
 		} catch (error) {
 			runInAction('delete productCategory error', () => {
 				this.submitting = false;
-				this.target = '';
 			});
 			console.log(error);
 		}

@@ -167,6 +167,7 @@ const ProductForm: React.FC<RouteComponentProps<DetailParams>> = ({
 								{product.id && (
 									<Button
 										onClick={(e) => {
+											if (window.confirm('A je i sigurt ?'))
 											deleteProduct(e, product.id!);
 											history.push('/products');
 										}}

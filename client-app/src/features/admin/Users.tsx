@@ -19,13 +19,6 @@ const Users = () => {
 		rootStore.profileStore!;
 	const { user } = rootStore.userStore;
 
-	const [confirm, setConfirm] = useState(false);
-
-	const handleDelete = (username: string) => {
-		deleteUser(username);
-		setConfirm(false);
-	};
-
 	useEffect(() => {
 		loadUsers();
 	}, [loadUsers]);
@@ -73,18 +66,12 @@ const Users = () => {
 											</Table.Cell>
 											<Table.Cell>
 												<Icon
-													onClick={() => setConfirm(true)}
+												onClick={() => {
+													if (window.confirm('A je i sigurt ?'))
+														deleteUser(user.username);
+												}}
 													name='trash alternate outline'
 													style={{ cursor: 'pointer' }}
-												/>
-
-												<Confirm
-													open={confirm}
-													onCancel={() => setConfirm(false)}
-													onConfirm={() => {
-														handleDelete(user.username);
-													}}
-													content='A je i sigurt ?'
 												/>
 											</Table.Cell>
 										</Table.Row>

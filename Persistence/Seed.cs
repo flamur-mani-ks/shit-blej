@@ -69,6 +69,15 @@ namespace Persistence
                         City = "Viti",
                         PhoneNumber = "+383-43-555-666"
                     },
+                     new AppUser
+                    {
+                        Id = "g",
+                        DisplayName = "Ermal",
+                        UserName = "ermal",
+                        Email = "ermal@test.com",
+                        City = "Prizren",
+                        PhoneNumber = "+383-43-222-333"
+                    },
                 };
 
         foreach (var user in users)
@@ -85,7 +94,7 @@ namespace Persistence
                     {
                         Title = "Shes Laptop Hp",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
-                        Category = "Teknologji",
+                        Category = "Kompjuterë",
                         Price = 99.99,
                         City = "Ferizaj",
                         Date = DateTime.Now.AddDays(-1),
@@ -103,7 +112,7 @@ namespace Persistence
                     {
                         Title = "Shes Banesen ne qender te Ferizajt",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
-                        Category = "Patundshmëri",
+                        Category = "Banesa",
                         Price = 65000,
                         City = "Ferizaj",
                         Date = DateTime.Now.AddDays(-2),
@@ -120,7 +129,7 @@ namespace Persistence
                     {
                         Title = "Shes Iphone X MAX shume pak i perdorun",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
-                        Category = "Teknologji",
+                        Category = "Telefona",
                         Price = 350,
                         City = "Gjilan",
                         Date = DateTime.Now,
@@ -139,7 +148,7 @@ namespace Persistence
                     {
                         Title = "Shes shtepine ne lagjen Ulpiana",
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
-                        Category = "Patundshmëri",
+                        Category = "Shtëpi",
                         Price = 85000,
                         City = "Prishtinë",
                         Date = DateTime.Now,
@@ -153,7 +162,24 @@ namespace Persistence
 
                         }
                     },
+                        new Product
+                    {
+                        Title = "Shes skuterin 150cc i importuar nga Zvicrra",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
+                        Category = "Motoçikleta (mbi 50cc)",
+                        Price = 350,
+                        City = "Prishtinë",
+                        Date = DateTime.Now,
+                        UserProducts = new List<UserProduct>
+                        {
+                            new UserProduct
+                            {
+                                AppUserId = "g",
+                                IsOwner = true,
+                            },
 
+                        }
+                    },
 
                 };
 
@@ -220,7 +246,24 @@ namespace Persistence
                             }
                         }
                     },
-
+                    new Job
+                    {
+                        Title = "Shitës në Pompë",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec bibendum dolor. Nam fringilla sagittis sodales. Sed turpis ante, sagittis a leo ut, elementum gravida ex. Aenean at ullamcorper ipsum, vulputate interdum risus. Nunc in mi tempus, vestibulum lorem id, sagittis dolor. Nullam ultricies molestie volutpat. Mauris mollis felis et.",
+                        Category = "Shitje",
+                        City = "Vushtrri",
+                        WorkingHours = "Full Time",
+                        CreatedAt = DateTime.Now,
+                        ExpiresAt = DateTime.Now.AddDays(15),
+                        UserJobs = new List<UserJob>
+                        {
+                            new UserJob
+                            {
+                                AppUserId = "g",
+                                IsOwner = true,
+                            }
+                        }
+                    },
 
                 };
 
@@ -277,7 +320,7 @@ namespace Persistence
                             }
                         }
                     },
-
+                
 
                 };
 
@@ -285,7 +328,7 @@ namespace Persistence
         await context.SaveChangesAsync();
       }
 
-    if (!context.Cities.Any())
+      if (!context.Cities.Any())
       {
         var cities = new List<City>
                 {
@@ -409,14 +452,14 @@ namespace Persistence
                     {
                         CityName = "Zveçan"
                     },
-                     
+
                 };
 
         await context.Cities.AddRangeAsync(cities);
         await context.SaveChangesAsync();
       }
 
-       if (!context.ProductCategories.Any())
+      if (!context.ProductCategories.Any())
       {
         var productCategories = new List<ProductCategory>
                 {
@@ -436,11 +479,28 @@ namespace Persistence
                     {
                         Category = "Moped (nën 50cc)",
                     },
+
+                    new ProductCategory
+                    {
+                        Category = "Shtëpi",
+                    },
+                    new ProductCategory
+                    {
+                        Category = "Banesa",
+                    },
+                    new ProductCategory
+                    {
+                        Category = "Telefona",
+                    },
+                    new ProductCategory
+                    {
+                        Category = "Kompjuterë",
+                    },
                 };
 
-        await context.ProductCategories.AddRangeAsync(productCategories);
-        await context.SaveChangesAsync();
-      }
+            await context.ProductCategories.AddRangeAsync(productCategories);
+            await context.SaveChangesAsync();
+        }
 
       if (!context.TeamMembers.Any())
       {
@@ -511,6 +571,142 @@ namespace Persistence
         await context.TeamMembers.AddRangeAsync(teamMembers);
         await context.SaveChangesAsync();
       }
+
+      if (!context.TeamMemberPositions.Any())
+      {
+        var teamMemberPositions = new List<TeamMemberPosition>
+                {
+                    new TeamMemberPosition
+                    {
+                        Position = "Front-End Developer"
+                    },
+                     new TeamMemberPosition
+                    {
+                        Position = "UI/UX Designer"
+                    },
+                    new TeamMemberPosition
+                    {
+                        Position = "SEO Specialist"
+                    },
+                    new TeamMemberPosition
+                    {
+                        Position = "Full-Stack Developer"
+                    },
+                    new TeamMemberPosition
+                    {
+                        Position = "Dev-Ops Engineer"
+                    },
+                    new TeamMemberPosition
+                    {
+                        Position = "Back-End Developer"
+                    },
+                };
+
+        await context.TeamMemberPositions.AddRangeAsync(teamMemberPositions);
+        await context.SaveChangesAsync();
+      }
+
+      if (!context.BlogCategories.Any())
+      {
+        var blogCategories = new List<BlogCategory>
+                {
+                    new BlogCategory
+                    {
+                        Category = "Shëndetësi"
+                    },
+                     new BlogCategory
+                    {
+                        Category = "Jeta"
+                    },
+                    new BlogCategory
+                    {
+                        Category = "Teknologji"
+                    },
+                    new BlogCategory
+                    {
+                        Category = "Sport"
+                    },
+                    new BlogCategory
+                    {
+                        Category = "Politikë"
+                    },
+                    new BlogCategory
+                    {
+                        Category = "Ekonomi"
+                    },
+                    new BlogCategory
+                    {
+                        Category = "Fitness"
+                    },
+                    new BlogCategory
+                    {
+                        Category = "Udhëtime"
+                    },
+                    new BlogCategory
+                    {
+                        Category = "Kuzhinë"
+                    },
+                    new BlogCategory
+                    {
+                        Category = "Biznes"
+                    },
+                };
+
+        await context.BlogCategories.AddRangeAsync(blogCategories);
+        await context.SaveChangesAsync();
+      }
+
+      if (!context.JobCategories.Any())
+      {
+        var jobCategories = new List<JobCategory>
+                {
+                    new JobCategory
+                    {
+                        Category = "Shitje"
+                    },
+                     new JobCategory
+                    {
+                        Category = "Gastronomi"
+                    },
+                    new JobCategory
+                    {
+                        Category = "Telekomunikim"
+                    },
+                    new JobCategory
+                    {
+                        Category = "Informatikë"
+                    },
+                    new JobCategory
+                    {
+                        Category = "Marketing & PR"
+                    },
+                    new JobCategory
+                    {
+                        Category = "Administratë"
+                    },
+                     new JobCategory
+                    {
+                        Category = "Mekanikë"
+                    },
+                     new JobCategory
+                    {
+                        Category = "Arkitekturë"
+                    },
+                     new JobCategory
+                    {
+                        Category = "Hoteleri"
+                    },
+                     new JobCategory
+                    {
+                        Category = "Financa"
+                    },
+                };
+
+        await context.JobCategories.AddRangeAsync(jobCategories);
+        await context.SaveChangesAsync();
+      }
+
+
     }
   }
 }

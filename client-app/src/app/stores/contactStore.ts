@@ -103,6 +103,7 @@ export default class ContactStore {
 				this.contactRegistry.delete(id);
 				this.submitting = false;
 			});
+			toast.info('Të dhënat u fshinë me sukses')
 		} catch (error) {
 			console.log(error);
 			runInAction('delete contact error', () => {

@@ -33,7 +33,7 @@ const BlogCardItem: React.FC<{ blog: IBlog }> = ({ blog }) => {
 				</Card.Meta>
 				<Card.Meta>
 					Postuar nga:{' '}
-					<Link to={`/profile/${owner.username!}`}>{owner.displayName!}</Link>
+					<Link to={`/profile/${owner!.username!}`}>{owner!.displayName!}</Link>
 				</Card.Meta>
 			</Card.Content>
 			<div style={{ paddingBottom: '5px', textAlign: 'center' }}>

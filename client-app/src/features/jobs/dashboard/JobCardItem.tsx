@@ -22,7 +22,7 @@ const JobCardItem: React.FC<{ job: IJob }> = ({ job }) => {
 				<Card.Header style={{marginBottom: '5px'}} as={Link} to={`/jobs/${job.id}`}>{job.title}</Card.Header>
 				
 				<Card.Description style={{marginBottom: '5px'}}>{job.city}</Card.Description>
-        <Card.Meta>Postuar nga: <Link to={`/profile/${owner.username!}`}>{owner.displayName!}</Link></Card.Meta>
+        <Card.Meta>Postuar nga: <Link to={`/profile/${owner!.username!}`}>{owner!.displayName!}</Link></Card.Meta>
 			</Card.Content>
 			<div style={{paddingBottom: '5px', textAlign: 'center'}}>
 				<Icon name='clock' />{' '}

@@ -29,13 +29,6 @@ const Cities = () => {
 		cancelFormOpen,
 	} = rootStore.cityStore;
 
-	const [confirm, setConfirm] = useState(false);
-
-	const handleDelete = (e: any, cityId: string,) => {
-		deleteCity(e,cityId);
-		setConfirm(false);
-	};
-
 	useEffect(() => {
 		loadCities();
 	}, [loadCities]);
@@ -72,20 +65,16 @@ const Cities = () => {
 											onClick={() => openEditForm(city!.id)}
 										/>
 										<Button
-											onClick={() => setConfirm(true)}
+											onClick={() => {
+												if (window.confirm('A je i sigurt ?'))
+													deleteCity(city.id);
+											}}
 											loading={target === city.id && submitting}
 											name={city.id}
 											size='small'
 											negative
 											type='submit'
 											content='Delete'
-										/>
-
-										<Confirm
-											open={confirm}
-											onCancel={() => setConfirm(false)}
-											onConfirm={(e) => handleDelete(e, city.id)}
-											content='A je i sigurt ?'
 										/>
 									</Table.Cell>
 								</Table.Row>

@@ -22,13 +22,6 @@ const TeamMembers = () => {
 		cancelFormOpen,
 	} = rootStore.teamMemberStore;
 
-	const [confirm, setConfirm] = useState(false);
-
-	const handleDelete = (e: any, teamMemberId: string) => {
-		deleteTeamMember(e, teamMemberId);
-		setConfirm(false);
-	};
-
 	useEffect(() => {
 		loadTeamMembers();
 	}, [loadTeamMembers]);
@@ -69,20 +62,16 @@ const TeamMembers = () => {
 											onClick={() => openEditForm(teamMember!.id)}
 										/>
 										<Button
-											onClick={() => setConfirm(true)}
+											onClick={() => {
+												if (window.confirm('A je i sigurt ?'))
+													deleteTeamMember(teamMember.id);
+											}}
 											loading={target === teamMember.id && submitting}
 											name={teamMember.id}
 											size='tiny'
 											negative
 											type='submit'
 											content='Delete'
-										/>
-
-										<Confirm
-											open={confirm}
-											onCancel={() => setConfirm(false)}
-											onConfirm={(e) => handleDelete(e, teamMember.id)}
-											content='A je i sigurt ?'
 										/>
 									</Table.Cell>
 								</Table.Row>

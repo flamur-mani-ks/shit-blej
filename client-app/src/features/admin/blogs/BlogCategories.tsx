@@ -22,13 +22,6 @@ const BlogCategories = () => {
 		cancelFormOpen,
 	} = rootStore.blogCategoryStore;
 
-	const [confirm, setConfirm] = useState(false);
-
-	const handleDelete = (e: any, blogCategoryId: string) => {
-		deleteBlogCategory(e, blogCategoryId);
-		setConfirm(false);
-	};
-
 	useEffect(() => {
 		loadBlogCategories();
 	}, [loadBlogCategories]);
@@ -65,20 +58,16 @@ const BlogCategories = () => {
 											onClick={() => openEditForm(blogCategory!.id)}
 										/>
 										<Button
-											onClick={() => setConfirm(true)}
+											onClick={() => {
+												if (window.confirm('A je i sigurt ?'))
+													deleteBlogCategory(blogCategory.id);
+											}}
 											loading={target === blogCategory.id && submitting}
 											name={blogCategory.id}
 											size='small'
 											negative
 											type='submit'
 											content='Delete'
-										/>
-
-										<Confirm
-											open={confirm}
-											onCancel={() => setConfirm(false)}
-											onConfirm={(e) => handleDelete(e, blogCategory.id)}
-											content='A je i sigurt ?'
 										/>
 									</Table.Cell>
 								</Table.Row>

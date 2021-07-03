@@ -23,13 +23,6 @@ const Products = () => {
 	} = rootStore.productStore!;
 	const { user } = rootStore.userStore;
 
-	const [confirm, setConfirm] = useState(false);
-
-	const handleDelete = (id: string) => {
-		deleteProductFromAdmin(id);
-		setConfirm(false);
-	};
-
 	useEffect(() => {
 		loadProducts();
 	}, [loadProducts]);
@@ -86,16 +79,12 @@ const Products = () => {
 												/>
 											</Link>
 											<Icon
-												onClick={() => setConfirm(true)}
+												onClick={() => {
+													if (window.confirm('A je i sigurt ?'))
+														deleteProductFromAdmin(product.id);
+												}}
 												name='trash alternate outline'
 												style={{ cursor: 'pointer' }}
-											/>
-
-											<Confirm
-												open={confirm}
-												onCancel={() => setConfirm(false)}
-												onConfirm={() => handleDelete(product.id)}
-												content='A je i sigurt ?'
 											/>
 										</Table.Cell>
 									</Table.Row>

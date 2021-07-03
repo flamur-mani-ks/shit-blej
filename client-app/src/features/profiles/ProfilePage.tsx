@@ -24,7 +24,8 @@ const ProfilePage: React.FC<IProps> = ({ match }) => {
 		isCurrentUser,
 		loading,
 		isCurrentUserAdmin,
-		setActiveTab
+		setActiveTab,
+		isAdmin
 	} = rootStore.profileStore;
 
 	const { isLoggedIn } = rootStore.userStore!;
@@ -42,6 +43,7 @@ const ProfilePage: React.FC<IProps> = ({ match }) => {
 					<ProfileHeader
 						profile={profile!}
 						isCurrentUser={isCurrentUser}
+						isAdmin={isAdmin}
 						loading={loading}
 						follow={follow}
 						unfollow={unfollow}

@@ -78,23 +78,19 @@ export default class CityStore {
 	};
 
 	@action deleteCity = async (
-		event: SyntheticEvent<HTMLButtonElement>,
 		id: string
 	) => {
 		this.submitting = true;
-		this.target = event.currentTarget.name;
 		try {
 			await agent.Cities.delete(id);
 			runInAction('deleting city', () => {
 				this.cityRegistry.delete(id);
 				this.submitting = false;
-				this.target = '';
 			});
 			toast.info('Të dhënat u fshinë me sukses')
 		} catch (error) {
 			runInAction('delete city error', () => {
 				this.submitting = false;
-				this.target = '';
 			});
 			console.log(error);
 		}

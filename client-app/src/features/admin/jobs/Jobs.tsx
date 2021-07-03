@@ -22,13 +22,6 @@ const Jobs = () => {
 	const { formatDistance } = require('date-fns');
 	const presentDay = new Date();
 
-	const handleDelete = (id: string) => {
-		deleteJobFromAdmin(id);
-		setConfirm(false);
-	};
-
-	const [confirm, setConfirm] = useState(false);
-
 	useEffect(() => {
 		loadJobs();
 	}, [loadJobs]);
@@ -94,18 +87,12 @@ const Jobs = () => {
 												/>
 											</Link>
 											<Icon
-												onClick={() => setConfirm(true)}
+												onClick={() => {
+													if (window.confirm('A je i sigurt ?'))
+														deleteJobFromAdmin(job.id);
+												}}
 												name='trash alternate outline'
 												style={{ cursor: 'pointer' }}
-											/>
-
-											<Confirm
-												open={confirm}
-												onCancel={() => setConfirm(false)}
-												onConfirm={() => {
-													handleDelete(job.id);
-												}}
-												content='A je i sigurt ?'
 											/>
 										</Table.Cell>
 									</Table.Row>

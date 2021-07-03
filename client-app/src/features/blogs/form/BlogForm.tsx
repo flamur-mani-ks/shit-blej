@@ -156,8 +156,9 @@ const BlogForm: React.FC<RouteComponentProps<DetailParams>> = ({
 								{blog.id && (
 									<Button
 										onClick={(e) => {
-											deleteBlog(e, blog.id!);
-											history.push('/blogs');
+											if (window.confirm('A je i sigurt ?'))
+												deleteBlog(e, blog.id!);
+												history.push('/blogs');
 										}}
 										loading={submitting}
 										name={blog.id}

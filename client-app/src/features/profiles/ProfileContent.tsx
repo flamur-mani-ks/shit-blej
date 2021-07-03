@@ -19,6 +19,7 @@ import { useContext } from 'react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import ProfileFollowings from './ProfileFollowings';
 import TeamMembers from '../admin/teamMembers/TeamMembers';
+import TeamMemberPositions from '../admin/teamMemberPositions/TeamMemberPositions';
 
 let panes: any = undefined;
 
@@ -75,6 +76,10 @@ const ProfileContent: React.FC<IProps> = ({match, setActiveTab}) => {
 			{
 				menuItem: 'Kategoritë e blogjev',
 				render: () => <BlogCategories />,
+			},
+			{
+				menuItem: 'Pozitat e antarëve',
+				render: () => <TeamMemberPositions />,
 			},
 		];
 	}else{

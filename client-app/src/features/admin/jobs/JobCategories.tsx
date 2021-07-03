@@ -22,13 +22,6 @@ const JobCategories = () => {
 		cancelFormOpen,
 	} = rootStore.jobCategoryStore;
 
-	const [confirm, setConfirm] = useState(false);
-
-	const handleDelete = (e: any, jobCategoryId: string) => {
-		deleteJobCategory(e, jobCategoryId);
-		setConfirm(false);
-	};
-
 	useEffect(() => {
 		loadJobCategories();
 	}, [loadJobCategories]);
@@ -65,20 +58,16 @@ const JobCategories = () => {
 											onClick={() => openEditForm(jobCategory!.id)}
 										/>
 										<Button
-											onClick={() => setConfirm(true)}
+											onClick={() => {
+												if (window.confirm('A je i sigurt ?'))
+													deleteJobCategory(jobCategory!.id);
+											}}
 											loading={target === jobCategory.id && submitting}
 											name={jobCategory.id}
 											size='small'
 											negative
 											type='submit'
 											content='Delete'
-										/>
-
-										<Confirm
-											open={confirm}
-											onCancel={() => setConfirm(false)}
-											onConfirm={(e) => handleDelete(e, jobCategory.id)}
-											content='A je i sigurt ?'
 										/>
 									</Table.Cell>
 								</Table.Row>

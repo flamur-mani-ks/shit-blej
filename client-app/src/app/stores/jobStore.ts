@@ -26,19 +26,6 @@ export default class JobStore {
 		);
 	}
 
-	// @computed get jobsByDate() {
-	// 	return this.groupJobsByCategory(Array.from(this.jobRegistry.values()));
-	// }
-
-	// helper function for grouping jobs by category
-	// groupJobsByCategory (jobs: IJob[]){
-	// 	return Object.entries(jobs.reduce((jobs, job) => {
-	// 		const category = job.category;
-	// 		jobs[category] = jobs[category] ? [...jobs[category], job] : [job];
-	// 		return jobs;
-	// 	}, {} as {[key: string]: IJob[]}));
-	// }
-
 	@action loadJobs = async () => {
 		this.loadingInitial = true;
 		const user = this.rootStore.userStore.user!;
@@ -123,6 +110,7 @@ export default class JobStore {
 				this.submitting = false;
 			});
 			history.push(`/jobs/${job.id}`);
+			toast.success('Të dhënat u ruajtën me sukses');
 		} catch (error) {
 			console.log(error.response);
 			toast.error('Problem në ruajtjen e të dhënave');
@@ -142,6 +130,7 @@ export default class JobStore {
 				this.submitting = false;
 			});
 			history.push(`/jobs/${job.id}`);
+			toast.success('Të dhënat u ruajtën me sukses');
 		} catch (error) {
 			console.log(error.response);
 			toast.error('Problem në ruajtjen e ndryshimeve');
@@ -164,7 +153,7 @@ export default class JobStore {
 				this.submitting = false;
 				this.target = '';
 			});
-			
+			toast.info('Të dhënat u fshinë me sukses')
 		} catch (error) {
 			console.log(error);
 			runInAction('delete job error', () => {
@@ -184,7 +173,7 @@ export default class JobStore {
 				this.jobRegistry.delete(id);
 				this.submitting = false;
 			});
-			
+			toast.info('Të dhënat u fshinë me sukses')
 		} catch (error) {
 			console.log(error);
 			runInAction('delete job error', () => {

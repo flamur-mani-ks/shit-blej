@@ -144,6 +144,7 @@ export default class BlogStore {
 				this.submitting = false;
 			});
 			history.push(`/blogs/${blog.id}`);
+			toast.success('Të dhënat u ruajtën me sukses');
 		} catch (error) {
 			console.log(error.response);
 			toast.error('Problem në ruajtjen e të dhënave');
@@ -163,6 +164,7 @@ export default class BlogStore {
 				this.submitting = false;
 			});
 			history.push(`/blogs/${blog.id}`);
+			toast.success('Të dhënat u ruajtën me sukses');
 		} catch (error) {
 			console.log(error.response);
 			toast.error('Problem në ruajtjen e ndryshimeve');
@@ -185,7 +187,7 @@ export default class BlogStore {
 				this.submitting = false;
 				this.target = '';
 			});
-			
+			toast.info('Të dhënat u fshinë me sukses')
 		} catch (error) {
 			console.log(error);
 			runInAction('delete blog error', () => {
@@ -205,7 +207,7 @@ export default class BlogStore {
 				this.blogRegistry.delete(id);
 				this.submitting = false;
 			});
-			
+			toast.info('Të dhënat u fshinë me sukses')
 		} catch (error) {
 			console.log(error);
 			runInAction('delete blog error', () => {

@@ -19,6 +19,7 @@ interface IProps {
 	follow: (username: string) => void;
 	unfollow: (username: string) => void;
 	isLoggedIn: boolean;
+	isAdmin: boolean;
 }
 
 const ProfileHeader: React.FC<IProps> = ({
@@ -28,6 +29,7 @@ const ProfileHeader: React.FC<IProps> = ({
 	follow,
 	unfollow,
 	isLoggedIn,
+	isAdmin
 }) => {
 	return (
 		<Segment>
@@ -53,7 +55,7 @@ const ProfileHeader: React.FC<IProps> = ({
 							<Statistic label='Following' value={profile!.followingCount} />
 						</Statistic.Group>
 						<Divider />
-						{!isCurrentUser && isLoggedIn && (
+						{!isCurrentUser && isLoggedIn && !isAdmin && (
 							<Reveal animated='move'>
 								<Reveal.Content visible style={{ width: '100%' }}>
 									<Button

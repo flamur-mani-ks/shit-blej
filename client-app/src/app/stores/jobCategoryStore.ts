@@ -78,23 +78,19 @@ export default class JobCategoryStore {
 	};
 
 	@action deleteJobCategory = async (
-		event: SyntheticEvent<HTMLButtonElement>,
 		id: string
 	) => {
 		this.submitting = true;
-		this.target = event.currentTarget.name;
 		try {
 			await agent.JobCategories.delete(id);
 			runInAction('deleting jobCategory', () => {
 				this.jobCategoryRegistry.delete(id);
 				this.submitting = false;
-				this.target = '';
 			});
 			toast.info('Të dhënat u fshinë me sukses');
 		} catch (error) {
 			runInAction('delete jobCategory error', () => {
 				this.submitting = false;
-				this.target = '';
 			});
 			console.log(error);
 		}

@@ -14,6 +14,7 @@ const ProfileDescription = () => {
 			<Grid>
 				<Grid.Column width={16}>
 					<Header
+					as='h2'
 						floated='left'
 						icon='user'
 						content={`Rreth ${profile!.displayName}`}
@@ -33,8 +34,8 @@ const ProfileDescription = () => {
 						<ProfileEditForm updateProfile={updateProfile} profile={profile!} />
 					) : (
 						<Fragment>
-							<div>{profile!.phoneNumber}</div>
-							<div>{profile!.city}</div>
+							<Header style={{}} as='h3' content={`Numri i telefonit: ${profile!.phoneNumber}`}></Header>
+							<Header as='h3' content={`Qyteti: ${profile!.city}`}></Header>
 						</Fragment>
 					)}
 				</Grid.Column>
